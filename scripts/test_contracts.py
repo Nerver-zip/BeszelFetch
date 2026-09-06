@@ -38,10 +38,17 @@ class DataAdapter:
         for item in items:
             info = item.get("info", {}) or {}
             
-            # Bandwidth: bb is [sent, recv]
-            bb = info.get("bb") or [0, 0]
-            net_sent = bb[0] if len(bb) > 0 else 0
-            net_recv = bb[1] if len(bb) > 1 else 0
+            # Bandwidth: bb can be a single int/float (bytes/s in Beszel v0.18+) or [sent, recv]
+            bb = info.get("bb")
+            if isinstance(bb, list):
+                net_sent = bb[0] if len(bb) > 0 else 0
+                net_recv = bb[1] if len(bb) > 1 else 0
+            elif isinstance(bb, (int, float)):
+                net_sent = int(bb)
+                net_recv = 0
+            else:
+                net_sent = 0
+                net_recv = 0
 
             # Load Average: la is [1m, 5m, 15m]
             la = info.get("la") or []
@@ -427,6 +434,42 @@ class TestSystemsContract(unittest.TestCase):
         self.assertIsNone(sys_item["load1"])
         self.assertEqual(sys_item["net_sent_bps"], 0)
         self.assertEqual(sys_item["net_recv_bps"], 0)
+
+    def test_beszel_v0_18_system_payload(self):
+        payload = {
+            "items": [{
+                "id": "o8buiz12t6q583k",
+                "name": "m910q",
+                "status": "up",
+                "host": "/beszel_socket/beszel.sock",
+                "port": "45876",
+                "info": {
+                    "t": 4,
+                    "u": 863644,
+                    "cpu": 5.22,
+                    "mp": 18.58,
+                    "dp": 5.77,
+                    "v": "0.18.8",
+                    "dt": 44,
+                    "bb": 7464,
+                    "la": [0.43, 0.25, 0.23],
+                    "ct": 2
+                }
+            }]
+        }
+        systems = DataAdapter.parse_systems(payload)
+        self.assertEqual(len(systems), 1)
+        m910q = systems[0]
+        self.assertEqual(m910q["id"], "o8buiz12t6q583k")
+        self.assertEqual(m910q["name"], "m910q")
+        self.assertEqual(m910q["status"], "up")
+        self.assertEqual(m910q["cpu_pct"], 5.22)
+        self.assertEqual(m910q["mem_pct"], 18.58)
+        self.assertEqual(m910q["disk_pct"], 5.77)
+        self.assertEqual(m910q["uptime_s"], 863644)
+        self.assertEqual(m910q["temp_c"], 44.0)
+        self.assertEqual(m910q["load1"], 0.43)
+        self.assertEqual(m910q["net_sent_bps"], 7464)
 
 
 class TestContainersContract(unittest.TestCase):
