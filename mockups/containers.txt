@@ -1,0 +1,14 @@
+┌──────────────────────────────────────────────┐
+│ ● ~/homelab                  atlas       ↻   │
+│ CONTAINERS                          6 total  │
+│                                              │
+│ ● beszel-agent          0.4%        31 MiB   │
+│ ● caddy                 0.1%        48 MiB   │
+│ ● immich-server         3.8%       612 MiB   │
+│ ● postgres              1.2%       244 MiB   │
+│ ● redis                 0.2%        18 MiB   │
+│                                              │
+│                    ‹  1 / 2  ›               │
+│                                              │
+│   [ overview ]   [ containers ]   [ chart ]  │
+└──────────────────────────────────────────────┘

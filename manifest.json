@@ -1,0 +1,25 @@
+{
+  "project": "server-monitor-widget",
+  "artifact": "KWGT + Beszel blueprint",
+  "theme": "Catppuccin Mocha / Linux Unix ricing",
+  "architecture": "KWGT -> Beszel Hub REST API (no extra backend)",
+  "views": [
+    "overview",
+    "containers",
+    "chart"
+  ],
+  "default_refresh_minutes": 5,
+  "default_chart_points": 24,
+  "contains_real_credentials": false,
+  "preset_kwgt_included": false,
+  "skills": [
+    "orchestrator",
+    "kwgt-kustom",
+    "beszel-pocketbase",
+    "kustom-data",
+    "frontend-visual",
+    "charting",
+    "test-debug",
+    "docs-release"
+  ]
+}
