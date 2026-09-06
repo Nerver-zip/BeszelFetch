@@ -1,0 +1,1482 @@
+{
+  "kustom_version": 37000,
+  "widget_spec": {
+    "title": "Beszel Homelab Monitor",
+    "description": "Direct homelab monitoring widget using Beszel Hub API with Catppuccin Mocha aesthetic",
+    "author": "Nerver-zip & Antigravity",
+    "target_grid": "4x3",
+    "width": 320,
+    "height": 220,
+    "padding": 12
+  },
+  "globals": [
+    {
+      "name": "bz_url",
+      "type": "TEXT",
+      "value": "https://beszel.example.com",
+      "description": "Beszel Hub base URL"
+    },
+    {
+      "name": "bz_email",
+      "type": "TEXT",
+      "value": "",
+      "description": "Dedicated user email (secret)"
+    },
+    {
+      "name": "bz_pass",
+      "type": "TEXT",
+      "value": "",
+      "description": "Dedicated user password (secret)"
+    },
+    {
+      "name": "bz_token",
+      "type": "TEXT",
+      "value": "",
+      "description": "PocketBase JWT auth token (secret)"
+    },
+    {
+      "name": "view",
+      "type": "TEXT",
+      "value": "overview",
+      "description": "Active tab (overview, containers, chart)"
+    },
+    {
+      "name": "sys_idx",
+      "type": "NUMBER",
+      "value": 0,
+      "description": "Index of active system in sys_json"
+    },
+    {
+      "name": "sys_id",
+      "type": "TEXT",
+      "value": "",
+      "description": "PocketBase record ID of active system"
+    },
+    {
+      "name": "metric",
+      "type": "TEXT",
+      "value": "cpu",
+      "description": "Active chart metric (cpu, mem, disk, net)"
+    },
+    {
+      "name": "range",
+      "type": "TEXT",
+      "value": "24h",
+      "description": "Active chart range (1h, 12h, 24h, 7d, 30d)"
+    },
+    {
+      "name": "container_page",
+      "type": "NUMBER",
+      "value": 0,
+      "description": "Active container list page"
+    },
+    {
+      "name": "container_count",
+      "type": "NUMBER",
+      "value": 0,
+      "description": "Total count of running containers"
+    },
+    {
+      "name": "container_max_page",
+      "type": "NUMBER",
+      "value": 0,
+      "description": "Maximum page index for containers"
+    },
+    {
+      "name": "debug",
+      "type": "NUMBER",
+      "value": 0,
+      "description": "Diagnostics overlay toggle"
+    },
+    {
+      "name": "sys_json",
+      "type": "TEXT",
+      "value": "{}",
+      "description": "Cached systems payload"
+    },
+    {
+      "name": "cnt_json",
+      "type": "TEXT",
+      "value": "{}",
+      "description": "Cached container stats payload"
+    },
+    {
+      "name": "hist_json",
+      "type": "TEXT",
+      "value": "{}",
+      "description": "Cached historical telemetry series"
+    },
+    {
+      "name": "last_ok",
+      "type": "TEXT",
+      "value": "",
+      "description": "Timestamp of last successful sync"
+    },
+    {
+      "name": "last_code",
+      "type": "TEXT",
+      "value": "",
+      "description": "HTTP status code of last response"
+    },
+    {
+      "name": "last_err",
+      "type": "TEXT",
+      "value": "",
+      "description": "Error category (auth, network, etc)"
+    },
+    {
+      "name": "stale",
+      "type": "NUMBER",
+      "value": 1,
+      "description": "Stale cache flag (1=stale, 0=fresh)"
+    },
+    {
+      "name": "busy",
+      "type": "NUMBER",
+      "value": 0,
+      "description": "Network in-flight indicator"
+    },
+    {
+      "name": "perpage",
+      "type": "NUMBER",
+      "value": 5,
+      "description": "Containers rendered per page"
+    },
+    {
+      "name": "points",
+      "type": "NUMBER",
+      "value": 24,
+      "description": "History bar count"
+    },
+    {
+      "name": "net_max",
+      "type": "NUMBER",
+      "value": 0,
+      "description": "Dynamic network max ceiling (0=auto)"
+    },
+    {
+      "name": "c_base",
+      "type": "COLOR",
+      "value": "#1E1E2E",
+      "description": "Card background"
+    },
+    {
+      "name": "c_mantle",
+      "type": "COLOR",
+      "value": "#181825",
+      "description": "Sub-surface background"
+    },
+    {
+      "name": "c_surface0",
+      "type": "COLOR",
+      "value": "#313244",
+      "description": "Progress tracks"
+    },
+    {
+      "name": "c_surface1",
+      "type": "COLOR",
+      "value": "#45475A",
+      "description": "Card border / dividers"
+    },
+    {
+      "name": "c_text",
+      "type": "COLOR",
+      "value": "#CDD6F4",
+      "description": "Primary high-contrast text"
+    },
+    {
+      "name": "c_subtext",
+      "type": "COLOR",
+      "value": "#BAC2DE",
+      "description": "Secondary labels"
+    },
+    {
+      "name": "c_muted",
+      "type": "COLOR",
+      "value": "#6C7086",
+      "description": "Muted text / inactive tabs"
+    },
+    {
+      "name": "c_cpu",
+      "type": "COLOR",
+      "value": "#89B4FA",
+      "description": "CPU accent"
+    },
+    {
+      "name": "c_ram",
+      "type": "COLOR",
+      "value": "#CBA6F7",
+      "description": "Memory accent"
+    },
+    {
+      "name": "c_disk",
+      "type": "COLOR",
+      "value": "#94E2D5",
+      "description": "Disk accent"
+    },
+    {
+      "name": "c_net",
+      "type": "COLOR",
+      "value": "#74C7EC",
+      "description": "Network accent"
+    },
+    {
+      "name": "c_ok",
+      "type": "COLOR",
+      "value": "#A6E3A1",
+      "description": "Online / healthy indicator"
+    },
+    {
+      "name": "c_warn",
+      "type": "COLOR",
+      "value": "#F9E2AF",
+      "description": "Stale / warning"
+    },
+    {
+      "name": "c_peach",
+      "type": "COLOR",
+      "value": "#FAB387",
+      "description": "High resource usage warning"
+    },
+    {
+      "name": "c_err",
+      "type": "COLOR",
+      "value": "#F38BA8",
+      "description": "Critical / offline / auth error"
+    }
+  ],
+  "root": {
+    "type": "OVERLAP_GROUP",
+    "name": "CardRoot",
+    "children": [
+      {
+        "type": "SHAPE",
+        "name": "CardBackground",
+        "shape": "ROUNDED_RECTANGLE",
+        "width": 320,
+        "height": 220,
+        "corner_radius": 24,
+        "color": "$gv(c_base)$"
+      },
+      {
+        "type": "SHAPE",
+        "name": "CardBorder",
+        "shape": "ROUNDED_RECTANGLE",
+        "width": 320,
+        "height": 220,
+        "corner_radius": 24,
+        "stroke": 1,
+        "color": "$gv(c_surface1)$"
+      },
+      {
+        "type": "STACK_GROUP",
+        "name": "ContentFlow",
+        "direction": "VERTICAL",
+        "width": 296,
+        "height": 196,
+        "children": [
+          {
+            "type": "STACK_GROUP",
+            "name": "Header",
+            "direction": "HORIZONTAL",
+            "width": "MATCH_PARENT",
+            "height": 28,
+            "children": [
+              {
+                "type": "SHAPE",
+                "name": "StatusIndicator",
+                "shape": "CIRCLE",
+                "width": 8,
+                "height": 8,
+                "color": "$if(gv(stale) = 1, gv(c_warn), if(wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].status') = 'up', gv(c_ok), gv(c_err)))$"
+              },
+              {
+                "type": "TEXT",
+                "name": "ProjectIdentity",
+                "text": "~/homelab",
+                "color": "$gv(c_subtext)$",
+                "size": 12,
+                "font": "MONOSPACE_SEMIBOLD",
+                "margin_left": 6
+              },
+              {
+                "type": "TEXT",
+                "name": "HostSelector",
+                "text": "$wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].name')$ \u25be",
+                "color": "$gv(c_text)$",
+                "size": 12,
+                "font": "MONOSPACE_BOLD",
+                "margin_left": 10,
+                "touch_action": {
+                  "action": "TOGGLE_GLOBAL",
+                  "global": "sys_idx",
+                  "formula": "$if(gv(sys_idx) + 1 >= wg(gv(sys_json), json, '.items.length'), 0, gv(sys_idx) + 1)$"
+                }
+              },
+              {
+                "type": "SHAPE",
+                "name": "RefreshTouchTarget",
+                "shape": "RECTANGLE",
+                "width": 48,
+                "height": 48,
+                "color": "#00000000",
+                "alignment": "RIGHT",
+                "touch_action": {
+                  "action": "EXECUTE_FLOW",
+                  "flow": "refresh_current_view"
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "RefreshGlyph",
+                    "text": "\u21bb",
+                    "color": "$gv(c_subtext)$",
+                    "size": 16,
+                    "font": "MONOSPACE_BOLD"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "STACK_GROUP",
+            "name": "HeaderMeta",
+            "direction": "HORIZONTAL",
+            "width": "MATCH_PARENT",
+            "height": 14,
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "SystemCount",
+                "text": "$wg(gv(sys_json), json, '.items.length')$ systems \u00b7 $df(hh:mm)$",
+                "color": "$gv(c_muted)$",
+                "size": 9,
+                "font": "MONOSPACE_REGULAR"
+              },
+              {
+                "type": "TEXT",
+                "name": "SyncBadge",
+                "text": "$if(gv(stale) = 1, '\u25cf stale', '\u25cf online')$",
+                "color": "$if(gv(stale) = 1, gv(c_warn), gv(c_ok))$",
+                "size": 9,
+                "font": "MONOSPACE_REGULAR",
+                "alignment": "RIGHT"
+              }
+            ]
+          },
+          {
+            "type": "OVERLAP_GROUP",
+            "name": "ViewArea",
+            "width": "MATCH_PARENT",
+            "height": 118,
+            "children": [
+              {
+                "type": "STACK_GROUP",
+                "name": "ViewOverview",
+                "direction": "VERTICAL",
+                "width": "MATCH_PARENT",
+                "height": "MATCH_PARENT",
+                "visibility": "$if(gv(view) = 'overview', ALWAYS, REMOVE)$",
+                "children": [
+                  {
+                    "type": "STACK_GROUP",
+                    "name": "GaugesRow",
+                    "direction": "HORIZONTAL",
+                    "width": "MATCH_PARENT",
+                    "height": 84,
+                    "alignment": "SPACE_EVENLY",
+                    "children": [
+                      {
+                        "type": "OVERLAP_GROUP",
+                        "name": "MetricRing_CPU",
+                        "width": 90,
+                        "height": 90,
+                        "children": [
+                          {
+                            "type": "PROGRESS",
+                            "name": "Track",
+                            "mode": "CIRCULAR",
+                            "size": 75,
+                            "stroke": 6,
+                            "color": "$gv(c_surface0)$",
+                            "level": 100
+                          },
+                          {
+                            "type": "PROGRESS",
+                            "name": "Fill",
+                            "mode": "CIRCULAR",
+                            "size": 75,
+                            "stroke": 6,
+                            "color": "$if(wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.cpu') >= 95, gv(c_err), if(wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.cpu') >= 85, gv(c_peach), if(wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.cpu') >= 70, gv(c_warn), gv(c_cpu))))$",
+                            "level": "$mu(min, 100, mu(max, 0, wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.cpu')))$"
+                          },
+                          {
+                            "type": "TEXT",
+                            "name": "Value",
+                            "text": "$mu(round, wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.cpu'))$%",
+                            "color": "$gv(c_text)$",
+                            "size": 14,
+                            "font": "MONOSPACE_BOLD",
+                            "alignment": "CENTER"
+                          },
+                          {
+                            "type": "TEXT",
+                            "name": "Label",
+                            "text": "CPU",
+                            "color": "$gv(c_subtext)$",
+                            "size": 10,
+                            "font": "MONOSPACE_MEDIUM",
+                            "alignment": "CENTER",
+                            "offset_y": 48
+                          }
+                        ]
+                      },
+                      {
+                        "type": "OVERLAP_GROUP",
+                        "name": "MetricRing_RAM",
+                        "width": 90,
+                        "height": 90,
+                        "children": [
+                          {
+                            "type": "PROGRESS",
+                            "name": "Track",
+                            "mode": "CIRCULAR",
+                            "size": 75,
+                            "stroke": 6,
+                            "color": "$gv(c_surface0)$",
+                            "level": 100
+                          },
+                          {
+                            "type": "PROGRESS",
+                            "name": "Fill",
+                            "mode": "CIRCULAR",
+                            "size": 75,
+                            "stroke": 6,
+                            "color": "$if(wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.mp') >= 95, gv(c_err), if(wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.mp') >= 85, gv(c_peach), if(wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.mp') >= 70, gv(c_warn), gv(c_ram))))$",
+                            "level": "$mu(min, 100, mu(max, 0, wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.mp')))$"
+                          },
+                          {
+                            "type": "TEXT",
+                            "name": "Value",
+                            "text": "$mu(round, wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.mp'))$%",
+                            "color": "$gv(c_text)$",
+                            "size": 14,
+                            "font": "MONOSPACE_BOLD",
+                            "alignment": "CENTER"
+                          },
+                          {
+                            "type": "TEXT",
+                            "name": "Label",
+                            "text": "RAM",
+                            "color": "$gv(c_subtext)$",
+                            "size": 10,
+                            "font": "MONOSPACE_MEDIUM",
+                            "alignment": "CENTER",
+                            "offset_y": 48
+                          }
+                        ]
+                      },
+                      {
+                        "type": "OVERLAP_GROUP",
+                        "name": "MetricRing_DISK",
+                        "width": 90,
+                        "height": 90,
+                        "children": [
+                          {
+                            "type": "PROGRESS",
+                            "name": "Track",
+                            "mode": "CIRCULAR",
+                            "size": 75,
+                            "stroke": 6,
+                            "color": "$gv(c_surface0)$",
+                            "level": 100
+                          },
+                          {
+                            "type": "PROGRESS",
+                            "name": "Fill",
+                            "mode": "CIRCULAR",
+                            "size": 75,
+                            "stroke": 6,
+                            "color": "$if(wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.dp') >= 95, gv(c_err), if(wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.dp') >= 85, gv(c_peach), if(wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.dp') >= 70, gv(c_warn), gv(c_disk))))$",
+                            "level": "$mu(min, 100, mu(max, 0, wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.dp')))$"
+                          },
+                          {
+                            "type": "TEXT",
+                            "name": "Value",
+                            "text": "$mu(round, wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.dp'))$%",
+                            "color": "$gv(c_text)$",
+                            "size": 14,
+                            "font": "MONOSPACE_BOLD",
+                            "alignment": "CENTER"
+                          },
+                          {
+                            "type": "TEXT",
+                            "name": "Label",
+                            "text": "DISK",
+                            "color": "$gv(c_subtext)$",
+                            "size": 10,
+                            "font": "MONOSPACE_MEDIUM",
+                            "alignment": "CENTER",
+                            "offset_y": 48
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "STACK_GROUP",
+                    "name": "MiniStats",
+                    "direction": "HORIZONTAL",
+                    "width": "MATCH_PARENT",
+                    "height": 20,
+                    "alignment": "SPACE_BETWEEN",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "NetStats",
+                        "text": "\u2193$mu(round, wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.bb[1]') / 1024)$K \u2191$mu(round, wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.bb[0]') / 1024)$K",
+                        "color": "$gv(c_net)$",
+                        "size": 9,
+                        "font": "MONOSPACE_REGULAR"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "LoadStat",
+                        "text": "LA $wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.la[0]')$",
+                        "color": "$gv(c_subtext)$",
+                        "size": 9,
+                        "font": "MONOSPACE_REGULAR"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "TempStat",
+                        "text": "$wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.dt')$\u00b0C",
+                        "color": "$gv(c_peach)$",
+                        "size": 9,
+                        "font": "MONOSPACE_REGULAR",
+                        "visibility": "$if(wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.dt') != '', ALWAYS, REMOVE)$"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "UptimeStat",
+                        "text": "$mu(floor, wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.u') / 86400)$d $mu(floor, (wg(gv(sys_json), json, '.items[' + gv(sys_idx) + '].info.u') % 86400) / 3600)$h",
+                        "color": "$gv(c_subtext)$",
+                        "size": 9,
+                        "font": "MONOSPACE_REGULAR"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "STACK_GROUP",
+                "name": "ViewContainers",
+                "direction": "VERTICAL",
+                "width": "MATCH_PARENT",
+                "height": "MATCH_PARENT",
+                "visibility": "$if(gv(view) = 'containers', ALWAYS, REMOVE)$",
+                "children": [
+                  {
+                    "type": "STACK_GROUP",
+                    "name": "ContainerRow_0",
+                    "direction": "HORIZONTAL",
+                    "width": "MATCH_PARENT",
+                    "height": 28,
+                    "visibility": "$if(gv(container_page) * 5 + 0 < gv(container_count), ALWAYS, REMOVE)$",
+                    "children": [
+                      {
+                        "type": "SHAPE",
+                        "name": "StatusDot",
+                        "shape": "CIRCLE",
+                        "width": 8,
+                        "height": 8,
+                        "color": "$gv(c_ok)$"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Name",
+                        "text": "$tc(ell, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 0) + '].n'), 18)$",
+                        "color": "$gv(c_text)$",
+                        "size": 11,
+                        "font": "MONOSPACE_MEDIUM",
+                        "width": 140
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "CPU",
+                        "text": "CPU $wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 0) + '].c')$%",
+                        "color": "$gv(c_cpu)$",
+                        "size": 10,
+                        "font": "MONOSPACE_REGULAR",
+                        "width": 60
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "RAM",
+                        "text": "$if(wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 0) + '].m') < 1073741824, mu(round, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 0) + '].m') / 1048576) + ' MiB', mu(round, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 0) + '].m') / 1073741824, 1) + ' GiB')$",
+                        "color": "$gv(c_ram)$",
+                        "size": 10,
+                        "font": "MONOSPACE_REGULAR",
+                        "width": 60
+                      }
+                    ]
+                  },
+                  {
+                    "type": "STACK_GROUP",
+                    "name": "ContainerRow_1",
+                    "direction": "HORIZONTAL",
+                    "width": "MATCH_PARENT",
+                    "height": 28,
+                    "visibility": "$if(gv(container_page) * 5 + 1 < gv(container_count), ALWAYS, REMOVE)$",
+                    "children": [
+                      {
+                        "type": "SHAPE",
+                        "name": "StatusDot",
+                        "shape": "CIRCLE",
+                        "width": 8,
+                        "height": 8,
+                        "color": "$gv(c_ok)$"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Name",
+                        "text": "$tc(ell, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 1) + '].n'), 18)$",
+                        "color": "$gv(c_text)$",
+                        "size": 11,
+                        "font": "MONOSPACE_MEDIUM",
+                        "width": 140
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "CPU",
+                        "text": "CPU $wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 1) + '].c')$%",
+                        "color": "$gv(c_cpu)$",
+                        "size": 10,
+                        "font": "MONOSPACE_REGULAR",
+                        "width": 60
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "RAM",
+                        "text": "$if(wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 1) + '].m') < 1073741824, mu(round, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 1) + '].m') / 1048576) + ' MiB', mu(round, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 1) + '].m') / 1073741824, 1) + ' GiB')$",
+                        "color": "$gv(c_ram)$",
+                        "size": 10,
+                        "font": "MONOSPACE_REGULAR",
+                        "width": 60
+                      }
+                    ]
+                  },
+                  {
+                    "type": "STACK_GROUP",
+                    "name": "ContainerRow_2",
+                    "direction": "HORIZONTAL",
+                    "width": "MATCH_PARENT",
+                    "height": 28,
+                    "visibility": "$if(gv(container_page) * 5 + 2 < gv(container_count), ALWAYS, REMOVE)$",
+                    "children": [
+                      {
+                        "type": "SHAPE",
+                        "name": "StatusDot",
+                        "shape": "CIRCLE",
+                        "width": 8,
+                        "height": 8,
+                        "color": "$gv(c_ok)$"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Name",
+                        "text": "$tc(ell, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 2) + '].n'), 18)$",
+                        "color": "$gv(c_text)$",
+                        "size": 11,
+                        "font": "MONOSPACE_MEDIUM",
+                        "width": 140
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "CPU",
+                        "text": "CPU $wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 2) + '].c')$%",
+                        "color": "$gv(c_cpu)$",
+                        "size": 10,
+                        "font": "MONOSPACE_REGULAR",
+                        "width": 60
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "RAM",
+                        "text": "$if(wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 2) + '].m') < 1073741824, mu(round, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 2) + '].m') / 1048576) + ' MiB', mu(round, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 2) + '].m') / 1073741824, 1) + ' GiB')$",
+                        "color": "$gv(c_ram)$",
+                        "size": 10,
+                        "font": "MONOSPACE_REGULAR",
+                        "width": 60
+                      }
+                    ]
+                  },
+                  {
+                    "type": "STACK_GROUP",
+                    "name": "ContainerRow_3",
+                    "direction": "HORIZONTAL",
+                    "width": "MATCH_PARENT",
+                    "height": 28,
+                    "visibility": "$if(gv(container_page) * 5 + 3 < gv(container_count), ALWAYS, REMOVE)$",
+                    "children": [
+                      {
+                        "type": "SHAPE",
+                        "name": "StatusDot",
+                        "shape": "CIRCLE",
+                        "width": 8,
+                        "height": 8,
+                        "color": "$gv(c_ok)$"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Name",
+                        "text": "$tc(ell, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 3) + '].n'), 18)$",
+                        "color": "$gv(c_text)$",
+                        "size": 11,
+                        "font": "MONOSPACE_MEDIUM",
+                        "width": 140
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "CPU",
+                        "text": "CPU $wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 3) + '].c')$%",
+                        "color": "$gv(c_cpu)$",
+                        "size": 10,
+                        "font": "MONOSPACE_REGULAR",
+                        "width": 60
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "RAM",
+                        "text": "$if(wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 3) + '].m') < 1073741824, mu(round, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 3) + '].m') / 1048576) + ' MiB', mu(round, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 3) + '].m') / 1073741824, 1) + ' GiB')$",
+                        "color": "$gv(c_ram)$",
+                        "size": 10,
+                        "font": "MONOSPACE_REGULAR",
+                        "width": 60
+                      }
+                    ]
+                  },
+                  {
+                    "type": "STACK_GROUP",
+                    "name": "ContainerRow_4",
+                    "direction": "HORIZONTAL",
+                    "width": "MATCH_PARENT",
+                    "height": 28,
+                    "visibility": "$if(gv(container_page) * 5 + 4 < gv(container_count), ALWAYS, REMOVE)$",
+                    "children": [
+                      {
+                        "type": "SHAPE",
+                        "name": "StatusDot",
+                        "shape": "CIRCLE",
+                        "width": 8,
+                        "height": 8,
+                        "color": "$gv(c_ok)$"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Name",
+                        "text": "$tc(ell, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 4) + '].n'), 18)$",
+                        "color": "$gv(c_text)$",
+                        "size": 11,
+                        "font": "MONOSPACE_MEDIUM",
+                        "width": 140
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "CPU",
+                        "text": "CPU $wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 4) + '].c')$%",
+                        "color": "$gv(c_cpu)$",
+                        "size": 10,
+                        "font": "MONOSPACE_REGULAR",
+                        "width": 60
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "RAM",
+                        "text": "$if(wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 4) + '].m') < 1073741824, mu(round, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 4) + '].m') / 1048576) + ' MiB', mu(round, wg(gv(cnt_json), json, '.stats[' + (gv(container_page) * 5 + 4) + '].m') / 1073741824, 1) + ' GiB')$",
+                        "color": "$gv(c_ram)$",
+                        "size": 10,
+                        "font": "MONOSPACE_REGULAR",
+                        "width": 60
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "EmptyContainersState",
+                    "text": "No running containers reported",
+                    "color": "$gv(c_muted)$",
+                    "size": 11,
+                    "font": "MONOSPACE_REGULAR",
+                    "alignment": "CENTER",
+                    "visibility": "$if(gv(container_count) = 0, ALWAYS, REMOVE)$"
+                  },
+                  {
+                    "type": "STACK_GROUP",
+                    "name": "ContainersPager",
+                    "direction": "HORIZONTAL",
+                    "width": "MATCH_PARENT",
+                    "height": 18,
+                    "alignment": "CENTER",
+                    "visibility": "$if(gv(container_count) > 5, ALWAYS, REMOVE)$",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "PrevPage",
+                        "text": "\u2039  ",
+                        "color": "$gv(c_text)$",
+                        "size": 14,
+                        "font": "MONOSPACE_BOLD",
+                        "touch_action": {
+                          "action": "TOGGLE_GLOBAL",
+                          "global": "container_page",
+                          "formula": "$mu(max, 0, gv(container_page) - 1)$"
+                        }
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "PageIndicator",
+                        "text": "$gv(container_page) + 1$ / $gv(container_max_page) + 1$",
+                        "color": "$gv(c_subtext)$",
+                        "size": 10,
+                        "font": "MONOSPACE_MEDIUM"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "NextPage",
+                        "text": "  \u203a",
+                        "color": "$gv(c_text)$",
+                        "size": 14,
+                        "font": "MONOSPACE_BOLD",
+                        "touch_action": {
+                          "action": "TOGGLE_GLOBAL",
+                          "global": "container_page",
+                          "formula": "$mu(min, gv(container_max_page), gv(container_page) + 1)$"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "STACK_GROUP",
+                "name": "ViewChart",
+                "direction": "VERTICAL",
+                "width": "MATCH_PARENT",
+                "height": "MATCH_PARENT",
+                "visibility": "$if(gv(view) = 'chart', ALWAYS, REMOVE)$",
+                "children": [
+                  {
+                    "type": "STACK_GROUP",
+                    "name": "SparklineBars",
+                    "direction": "HORIZONTAL",
+                    "width": "MATCH_PARENT",
+                    "height": 62,
+                    "alignment": "BOTTOM",
+                    "children": [
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_00",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 0 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(0 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_01",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 1 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(1 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_02",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 2 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(2 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_03",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 3 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(3 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_04",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 4 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(4 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_05",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 5 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(5 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_06",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 6 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(6 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_07",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 7 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(7 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_08",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 8 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(8 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_09",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 9 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(9 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_10",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 10 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(10 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_11",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 11 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(11 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_12",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 12 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(12 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_13",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 13 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(13 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_14",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 14 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(14 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_15",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 15 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(15 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_16",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 16 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(16 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_17",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 17 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(17 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_18",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 18 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(18 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_19",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 19 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(19 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_20",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 20 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(20 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_21",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 21 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(21 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_22",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 22 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(22 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      },
+                      {
+                        "type": "SHAPE",
+                        "name": "Bar_23",
+                        "shape": "RECTANGLE",
+                        "width": 9,
+                        "height": "$mu(max, 3, mu(min, 60, mu(round, wg(gv(hist_json), json, '.items[' + 23 + '].stats.' + gv(metric)) * 0.6)))$",
+                        "color": "$if(23 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$",
+                        "corner_radius": 2,
+                        "alignment": "BOTTOM"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "STACK_GROUP",
+                    "name": "MetricChips",
+                    "direction": "HORIZONTAL",
+                    "width": "MATCH_PARENT",
+                    "height": 22,
+                    "alignment": "SPACE_EVENLY",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "ChipCPU",
+                        "text": "[CPU]",
+                        "color": "$if(gv(metric) = 'cpu', gv(c_cpu), gv(c_muted))$",
+                        "size": 10,
+                        "font": "MONOSPACE_BOLD",
+                        "touch_action": {
+                          "action": "SET_GLOBAL",
+                          "global": "metric",
+                          "value": "cpu"
+                        }
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "ChipRAM",
+                        "text": "[RAM]",
+                        "color": "$if(gv(metric) = 'mem', gv(c_ram), gv(c_muted))$",
+                        "size": 10,
+                        "font": "MONOSPACE_BOLD",
+                        "touch_action": {
+                          "action": "SET_GLOBAL",
+                          "global": "metric",
+                          "value": "mem"
+                        }
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "ChipDISK",
+                        "text": "[DISK]",
+                        "color": "$if(gv(metric) = 'disk', gv(c_disk), gv(c_muted))$",
+                        "size": 10,
+                        "font": "MONOSPACE_BOLD",
+                        "touch_action": {
+                          "action": "SET_GLOBAL",
+                          "global": "metric",
+                          "value": "disk"
+                        }
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "ChipNET",
+                        "text": "[NET]",
+                        "color": "$if(gv(metric) = 'net', gv(c_net), gv(c_muted))$",
+                        "size": 10,
+                        "font": "MONOSPACE_BOLD",
+                        "touch_action": {
+                          "action": "SET_GLOBAL",
+                          "global": "metric",
+                          "value": "net"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "STACK_GROUP",
+                    "name": "ChartStats",
+                    "direction": "HORIZONTAL",
+                    "width": "MATCH_PARENT",
+                    "height": 16,
+                    "alignment": "SPACE_BETWEEN",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "RangeIndicator",
+                        "text": "$gv(range)$",
+                        "color": "$gv(c_subtext)$",
+                        "size": 9,
+                        "font": "MONOSPACE_MEDIUM"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "SummaryStats",
+                        "text": "avg 20% \u00b7 max 42%",
+                        "color": "$gv(c_muted)$",
+                        "size": 9,
+                        "font": "MONOSPACE_REGULAR"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "STACK_GROUP",
+            "name": "BottomNav",
+            "direction": "HORIZONTAL",
+            "width": "MATCH_PARENT",
+            "height": 48,
+            "alignment": "SPACE_EVENLY",
+            "children": [
+              {
+                "type": "OVERLAP_GROUP",
+                "name": "TabOverview",
+                "width": 90,
+                "height": 48,
+                "touch_action": {
+                  "action": "SET_GLOBAL",
+                  "global": "view",
+                  "value": "overview"
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "TabOverviewText",
+                    "text": "[ overview ]",
+                    "color": "$if(gv(view) = 'overview', gv(c_text), gv(c_muted))$",
+                    "size": 11,
+                    "font": "MONOSPACE_SEMIBOLD"
+                  }
+                ]
+              },
+              {
+                "type": "OVERLAP_GROUP",
+                "name": "TabContainers",
+                "width": 90,
+                "height": 48,
+                "touch_action": {
+                  "action": "SET_GLOBAL",
+                  "global": "view",
+                  "value": "containers"
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "TabContainersText",
+                    "text": "[ containers ]",
+                    "color": "$if(gv(view) = 'containers', gv(c_text), gv(c_muted))$",
+                    "size": 11,
+                    "font": "MONOSPACE_SEMIBOLD"
+                  }
+                ]
+              },
+              {
+                "type": "OVERLAP_GROUP",
+                "name": "TabChart",
+                "width": 90,
+                "height": 48,
+                "touch_action": {
+                  "action": "SET_GLOBAL",
+                  "global": "view",
+                  "value": "chart"
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "TabChartText",
+                    "text": "[ chart ]",
+                    "color": "$if(gv(view) = 'chart', gv(c_text), gv(c_muted))$",
+                    "size": 11,
+                    "font": "MONOSPACE_SEMIBOLD"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "flows": [
+    {
+      "id": "auth_beszel",
+      "trigger": "MANUAL",
+      "actions": [
+        {
+          "type": "SET_GLOBAL",
+          "global": "busy",
+          "value": "1"
+        },
+        {
+          "type": "WEB_GET",
+          "method": "POST",
+          "url": "$gv(bz_url)$/api/collections/users/auth-with-password",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": "{\"identity\": \"$gv(bz_email)$\", \"password\": \"$gv(bz_pass)$\"}"
+        },
+        {
+          "type": "CONDITION",
+          "condition": "$lv(http_code) = 200$",
+          "then": [
+            {
+              "type": "SET_GLOBAL",
+              "global": "bz_token",
+              "value": "$lv(json).token$"
+            },
+            {
+              "type": "SET_GLOBAL",
+              "global": "last_err",
+              "value": ""
+            }
+          ],
+          "else": [
+            {
+              "type": "SET_GLOBAL",
+              "global": "last_err",
+              "value": "auth"
+            }
+          ]
+        },
+        {
+          "type": "SET_GLOBAL",
+          "global": "busy",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "id": "fetch_systems",
+      "trigger": "PERIODIC_5M",
+      "actions": [
+        {
+          "type": "WEB_GET",
+          "method": "GET",
+          "url": "$gv(bz_url)$/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name",
+          "headers": {
+            "Authorization": "$gv(bz_token)$"
+          }
+        },
+        {
+          "type": "CONDITION",
+          "condition": "$lv(http_code) = 200$",
+          "then": [
+            {
+              "type": "SET_GLOBAL",
+              "global": "sys_json",
+              "value": "$lv(response_raw)$"
+            },
+            {
+              "type": "SET_GLOBAL",
+              "global": "stale",
+              "value": "0"
+            },
+            {
+              "type": "SET_GLOBAL",
+              "global": "last_ok",
+              "value": "$df(yyyy-MM-dd'T'HH:mm:ss)$"
+            }
+          ],
+          "else_if": "$lv(http_code) = 401$",
+          "then_action": [
+            {
+              "type": "RUN_FLOW",
+              "flow": "auth_beszel"
+            }
+          ],
+          "else": [
+            {
+              "type": "SET_GLOBAL",
+              "global": "stale",
+              "value": "1"
+            },
+            {
+              "type": "SET_GLOBAL",
+              "global": "last_err",
+              "value": "network"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fetch_containers",
+      "trigger": "ON_VIEW_CONTAINERS",
+      "actions": [
+        {
+          "type": "WEB_GET",
+          "method": "GET",
+          "url": "$gv(bz_url)$/api/collections/container_stats/records?perPage=1&sort=-created",
+          "headers": {
+            "Authorization": "$gv(bz_token)$"
+          }
+        },
+        {
+          "type": "CONDITION",
+          "condition": "$lv(http_code) = 200$",
+          "then": [
+            {
+              "type": "SET_GLOBAL",
+              "global": "cnt_json",
+              "value": "$lv(response_raw)$"
+            },
+            {
+              "type": "SET_GLOBAL",
+              "global": "container_count",
+              "value": "$lv(json).stats.length$"
+            },
+            {
+              "type": "SET_GLOBAL",
+              "global": "container_max_page",
+              "value": "$mu(floor, (lv(json).stats.length - 1) / 5)$"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fetch_history",
+      "trigger": "ON_VIEW_CHART",
+      "actions": [
+        {
+          "type": "WEB_GET",
+          "method": "GET",
+          "url": "$gv(bz_url)$/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&filter=system='$gv(sys_id)$'&fields=created,stats&sort=created",
+          "headers": {
+            "Authorization": "$gv(bz_token)$"
+          }
+        },
+        {
+          "type": "CONDITION",
+          "condition": "$lv(http_code) = 200$",
+          "then": [
+            {
+              "type": "SET_GLOBAL",
+              "global": "hist_json",
+              "value": "$lv(response_raw)$"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "refresh_current_view",
+      "trigger": "MANUAL",
+      "actions": [
+        {
+          "type": "RUN_FLOW",
+          "flow": "fetch_systems"
+        },
+        {
+          "type": "CONDITION",
+          "condition": "$gv(view) = 'containers'$",
+          "then": [
+            {
+              "type": "RUN_FLOW",
+              "flow": "fetch_containers"
+            }
+          ]
+        },
+        {
+          "type": "CONDITION",
+          "condition": "$gv(view) = 'chart'$",
+          "then": [
+            {
+              "type": "RUN_FLOW",
+              "flow": "fetch_history"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -685,6 +685,89 @@ class TestAccessibilityAndContrast(unittest.TestCase):
         self.assertGreaterEqual(header_refresh_dp, min_target_dp)
 
 
+class TestPresetDefinition(unittest.TestCase):
+    """Validates the compiled widget/preset.json against architecture and layout specs."""
+
+    def setUp(self):
+        self.preset_path = REPO_ROOT / "widget" / "preset.json"
+        self.assertTrue(self.preset_path.exists(), f"preset.json missing at {self.preset_path}")
+        with open(self.preset_path, "r", encoding="utf-8") as f:
+            self.preset = json.load(f)
+
+    def test_preset_root_keys(self):
+        required_keys = ["kustom_version", "widget_spec", "globals", "root", "flows"]
+        for key in required_keys:
+            self.assertIn(key, self.preset, f"Key '{key}' missing from preset root")
+        self.assertIn("title", self.preset.get("widget_spec", {}))
+
+    def test_required_globals_present(self):
+        globals_list = self.preset.get("globals", [])
+        globals_dict = {g["name"]: g for g in globals_list}
+
+        # Config & Auth globals
+        for key in ["bz_url", "bz_email", "bz_pass", "bz_token", "sys_id"]:
+            self.assertIn(key, globals_dict, f"Config global '{key}' missing")
+
+        # Catppuccin color globals
+        for color in ["c_base", "c_mantle", "c_surface0", "c_surface1", "c_text", "c_subtext", "c_muted", "c_cpu", "c_ram", "c_disk", "c_net", "c_ok", "c_warn", "c_peach", "c_err"]:
+            self.assertIn(color, globals_dict, f"Color token global '{color}' missing")
+
+        # State globals
+        for state_key in ["view", "sys_idx", "metric", "range", "container_page", "container_count", "container_max_page", "sys_json", "cnt_json", "hist_json", "last_ok", "last_err", "stale", "busy"]:
+            self.assertIn(state_key, globals_dict, f"State global '{state_key}' missing")
+
+    def test_root_view_layers_present(self):
+        root = self.preset.get("root", {})
+        root_children = {c.get("name"): c for c in root.get("children", [])}
+
+        self.assertIn("CardBackground", root_children)
+        self.assertIn("CardBorder", root_children)
+        self.assertIn("ContentFlow", root_children)
+
+        content_flow = root_children["ContentFlow"]
+        flow_children = {c.get("name"): c for c in content_flow.get("children", [])}
+
+        self.assertIn("Header", flow_children)
+        self.assertIn("ViewArea", flow_children)
+        self.assertIn("BottomNav", flow_children)
+
+        view_area = flow_children["ViewArea"]
+        views = {c.get("name"): c for c in view_area.get("children", [])}
+        self.assertIn("ViewOverview", views)
+        self.assertIn("ViewContainers", views)
+        self.assertIn("ViewChart", views)
+
+    def test_flows_defined(self):
+        flows = self.preset.get("flows", [])
+        flow_ids = [flow.get("id") for flow in flows]
+
+        for flow_id in ["auth_beszel", "fetch_systems", "fetch_containers", "fetch_history", "refresh_current_view"]:
+            self.assertIn(flow_id, flow_ids, f"Flow '{flow_id}' missing from preset")
+
+    def test_touch_targets_dimensions_in_preset(self):
+        """Ensure touch targets in bottom nav tabs and header meet or exceed 44dp minimum."""
+        root = self.preset.get("root", {})
+        root_children = {c.get("name"): c for c in root.get("children", [])}
+        content_flow = root_children.get("ContentFlow", {})
+        flow_children = {c.get("name"): c for c in content_flow.get("children", [])}
+
+        # Header refresh touch target
+        header = flow_children.get("Header", {})
+        header_children = {c.get("name"): c for c in header.get("children", [])}
+        refresh_btn = header_children.get("RefreshTouchTarget", {})
+        self.assertGreaterEqual(refresh_btn.get("width", 0), 44, "Refresh touch width must be >= 44dp")
+        self.assertGreaterEqual(refresh_btn.get("height", 0), 44, "Refresh touch height must be >= 44dp")
+
+        # Bottom nav tabs touch targets
+        bottom_nav = flow_children.get("BottomNav", {})
+        tabs = bottom_nav.get("children", [])
+        self.assertEqual(len(tabs), 3, "Bottom nav should have 3 tabs")
+        for tab in tabs:
+            self.assertGreaterEqual(tab.get("width", 0), 44, f"Tab '{tab.get('name')}' width must be >= 44dp")
+            self.assertGreaterEqual(tab.get("height", 0), 44, f"Tab '{tab.get('name')}' height must be >= 44dp")
+            self.assertIn("touch_action", tab, f"Tab '{tab.get('name')}' must have touch_action")
+
+
 # ==============================================================================
 # Runner
 # ==============================================================================
