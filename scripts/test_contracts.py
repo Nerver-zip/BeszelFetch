@@ -768,6 +768,74 @@ class TestPresetDefinition(unittest.TestCase):
             self.assertIn("touch_action", tab, f"Tab '{tab.get('name')}' must have touch_action")
 
 
+class TestKustomClip(unittest.TestCase):
+    """Validates the widget/beszel_monitor.clip format and Komponent structure."""
+
+    def setUp(self):
+        self.clip_path = REPO_ROOT / "widget" / "beszel_monitor.clip"
+        self.assertTrue(self.clip_path.exists(), f"beszel_monitor.clip missing at {self.clip_path}")
+        with open(self.clip_path, "r", encoding="utf-8") as f:
+            self.content = f.read()
+
+    def test_clip_header_and_valid_json(self):
+        self.assertTrue(self.content.startswith("##KUSTOMCLIP##\n"), "File must begin with ##KUSTOMCLIP## header")
+        json_str = self.content[len("##KUSTOMCLIP##\n"):]
+        data = json.loads(json_str)
+        self.assertEqual(data.get("clip_version"), 1)
+        self.assertIn("clip_modules", data)
+        self.assertGreaterEqual(len(data["clip_modules"]), 1)
+
+    def test_komponent_globals(self):
+        json_str = self.content[len("##KUSTOMCLIP##\n"):]
+        data = json.loads(json_str)
+        komp = data["clip_modules"][0]
+        self.assertEqual(komp.get("internal_type"), "KomponentModule")
+        self.assertEqual(komp.get("internal_title"), "Beszel Monitor")
+
+        globals_list = komp.get("globals_list", {})
+        # Essential config keys
+        for key in ["bz_url", "bz_token", "bz_email", "bz_pass", "sys_id", "view", "metric", "sys_idx"]:
+            self.assertIn(key, globals_list, f"Global '{key}' missing from Komponent globals_list")
+
+        # Color tokens
+        for c in ["c_base", "c_mantle", "c_surface0", "c_surface1", "c_text", "c_subtext", "c_cpu", "c_ram", "c_disk", "c_net", "c_ok", "c_warn", "c_err"]:
+            self.assertIn(c, globals_list, f"Color token '{c}' missing from Komponent globals_list")
+
+    def test_komponent_views_and_touch_targets(self):
+        json_str = self.content[len("##KUSTOMCLIP##\n"):]
+        data = json.loads(json_str)
+        komp = data["clip_modules"][0]
+        items = {item.get("internal_title"): item for item in komp.get("viewgroup_items", [])}
+
+        self.assertIn("CardBackground", items)
+        self.assertIn("CardBorder", items)
+        self.assertIn("ContentFlow", items)
+
+        content_flow = items["ContentFlow"]
+        flow_items = {i.get("internal_title"): i for i in content_flow.get("viewgroup_items", [])}
+        self.assertIn("Header", flow_items)
+        self.assertIn("ViewArea", flow_items)
+        self.assertIn("BottomNav", flow_items)
+
+        # Header refresh touch target
+        header_items = {i.get("internal_title"): i for i in flow_items["Header"].get("viewgroup_items", [])}
+        refresh = header_items.get("RefreshTouchTarget", {})
+        self.assertIn("internal_events", refresh)
+
+        # Bottom nav tabs touch targets
+        nav_tabs = flow_items["BottomNav"].get("viewgroup_items", [])
+        self.assertEqual(len(nav_tabs), 3)
+        for tab in nav_tabs:
+            self.assertIn("internal_events", tab)
+
+        # Dynamic views inside ViewArea
+        view_area = flow_items["ViewArea"]
+        views = {i.get("internal_title"): i for i in view_area.get("viewgroup_items", [])}
+        self.assertIn("ViewOverview", views)
+        self.assertIn("ViewContainers", views)
+        self.assertIn("ViewChart", views)
+
+
 # ==============================================================================
 # Runner
 # ==============================================================================
