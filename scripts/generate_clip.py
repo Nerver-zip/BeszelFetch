@@ -506,12 +506,10 @@ def build_kustom_clip():
                                                 "internal_globals": {"paint_color": "c_net"},
                                                 "internal_formulas": {
                                                     "text_expression": (
-                                                        f"NET ▲$if(wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[0]') < 1048576, "
-                                                        f"mu(round, wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[0]') / 1024) + 'K/s', "
-                                                        f"mu(round, wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[0]') / 1048576, 1) + 'M/s')$ "
-                                                        f"▼$if(wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[1]') < 1048576, "
-                                                        f"mu(round, wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[1]') / 1024) + 'K/s', "
-                                                        f"mu(round, wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[1]') / 1048576, 1) + 'M/s')$"
+                                                        f"NET $if(wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[0]') != '', "
+                                                        f"'▲' + if(wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[0]') < 1048576, mu(round, wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[0]') / 1024) + 'K/s', mu(round, wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[0]') / 1048576, 1) + 'M/s') + ' ' + "
+                                                        f"'▼' + if(wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[1]') < 1048576, mu(round, wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[1]') / 1024) + 'K/s', mu(round, wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb[1]') / 1048576, 1) + 'M/s'), "
+                                                        f"if(wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb') < 1048576, mu(round, wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb') / 1024) + ' KB/s', mu(round, wg({sys_expr}, json, '.items[' + gv(sys_idx) + '].info.bb') / 1048576, 1) + ' MB/s'))$"
                                                     )
                                                 },
                                                 "internal_toggles": {"text_expression": 10}
