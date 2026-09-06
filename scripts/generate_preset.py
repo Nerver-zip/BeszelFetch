@@ -770,3 +770,8 @@ def build_kustom_preset():
 
 if __name__ == "__main__":
     build_kustom_preset()
+    import sys
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
+    from scripts.generate_clip import build_kustom_clip
+    build_kustom_clip()

@@ -1,0 +1,1874 @@
+##KUSTOMCLIP##
+{
+  "clip_version": 1,
+  "clip_cut": [],
+  "clip_modules": [
+    {
+      "internal_type": "KomponentModule",
+      "internal_title": "Beszel Monitor",
+      "internal_description": "Homelab monitoring widget consuming Beszel API directly with Catppuccin Mocha aesthetic.",
+      "globals_list": {
+        "bz_url": {
+          "index": 1,
+          "type": "TEXT",
+          "title": "Beszel Hub URL",
+          "description": "Base URL of Beszel instance (e.g. http://192.168.1.100:8090)",
+          "value": "http://192.168.1.100:8090"
+        },
+        "bz_token": {
+          "index": 2,
+          "type": "TEXT",
+          "title": "PocketBase JWT Token",
+          "description": "Optional JWT auth token if Hub requires authentication",
+          "value": ""
+        },
+        "bz_email": {
+          "index": 3,
+          "type": "TEXT",
+          "title": "Beszel User Email",
+          "description": "Optional user email for token refresh",
+          "value": ""
+        },
+        "bz_pass": {
+          "index": 4,
+          "type": "TEXT",
+          "title": "Beszel User Password",
+          "description": "Optional user password for token refresh",
+          "value": ""
+        },
+        "sys_id": {
+          "index": 5,
+          "type": "TEXT",
+          "title": "System ID",
+          "description": "PocketBase record ID of active system",
+          "value": ""
+        },
+        "view": {
+          "index": 6,
+          "type": "TEXT",
+          "title": "Active View",
+          "description": "overview, containers, or chart",
+          "value": "overview"
+        },
+        "metric": {
+          "index": 7,
+          "type": "TEXT",
+          "title": "Chart Metric",
+          "description": "cpu, mem, disk, or net",
+          "value": "cpu"
+        },
+        "range": {
+          "index": 8,
+          "type": "TEXT",
+          "title": "Chart Range",
+          "description": "Historical range (e.g. 24h)",
+          "value": "24h"
+        },
+        "sys_idx": {
+          "index": 9,
+          "type": "NUMBER",
+          "title": "Active System Index",
+          "description": "0-indexed active system",
+          "value": 0
+        },
+        "container_page": {
+          "index": 10,
+          "type": "NUMBER",
+          "title": "Container Page",
+          "description": "0-indexed container page",
+          "value": 0
+        },
+        "container_count": {
+          "index": 11,
+          "type": "NUMBER",
+          "title": "Total Containers",
+          "value": 0
+        },
+        "sys_json": {
+          "index": 12,
+          "type": "TEXT",
+          "title": "Systems Cache",
+          "value": "{}"
+        },
+        "cnt_json": {
+          "index": 13,
+          "type": "TEXT",
+          "title": "Containers Cache",
+          "value": "{}"
+        },
+        "hist_json": {
+          "index": 14,
+          "type": "TEXT",
+          "title": "History Cache",
+          "value": "{}"
+        },
+        "last_ok": {
+          "index": 15,
+          "type": "TEXT",
+          "title": "Last Sync Timestamp",
+          "value": ""
+        },
+        "last_err": {
+          "index": 16,
+          "type": "TEXT",
+          "title": "Last Error Category",
+          "value": ""
+        },
+        "stale": {
+          "index": 17,
+          "type": "NUMBER",
+          "title": "Stale Cache Flag",
+          "value": 0
+        },
+        "c_base": {
+          "index": 18,
+          "type": "COLOR",
+          "title": "Base Background",
+          "value": "#FF1E1E2E"
+        },
+        "c_mantle": {
+          "index": 19,
+          "type": "COLOR",
+          "title": "Mantle Background",
+          "value": "#FF181825"
+        },
+        "c_surface0": {
+          "index": 20,
+          "type": "COLOR",
+          "title": "Surface0 Track",
+          "value": "#FF313244"
+        },
+        "c_surface1": {
+          "index": 21,
+          "type": "COLOR",
+          "title": "Surface1 Border",
+          "value": "#FF45475A"
+        },
+        "c_text": {
+          "index": 22,
+          "type": "COLOR",
+          "title": "Primary Text",
+          "value": "#FFCDD6F4"
+        },
+        "c_subtext": {
+          "index": 23,
+          "type": "COLOR",
+          "title": "Secondary Label",
+          "value": "#FFBAC2DE"
+        },
+        "c_muted": {
+          "index": 24,
+          "type": "COLOR",
+          "title": "Muted Text",
+          "value": "#FF6C7086"
+        },
+        "c_cpu": {
+          "index": 25,
+          "type": "COLOR",
+          "title": "CPU Accent",
+          "value": "#FF89B4FA"
+        },
+        "c_ram": {
+          "index": 26,
+          "type": "COLOR",
+          "title": "RAM Accent",
+          "value": "#FFCBA6F7"
+        },
+        "c_disk": {
+          "index": 27,
+          "type": "COLOR",
+          "title": "Disk Accent",
+          "value": "#FF94E2D5"
+        },
+        "c_net": {
+          "index": 28,
+          "type": "COLOR",
+          "title": "Network Accent",
+          "value": "#FF74C7EC"
+        },
+        "c_ok": {
+          "index": 29,
+          "type": "COLOR",
+          "title": "Online / OK",
+          "value": "#FFA6E3A1"
+        },
+        "c_warn": {
+          "index": 30,
+          "type": "COLOR",
+          "title": "Warning / Stale",
+          "value": "#FFF9E2AF"
+        },
+        "c_peach": {
+          "index": 31,
+          "type": "COLOR",
+          "title": "High Usage Warning",
+          "value": "#FFFAB387"
+        },
+        "c_err": {
+          "index": 32,
+          "type": "COLOR",
+          "title": "Error / Offline",
+          "value": "#FFF38BA8"
+        }
+      },
+      "viewgroup_items": [
+        {
+          "internal_type": "ShapeModule",
+          "internal_title": "CardBackground",
+          "shape_type": "RECT",
+          "shape_width": 320.0,
+          "shape_height": 220.0,
+          "shape_corners": 24.0,
+          "paint_color": "#FF1E1E2E",
+          "internal_globals": {
+            "paint_color": "c_base"
+          }
+        },
+        {
+          "internal_type": "ShapeModule",
+          "internal_title": "CardBorder",
+          "shape_type": "RECT",
+          "shape_width": 320.0,
+          "shape_height": 220.0,
+          "shape_corners": 24.0,
+          "paint_style": "STROKE",
+          "stroke_width": 1.5,
+          "paint_color": "#FF45475A",
+          "internal_globals": {
+            "paint_color": "c_surface1"
+          }
+        },
+        {
+          "internal_type": "StackLayerModule",
+          "internal_title": "ContentFlow",
+          "config_stacking": "VERTICAL",
+          "config_margin": 6.0,
+          "viewgroup_items": [
+            {
+              "internal_type": "StackLayerModule",
+              "internal_title": "Header",
+              "config_stacking": "HORIZONTAL_CENTER",
+              "config_margin": 8.0,
+              "viewgroup_items": [
+                {
+                  "internal_type": "ShapeModule",
+                  "internal_title": "StatusIndicator",
+                  "shape_type": "CIRCLE",
+                  "shape_width": 10.0,
+                  "shape_height": 10.0,
+                  "paint_color": "#FFA6E3A1",
+                  "internal_formulas": {
+                    "paint_color": "$if(gv(stale) = 1, gv(c_warn), if(wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].status') = 'up', gv(c_ok), gv(c_err)))$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
+                  }
+                },
+                {
+                  "internal_type": "OverlapLayerModule",
+                  "internal_title": "HostSelector",
+                  "position_anchor": "CENTERLEFT",
+                  "internal_events": [
+                    {
+                      "type": "SINGLE_TAP",
+                      "action": "TOGGLE_GLOBAL",
+                      "global_switch": "sys_idx",
+                      "global_formula": "$if(gv(sys_idx) + 1 >= wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items.length'), 0, gv(sys_idx) + 1)$"
+                    }
+                  ],
+                  "viewgroup_items": [
+                    {
+                      "internal_type": "ShapeModule",
+                      "internal_title": "HostTouchArea",
+                      "shape_type": "RECT",
+                      "shape_width": 160.0,
+                      "shape_height": 48.0,
+                      "paint_color": "#00000000"
+                    },
+                    {
+                      "internal_type": "TextModule",
+                      "internal_title": "HostnameText",
+                      "text_expression": "beszel-host",
+                      "text_size": 13.0,
+                      "paint_color": "#FFCDD6F4",
+                      "internal_globals": {
+                        "paint_color": "c_text"
+                      },
+                      "internal_formulas": {
+                        "text_expression": "$tc(ell, wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].name'), 16)$"
+                      },
+                      "internal_toggles": {
+                        "text_expression": 10
+                      }
+                    }
+                  ]
+                },
+                {
+                  "internal_type": "OverlapLayerModule",
+                  "internal_title": "RefreshTouchTarget",
+                  "position_anchor": "CENTERRIGHT",
+                  "internal_events": [
+                    {
+                      "type": "SINGLE_TAP",
+                      "action": "KUSTOM_ACTION",
+                      "kustom_action": "FORCE_UPDATE"
+                    }
+                  ],
+                  "viewgroup_items": [
+                    {
+                      "internal_type": "ShapeModule",
+                      "internal_title": "RefreshArea",
+                      "shape_type": "RECT",
+                      "shape_width": 48.0,
+                      "shape_height": 48.0,
+                      "paint_color": "#00000000"
+                    },
+                    {
+                      "internal_type": "TextModule",
+                      "internal_title": "RefreshGlyph",
+                      "text_expression": "↻",
+                      "text_size": 16.0,
+                      "paint_color": "#FFBAC2DE",
+                      "internal_globals": {
+                        "paint_color": "c_subtext"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "internal_type": "StackLayerModule",
+              "internal_title": "HeaderMeta",
+              "config_stacking": "HORIZONTAL_CENTER",
+              "config_margin": 14.0,
+              "viewgroup_items": [
+                {
+                  "internal_type": "TextModule",
+                  "internal_title": "SystemCount",
+                  "text_expression": "1 system · 12:00",
+                  "text_size": 9.0,
+                  "paint_color": "#FF6C7086",
+                  "internal_globals": {
+                    "paint_color": "c_muted"
+                  },
+                  "internal_formulas": {
+                    "text_expression": "$wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items.length')$ systems · $df(hh:mm)$"
+                  },
+                  "internal_toggles": {
+                    "text_expression": 10
+                  }
+                },
+                {
+                  "internal_type": "TextModule",
+                  "internal_title": "SyncBadge",
+                  "text_expression": "● online",
+                  "text_size": 9.0,
+                  "paint_color": "#FFA6E3A1",
+                  "internal_formulas": {
+                    "text_expression": "$if(gv(stale) = 1, '● stale', '● online')$",
+                    "paint_color": "$if(gv(stale) = 1, gv(c_warn), gv(c_ok))$"
+                  },
+                  "internal_toggles": {
+                    "text_expression": 10,
+                    "paint_color": 10
+                  }
+                }
+              ]
+            },
+            {
+              "internal_type": "OverlapLayerModule",
+              "internal_title": "ViewArea",
+              "viewgroup_items": [
+                {
+                  "internal_type": "StackLayerModule",
+                  "internal_title": "ViewOverview",
+                  "config_stacking": "VERTICAL",
+                  "config_margin": 6.0,
+                  "internal_formulas": {
+                    "config_visible": "if(gv(view) = 'overview', ALWAYS, REMOVE)"
+                  },
+                  "internal_toggles": {
+                    "config_visible": 0
+                  },
+                  "viewgroup_items": [
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "MetricBar_CPU",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 8.0,
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Label_CPU",
+                          "text_expression": "CPU ",
+                          "text_size": 11.0,
+                          "paint_color": "#FFCDD6F4",
+                          "internal_globals": {
+                            "paint_color": "c_cpu"
+                          }
+                        },
+                        {
+                          "internal_type": "OverlapLayerModule",
+                          "internal_title": "BarTrack_CPU",
+                          "viewgroup_items": [
+                            {
+                              "internal_type": "ShapeModule",
+                              "internal_title": "TrackBg",
+                              "shape_type": "RECT",
+                              "shape_width": 180.0,
+                              "shape_height": 8.0,
+                              "shape_corners": 4.0,
+                              "paint_color": "#FF313244",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
+                            },
+                            {
+                              "internal_type": "ShapeModule",
+                              "internal_title": "TrackFill",
+                              "shape_type": "RECT",
+                              "shape_width": 180.0,
+                              "shape_height": 8.0,
+                              "shape_corners": 4.0,
+                              "position_anchor": "CENTERLEFT",
+                              "paint_color": "#FF89B4FA",
+                              "internal_globals": {
+                                "paint_color": "c_cpu"
+                              },
+                              "internal_formulas": {
+                                "shape_width": "$1.8 * mu(min, 100, mu(max, 0, mu(round, wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.cpu')))))$"
+                              },
+                              "internal_toggles": {
+                                "shape_width": 10
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Val_CPU",
+                          "text_expression": "0%",
+                          "text_size": 11.0,
+                          "paint_color": "#FFCDD6F4",
+                          "internal_globals": {
+                            "paint_color": "c_text"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$mu(round, wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.cpu'))$%"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "MetricBar_RAM",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 8.0,
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Label_RAM",
+                          "text_expression": "RAM ",
+                          "text_size": 11.0,
+                          "paint_color": "#FFCDD6F4",
+                          "internal_globals": {
+                            "paint_color": "c_ram"
+                          }
+                        },
+                        {
+                          "internal_type": "OverlapLayerModule",
+                          "internal_title": "BarTrack_RAM",
+                          "viewgroup_items": [
+                            {
+                              "internal_type": "ShapeModule",
+                              "internal_title": "TrackBg",
+                              "shape_type": "RECT",
+                              "shape_width": 180.0,
+                              "shape_height": 8.0,
+                              "shape_corners": 4.0,
+                              "paint_color": "#FF313244",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
+                            },
+                            {
+                              "internal_type": "ShapeModule",
+                              "internal_title": "TrackFill",
+                              "shape_type": "RECT",
+                              "shape_width": 180.0,
+                              "shape_height": 8.0,
+                              "shape_corners": 4.0,
+                              "position_anchor": "CENTERLEFT",
+                              "paint_color": "#FF89B4FA",
+                              "internal_globals": {
+                                "paint_color": "c_ram"
+                              },
+                              "internal_formulas": {
+                                "shape_width": "$1.8 * mu(min, 100, mu(max, 0, mu(round, wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.mp')))))$"
+                              },
+                              "internal_toggles": {
+                                "shape_width": 10
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Val_RAM",
+                          "text_expression": "0%",
+                          "text_size": 11.0,
+                          "paint_color": "#FFCDD6F4",
+                          "internal_globals": {
+                            "paint_color": "c_text"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$mu(round, wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.mp'))$%"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "MetricBar_DISK",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 8.0,
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Label_DISK",
+                          "text_expression": "DISK",
+                          "text_size": 11.0,
+                          "paint_color": "#FFCDD6F4",
+                          "internal_globals": {
+                            "paint_color": "c_disk"
+                          }
+                        },
+                        {
+                          "internal_type": "OverlapLayerModule",
+                          "internal_title": "BarTrack_DISK",
+                          "viewgroup_items": [
+                            {
+                              "internal_type": "ShapeModule",
+                              "internal_title": "TrackBg",
+                              "shape_type": "RECT",
+                              "shape_width": 180.0,
+                              "shape_height": 8.0,
+                              "shape_corners": 4.0,
+                              "paint_color": "#FF313244",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
+                            },
+                            {
+                              "internal_type": "ShapeModule",
+                              "internal_title": "TrackFill",
+                              "shape_type": "RECT",
+                              "shape_width": 180.0,
+                              "shape_height": 8.0,
+                              "shape_corners": 4.0,
+                              "position_anchor": "CENTERLEFT",
+                              "paint_color": "#FF89B4FA",
+                              "internal_globals": {
+                                "paint_color": "c_disk"
+                              },
+                              "internal_formulas": {
+                                "shape_width": "$1.8 * mu(min, 100, mu(max, 0, mu(round, wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.dp')))))$"
+                              },
+                              "internal_toggles": {
+                                "shape_width": 10
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Val_DISK",
+                          "text_expression": "0%",
+                          "text_size": 11.0,
+                          "paint_color": "#FFCDD6F4",
+                          "internal_globals": {
+                            "paint_color": "c_text"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$mu(round, wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.dp'))$%"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "MetricsRow",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 10.0,
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "NetIO",
+                          "text_expression": "NET ▲ 0KB/s ▼ 0KB/s",
+                          "text_size": 9.0,
+                          "paint_color": "#FF74C7EC",
+                          "internal_globals": {
+                            "paint_color": "c_net"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "NET ▲$if(wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.bb[0]') < 1048576, mu(round, wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.bb[0]') / 1024) + 'K/s', mu(round, wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.bb[0]') / 1048576, 1) + 'M/s')$ ▼$if(wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.bb[1]') < 1048576, mu(round, wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.bb[1]') / 1024) + 'K/s', mu(round, wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.bb[1]') / 1048576, 1) + 'M/s')$"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "LoadAvg",
+                          "text_expression": "LOAD 0.00",
+                          "text_size": 9.0,
+                          "paint_color": "#FFBAC2DE",
+                          "internal_globals": {
+                            "paint_color": "c_subtext"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "LOAD $if(wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.la[0]') != '', wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.la[0]'), '—')$"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Temp",
+                          "text_expression": "—°C",
+                          "text_size": 9.0,
+                          "paint_color": "#FFBAC2DE",
+                          "internal_globals": {
+                            "paint_color": "c_subtext"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$if(wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.dt') != '', mu(round, wg(if(gv(sys_json)!=''&gv(sys_json)!='{}', gv(sys_json), gv(bz_url)+'/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name'), json, '.items[' + gv(sys_idx) + '].info.dt'), 1) + '°C', '—')$"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "internal_type": "StackLayerModule",
+                  "internal_title": "ViewContainers",
+                  "config_stacking": "VERTICAL",
+                  "config_margin": 4.0,
+                  "internal_formulas": {
+                    "config_visible": "if(gv(view) = 'containers', ALWAYS, REMOVE)"
+                  },
+                  "internal_toggles": {
+                    "config_visible": 0
+                  },
+                  "viewgroup_items": [
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "ContainerRow_0",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 6.0,
+                      "internal_formulas": {
+                        "config_visible": "if((gv(container_page) * 5 + 0) < gv(container_count), ALWAYS, REMOVE)"
+                      },
+                      "internal_toggles": {
+                        "config_visible": 0
+                      },
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Dot",
+                          "shape_type": "CIRCLE",
+                          "shape_width": 8.0,
+                          "shape_height": 8.0,
+                          "paint_color": "#FFA6E3A1",
+                          "internal_globals": {
+                            "paint_color": "c_ok"
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Name",
+                          "text_expression": "container-0",
+                          "text_size": 11.0,
+                          "paint_color": "#FFCDD6F4",
+                          "internal_globals": {
+                            "paint_color": "c_text"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$tc(ell, wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 0) + '].n'), 18)$"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "CPU",
+                          "text_expression": "CPU 0%",
+                          "text_size": 10.0,
+                          "paint_color": "#FF89B4FA",
+                          "internal_globals": {
+                            "paint_color": "c_cpu"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "CPU $wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 0) + '].c')$%"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "RAM",
+                          "text_expression": "0 MB",
+                          "text_size": 10.0,
+                          "paint_color": "#FFCBA6F7",
+                          "internal_globals": {
+                            "paint_color": "c_ram"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$mu(round, wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 0) + '].m') / 1048576)$ MB"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "ContainerRow_1",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 6.0,
+                      "internal_formulas": {
+                        "config_visible": "if((gv(container_page) * 5 + 1) < gv(container_count), ALWAYS, REMOVE)"
+                      },
+                      "internal_toggles": {
+                        "config_visible": 0
+                      },
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Dot",
+                          "shape_type": "CIRCLE",
+                          "shape_width": 8.0,
+                          "shape_height": 8.0,
+                          "paint_color": "#FFA6E3A1",
+                          "internal_globals": {
+                            "paint_color": "c_ok"
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Name",
+                          "text_expression": "container-1",
+                          "text_size": 11.0,
+                          "paint_color": "#FFCDD6F4",
+                          "internal_globals": {
+                            "paint_color": "c_text"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$tc(ell, wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 1) + '].n'), 18)$"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "CPU",
+                          "text_expression": "CPU 0%",
+                          "text_size": 10.0,
+                          "paint_color": "#FF89B4FA",
+                          "internal_globals": {
+                            "paint_color": "c_cpu"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "CPU $wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 1) + '].c')$%"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "RAM",
+                          "text_expression": "0 MB",
+                          "text_size": 10.0,
+                          "paint_color": "#FFCBA6F7",
+                          "internal_globals": {
+                            "paint_color": "c_ram"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$mu(round, wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 1) + '].m') / 1048576)$ MB"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "ContainerRow_2",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 6.0,
+                      "internal_formulas": {
+                        "config_visible": "if((gv(container_page) * 5 + 2) < gv(container_count), ALWAYS, REMOVE)"
+                      },
+                      "internal_toggles": {
+                        "config_visible": 0
+                      },
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Dot",
+                          "shape_type": "CIRCLE",
+                          "shape_width": 8.0,
+                          "shape_height": 8.0,
+                          "paint_color": "#FFA6E3A1",
+                          "internal_globals": {
+                            "paint_color": "c_ok"
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Name",
+                          "text_expression": "container-2",
+                          "text_size": 11.0,
+                          "paint_color": "#FFCDD6F4",
+                          "internal_globals": {
+                            "paint_color": "c_text"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$tc(ell, wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 2) + '].n'), 18)$"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "CPU",
+                          "text_expression": "CPU 0%",
+                          "text_size": 10.0,
+                          "paint_color": "#FF89B4FA",
+                          "internal_globals": {
+                            "paint_color": "c_cpu"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "CPU $wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 2) + '].c')$%"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "RAM",
+                          "text_expression": "0 MB",
+                          "text_size": 10.0,
+                          "paint_color": "#FFCBA6F7",
+                          "internal_globals": {
+                            "paint_color": "c_ram"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$mu(round, wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 2) + '].m') / 1048576)$ MB"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "ContainerRow_3",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 6.0,
+                      "internal_formulas": {
+                        "config_visible": "if((gv(container_page) * 5 + 3) < gv(container_count), ALWAYS, REMOVE)"
+                      },
+                      "internal_toggles": {
+                        "config_visible": 0
+                      },
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Dot",
+                          "shape_type": "CIRCLE",
+                          "shape_width": 8.0,
+                          "shape_height": 8.0,
+                          "paint_color": "#FFA6E3A1",
+                          "internal_globals": {
+                            "paint_color": "c_ok"
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Name",
+                          "text_expression": "container-3",
+                          "text_size": 11.0,
+                          "paint_color": "#FFCDD6F4",
+                          "internal_globals": {
+                            "paint_color": "c_text"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$tc(ell, wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 3) + '].n'), 18)$"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "CPU",
+                          "text_expression": "CPU 0%",
+                          "text_size": 10.0,
+                          "paint_color": "#FF89B4FA",
+                          "internal_globals": {
+                            "paint_color": "c_cpu"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "CPU $wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 3) + '].c')$%"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "RAM",
+                          "text_expression": "0 MB",
+                          "text_size": 10.0,
+                          "paint_color": "#FFCBA6F7",
+                          "internal_globals": {
+                            "paint_color": "c_ram"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$mu(round, wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 3) + '].m') / 1048576)$ MB"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "ContainerRow_4",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 6.0,
+                      "internal_formulas": {
+                        "config_visible": "if((gv(container_page) * 5 + 4) < gv(container_count), ALWAYS, REMOVE)"
+                      },
+                      "internal_toggles": {
+                        "config_visible": 0
+                      },
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Dot",
+                          "shape_type": "CIRCLE",
+                          "shape_width": 8.0,
+                          "shape_height": 8.0,
+                          "paint_color": "#FFA6E3A1",
+                          "internal_globals": {
+                            "paint_color": "c_ok"
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Name",
+                          "text_expression": "container-4",
+                          "text_size": 11.0,
+                          "paint_color": "#FFCDD6F4",
+                          "internal_globals": {
+                            "paint_color": "c_text"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$tc(ell, wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 4) + '].n'), 18)$"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "CPU",
+                          "text_expression": "CPU 0%",
+                          "text_size": 10.0,
+                          "paint_color": "#FF89B4FA",
+                          "internal_globals": {
+                            "paint_color": "c_cpu"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "CPU $wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 4) + '].c')$%"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "RAM",
+                          "text_expression": "0 MB",
+                          "text_size": 10.0,
+                          "paint_color": "#FFCBA6F7",
+                          "internal_globals": {
+                            "paint_color": "c_ram"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$mu(round, wg(if(gv(cnt_json)!=''&gv(cnt_json)!='{}', gv(cnt_json), gv(bz_url)+'/api/collections/container_stats/records?perPage=1&sort=-created'), json, '.stats[' + (gv(container_page) * 5 + 4) + '].m') / 1048576)$ MB"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "PaginationRow",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 16.0,
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "OverlapLayerModule",
+                          "internal_title": "BtnPrev",
+                          "internal_events": [
+                            {
+                              "type": "SINGLE_TAP",
+                              "action": "TOGGLE_GLOBAL",
+                              "global_switch": "container_page",
+                              "global_formula": "$mu(max, 0, gv(container_page) - 1)$"
+                            }
+                          ],
+                          "viewgroup_items": [
+                            {
+                              "internal_type": "ShapeModule",
+                              "shape_type": "RECT",
+                              "shape_width": 48.0,
+                              "shape_height": 48.0,
+                              "paint_color": "#00000000"
+                            },
+                            {
+                              "internal_type": "TextModule",
+                              "text_expression": "◀ Prev",
+                              "text_size": 10.0,
+                              "paint_color": "#FFBAC2DE",
+                              "internal_globals": {
+                                "paint_color": "c_subtext"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "PageText",
+                          "text_expression": "Page 1",
+                          "text_size": 10.0,
+                          "paint_color": "#FF6C7086",
+                          "internal_globals": {
+                            "paint_color": "c_muted"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$gv(container_page) + 1$"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "OverlapLayerModule",
+                          "internal_title": "BtnNext",
+                          "internal_events": [
+                            {
+                              "type": "SINGLE_TAP",
+                              "action": "TOGGLE_GLOBAL",
+                              "global_switch": "container_page",
+                              "global_formula": "$gv(container_page) + 1$"
+                            }
+                          ],
+                          "viewgroup_items": [
+                            {
+                              "internal_type": "ShapeModule",
+                              "shape_type": "RECT",
+                              "shape_width": 48.0,
+                              "shape_height": 48.0,
+                              "paint_color": "#00000000"
+                            },
+                            {
+                              "internal_type": "TextModule",
+                              "text_expression": "Next ▶",
+                              "text_size": 10.0,
+                              "paint_color": "#FFBAC2DE",
+                              "internal_globals": {
+                                "paint_color": "c_subtext"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "internal_type": "StackLayerModule",
+                  "internal_title": "ViewChart",
+                  "config_stacking": "VERTICAL",
+                  "config_margin": 6.0,
+                  "internal_formulas": {
+                    "config_visible": "if(gv(view) = 'chart', ALWAYS, REMOVE)"
+                  },
+                  "internal_toggles": {
+                    "config_visible": 0
+                  },
+                  "viewgroup_items": [
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "SparklineBars",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 3.0,
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_00",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 0 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(0 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_01",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 1 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(1 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_02",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 2 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(2 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_03",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 3 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(3 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_04",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 4 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(4 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_05",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 5 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(5 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_06",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 6 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(6 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_07",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 7 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(7 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_08",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 8 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(8 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_09",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 9 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(9 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_10",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 10 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(10 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_11",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 11 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(11 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_12",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 12 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(12 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_13",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 13 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(13 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_14",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 14 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(14 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_15",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 15 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(15 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_16",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 16 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(16 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_17",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 17 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(17 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_18",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 18 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(18 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_19",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 19 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(19 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_20",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 20 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(20 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_21",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 21 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(21 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_22",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 22 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(22 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        },
+                        {
+                          "internal_type": "ShapeModule",
+                          "internal_title": "Bar_23",
+                          "shape_type": "RECT",
+                          "shape_width": 9.0,
+                          "shape_height": 30.0,
+                          "shape_corners": 2.0,
+                          "position_anchor": "BOTTOM",
+                          "paint_color": "#FF89B4FA",
+                          "internal_formulas": {
+                            "shape_height": "$mu(max, 3, mu(min, 60, mu(round, wg(if(gv(hist_json)!=''&gv(hist_json)!='{}', gv(hist_json), gv(bz_url)+'/api/collections/system_stats/records?page=1&perPage=500&skipTotal=1&sort=created'), json, '.items[' + 23 + '].stats.' + gv(metric)) * 0.6)))$",
+                            "paint_color": "$if(23 = 23, gv(c_text), if(gv(metric) = 'cpu', gv(c_cpu), if(gv(metric) = 'mem', gv(c_ram), if(gv(metric) = 'disk', gv(c_disk), gv(c_net)))))$"
+                          },
+                          "internal_toggles": {
+                            "shape_height": 10,
+                            "paint_color": 10
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "MetricChips",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 10.0,
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "OverlapLayerModule",
+                          "internal_title": "ChipCPU",
+                          "internal_events": [
+                            {
+                              "type": "SINGLE_TAP",
+                              "action": "TOGGLE_GLOBAL",
+                              "global_switch": "metric",
+                              "global_formula": "cpu"
+                            }
+                          ],
+                          "viewgroup_items": [
+                            {
+                              "internal_type": "ShapeModule",
+                              "shape_type": "RECT",
+                              "shape_width": 48.0,
+                              "shape_height": 48.0,
+                              "paint_color": "#00000000"
+                            },
+                            {
+                              "internal_type": "TextModule",
+                              "text_expression": "[CPU]",
+                              "text_size": 10.0,
+                              "paint_color": "#FF89B4FA",
+                              "internal_formulas": {
+                                "paint_color": "$if(gv(metric)='cpu', gv(c_cpu), gv(c_muted))$"
+                              },
+                              "internal_toggles": {
+                                "paint_color": 10
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "internal_type": "OverlapLayerModule",
+                          "internal_title": "ChipRAM",
+                          "internal_events": [
+                            {
+                              "type": "SINGLE_TAP",
+                              "action": "TOGGLE_GLOBAL",
+                              "global_switch": "metric",
+                              "global_formula": "mem"
+                            }
+                          ],
+                          "viewgroup_items": [
+                            {
+                              "internal_type": "ShapeModule",
+                              "shape_type": "RECT",
+                              "shape_width": 48.0,
+                              "shape_height": 48.0,
+                              "paint_color": "#00000000"
+                            },
+                            {
+                              "internal_type": "TextModule",
+                              "text_expression": "[RAM]",
+                              "text_size": 10.0,
+                              "paint_color": "#FFCBA6F7",
+                              "internal_formulas": {
+                                "paint_color": "$if(gv(metric)='mem', gv(c_ram), gv(c_muted))$"
+                              },
+                              "internal_toggles": {
+                                "paint_color": 10
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "internal_type": "OverlapLayerModule",
+                          "internal_title": "ChipDISK",
+                          "internal_events": [
+                            {
+                              "type": "SINGLE_TAP",
+                              "action": "TOGGLE_GLOBAL",
+                              "global_switch": "metric",
+                              "global_formula": "disk"
+                            }
+                          ],
+                          "viewgroup_items": [
+                            {
+                              "internal_type": "ShapeModule",
+                              "shape_type": "RECT",
+                              "shape_width": 48.0,
+                              "shape_height": 48.0,
+                              "paint_color": "#00000000"
+                            },
+                            {
+                              "internal_type": "TextModule",
+                              "text_expression": "[DISK]",
+                              "text_size": 10.0,
+                              "paint_color": "#FF94E2D5",
+                              "internal_formulas": {
+                                "paint_color": "$if(gv(metric)='disk', gv(c_disk), gv(c_muted))$"
+                              },
+                              "internal_toggles": {
+                                "paint_color": 10
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "internal_type": "OverlapLayerModule",
+                          "internal_title": "ChipNET",
+                          "internal_events": [
+                            {
+                              "type": "SINGLE_TAP",
+                              "action": "TOGGLE_GLOBAL",
+                              "global_switch": "metric",
+                              "global_formula": "net"
+                            }
+                          ],
+                          "viewgroup_items": [
+                            {
+                              "internal_type": "ShapeModule",
+                              "shape_type": "RECT",
+                              "shape_width": 48.0,
+                              "shape_height": 48.0,
+                              "paint_color": "#00000000"
+                            },
+                            {
+                              "internal_type": "TextModule",
+                              "text_expression": "[NET]",
+                              "text_size": 10.0,
+                              "paint_color": "#FF74C7EC",
+                              "internal_formulas": {
+                                "paint_color": "$if(gv(metric)='net', gv(c_net), gv(c_muted))$"
+                              },
+                              "internal_toggles": {
+                                "paint_color": 10
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "internal_type": "StackLayerModule",
+                      "internal_title": "ChartStats",
+                      "config_stacking": "HORIZONTAL_CENTER",
+                      "config_margin": 14.0,
+                      "viewgroup_items": [
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Range",
+                          "text_expression": "24h",
+                          "text_size": 9.0,
+                          "paint_color": "#FFBAC2DE",
+                          "internal_globals": {
+                            "paint_color": "c_subtext"
+                          },
+                          "internal_formulas": {
+                            "text_expression": "$gv(range)$"
+                          },
+                          "internal_toggles": {
+                            "text_expression": 10
+                          }
+                        },
+                        {
+                          "internal_type": "TextModule",
+                          "internal_title": "Stats",
+                          "text_expression": "avg 20% · max 42%",
+                          "text_size": 9.0,
+                          "paint_color": "#FF6C7086",
+                          "internal_globals": {
+                            "paint_color": "c_muted"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "internal_type": "StackLayerModule",
+              "internal_title": "BottomNav",
+              "config_stacking": "HORIZONTAL_CENTER",
+              "config_margin": 8.0,
+              "viewgroup_items": [
+                {
+                  "internal_type": "OverlapLayerModule",
+                  "internal_title": "TabOverview",
+                  "internal_events": [
+                    {
+                      "type": "SINGLE_TAP",
+                      "action": "TOGGLE_GLOBAL",
+                      "global_switch": "view",
+                      "global_formula": "overview"
+                    }
+                  ],
+                  "viewgroup_items": [
+                    {
+                      "internal_type": "ShapeModule",
+                      "shape_type": "RECT",
+                      "shape_width": 90.0,
+                      "shape_height": 48.0,
+                      "paint_color": "#00000000"
+                    },
+                    {
+                      "internal_type": "TextModule",
+                      "internal_title": "TextOverview",
+                      "text_expression": "[ overview ]",
+                      "text_size": 11.0,
+                      "paint_color": "#FFCDD6F4",
+                      "internal_formulas": {
+                        "paint_color": "$if(gv(view) = 'overview', gv(c_text), gv(c_muted))$"
+                      },
+                      "internal_toggles": {
+                        "paint_color": 10
+                      }
+                    }
+                  ]
+                },
+                {
+                  "internal_type": "OverlapLayerModule",
+                  "internal_title": "TabContainers",
+                  "internal_events": [
+                    {
+                      "type": "SINGLE_TAP",
+                      "action": "TOGGLE_GLOBAL",
+                      "global_switch": "view",
+                      "global_formula": "containers"
+                    }
+                  ],
+                  "viewgroup_items": [
+                    {
+                      "internal_type": "ShapeModule",
+                      "shape_type": "RECT",
+                      "shape_width": 90.0,
+                      "shape_height": 48.0,
+                      "paint_color": "#00000000"
+                    },
+                    {
+                      "internal_type": "TextModule",
+                      "internal_title": "TextContainers",
+                      "text_expression": "[ containers ]",
+                      "text_size": 11.0,
+                      "paint_color": "#FF6C7086",
+                      "internal_formulas": {
+                        "paint_color": "$if(gv(view) = 'containers', gv(c_text), gv(c_muted))$"
+                      },
+                      "internal_toggles": {
+                        "paint_color": 10
+                      }
+                    }
+                  ]
+                },
+                {
+                  "internal_type": "OverlapLayerModule",
+                  "internal_title": "TabChart",
+                  "internal_events": [
+                    {
+                      "type": "SINGLE_TAP",
+                      "action": "TOGGLE_GLOBAL",
+                      "global_switch": "view",
+                      "global_formula": "chart"
+                    }
+                  ],
+                  "viewgroup_items": [
+                    {
+                      "internal_type": "ShapeModule",
+                      "shape_type": "RECT",
+                      "shape_width": 90.0,
+                      "shape_height": 48.0,
+                      "paint_color": "#00000000"
+                    },
+                    {
+                      "internal_type": "TextModule",
+                      "internal_title": "TextChart",
+                      "text_expression": "[ chart ]",
+                      "text_size": 11.0,
+                      "paint_color": "#FF6C7086",
+                      "internal_formulas": {
+                        "paint_color": "$if(gv(view) = 'chart', gv(c_text), gv(c_muted))$"
+                      },
+                      "internal_toggles": {
+                        "paint_color": 10
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
