@@ -38,6 +38,7 @@ secrets.yaml
 # 4. Logs, Runtime & Test Artifacts
 # -----------------------------------------------------------------------------
 *.log
+dist/
 tmp/
 temp/
 __pycache__/
