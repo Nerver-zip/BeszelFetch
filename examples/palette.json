@@ -1,0 +1,38 @@
+{
+  "name": "Catppuccin Mocha - Server Monitor",
+  "tokens": {
+    "crust": "#11111B",
+    "mantle": "#181825",
+    "base": "#1E1E2E",
+    "surface0": "#313244",
+    "surface1": "#45475A",
+    "overlay0": "#6C7086",
+    "subtext1": "#BAC2DE",
+    "text": "#CDD6F4",
+    "blue": "#89B4FA",
+    "sapphire": "#74C7EC",
+    "teal": "#94E2D5",
+    "green": "#A6E3A1",
+    "yellow": "#F9E2AF",
+    "peach": "#FAB387",
+    "red": "#F38BA8",
+    "mauve": "#CBA6F7",
+    "lavender": "#B4BEFE"
+  },
+  "semantic": {
+    "bg": "base",
+    "bg_alt": "mantle",
+    "border": "surface1",
+    "primary_text": "text",
+    "secondary_text": "subtext1",
+    "muted": "overlay0",
+    "cpu": "blue",
+    "memory": "mauve",
+    "disk": "teal",
+    "network": "sapphire",
+    "ok": "green",
+    "stale": "yellow",
+    "warning": "peach",
+    "error": "red"
+  }
+}

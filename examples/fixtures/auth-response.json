@@ -1,0 +1,8 @@
+{
+  "token": "REDACTED_EXAMPLE_TOKEN",
+  "record": {
+    "id": "usr_example",
+    "email": "widget@example.invalid",
+    "role": "readonly"
+  }
+}
