@@ -298,7 +298,7 @@ class RuntimeTests(unittest.TestCase):
     def test_overview_percent_only_inside_rings(self):
         k = self.context()
         self.assertEqual(self.nodes["Title_CPU"]["text_expression"], "󰍛 CPU")
-        self.assertEqual(k.eval(self.nodes["Sub_CPU"]["internal_formulas"]["text_expression"]), "🌡 43.7°C")
+        self.assertEqual(k.eval(self.nodes["Sub_CPU"]["internal_formulas"]["text_expression"]), " 43.7°C")
         self.assertEqual(k.eval(self.nodes["Sub2_CPU"]["internal_formulas"]["text_expression"]), "Load Avg: 0.57")
         for name in ("Sub_CPU", "Sub2_CPU", "Sub_Memory", "Sub_Disk"):
             self.assertNotIn("%", k.eval(self.nodes[name]["internal_formulas"]["text_expression"]))

@@ -60,7 +60,7 @@ def build_info(root):
     font = nodes["HostnameText"]["text_family"]
     # Overview percentages occur only in the rings.
     nodes["Title_CPU"]["text_expression"] = "󰍛 CPU"
-    formula(nodes["Sub_CPU"], "text_expression", '$"🌡 " + gv(temp_fmt)$')
+    formula(nodes["Sub_CPU"], "text_expression", '$" " + gv(temp_fmt)$')
     formula(nodes["Sub2_CPU"], "text_expression", '$"Load Avg: " + if(gv(load_best) != "", gv(load_best), "N/A")$')
     for title, global_ in (("Memory", "ram_fmt"), ("Disk", "disk_fmt")):
         formula(nodes[f"Sub_{title}"], "text_expression", f'$gv({global_})$')
