@@ -1,0 +1,54 @@
+name: "🐛 Bug Report"
+description: "Report an issue or unexpected behavior in the KWGT widget or scripts."
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an issue! Please check existing issues first to avoid duplicates.
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce the issue?
+      placeholder: |
+        1. Import widget clip into KWGT
+        2. Switch to Docker tab
+        3. Notice pagination button error...
+    validations:
+      required: true
+  - type: input
+    id: kwgt_version
+    attributes:
+      label: KWGT Version
+      description: Version of KWGT installed on your Android device (e.g., v3.75b410613).
+    validations:
+      required: true
+  - type: input
+    id: beszel_version
+    attributes:
+      label: Beszel Hub Version
+      description: Version of Beszel Hub running on your server (e.g., v0.10.2).
+    validations:
+      required: true
+  - type: input
+    id: android_version
+    attributes:
+      label: Android / OS Version
+      description: Device model and Android version (e.g., Pixel 7, Android 14 / LineageOS 21).
+    validations:
+      required: false
+  - type: textarea
+    id: logs_or_screenshots
+    attributes:
+      label: Relevant Logs or Screenshots
+      description: Attach screenshots or logs. (Make sure NO private tokens or passwords are visible!).
+    validations:
+      required: false

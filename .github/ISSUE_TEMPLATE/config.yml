@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Beszel Upstream Documentation
+    url: https://github.com/henrygd/beszel
+    about: Official Beszel documentation, installation guides, and server agent setup.

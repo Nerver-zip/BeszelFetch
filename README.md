@@ -12,6 +12,8 @@
   <img src="https://img.shields.io/badge/Style-Catppuccin%20Mocha-cba6f7?style=flat-square" alt="Catppuccin Mocha"/>
   <img src="https://img.shields.io/badge/Client-KWGT%20%2F%20Kustom-89b4fa?style=flat-square" alt="KWGT"/>
   <img src="https://img.shields.io/badge/Backend-Beszel%20Hub-a6e3a1?style=flat-square" alt="Beszel"/>
+  <img src="https://img.shields.io/badge/Security-Gitleaks-brightgreen?style=flat-square" alt="Gitleaks"/>
+  <img src="https://img.shields.io/badge/CI-GitHub%20Actions-blue?style=flat-square" alt="CI"/>
   <img src="https://img.shields.io/badge/License-MIT-fab387?style=flat-square" alt="MIT License"/>
 </p>
 
@@ -103,7 +105,7 @@ Enter username/email: user@example.com
 Enter password:
 ✓ Authenticated successfully as user!
 ✓ Discovered 2 systems:
-  [1] m910q (up)
+  [1] homelab (up)
   [2] storage-nas (up)
 Select server to monitor by default [1]: 1
 
@@ -181,7 +183,7 @@ If you need to customize connections, colors, or refresh frequencies manually, g
 | Variable | Type | Default | Description |
 |---|---|---|---|
 | `bz_url` | Text | `http://192.168.1.100:8090` | Beszel Hub base URL (no trailing slash). |
-| `bz_host` | Text | `m910q` | Default hostname to display on load. |
+| `bz_host` | Text | `homelab` | Default hostname to display on load. |
 | `bz_token` | Text | *(empty)* | PocketBase JWT token (leave empty if API rules are unlocked). |
 | `accent` | Color | `#cba6f7` | Catppuccin Mauve accent color for active tabs and highlights. |
 | `bg` | Color | `#1e1e2e` | Catppuccin Base background color. |

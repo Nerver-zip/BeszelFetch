@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Generate Widget Bundles
+        run: |
+          python scripts/generate_clip.py
+
+      - name: Run Test Suite
+        run: |
+          python -m unittest discover -s scripts -p "test_*.py" -v
+
+  preset-integrity:
+    name: Preset & Clip Integrity Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate Presets and Clips
+        run: |
+          python scripts/generate_preset.py
+
+      - name: Verify Clean Working Tree
+        run: |
+          if ! git diff --exit-code; then
+            echo "Error: Committed presets or clips do not match generator output."
+            echo "Please run python scripts/generate_preset.py and commit the changes."
+            exit 1
+          fi
+
+      - name: Validate Clip and Preset JSON Structure
+        run: |
+          python -c "
+          with open('widget/beszel_monitor.clip', 'r', encoding='utf-8') as f:
+              content = f.read()
+          tag = '##KUSTOMCLIP##'
+          assert content.startswith('##KUSTOMCLIP##\n'), 'Missing opening ##KUSTOMCLIP## tag'
+          assert content.strip().endswith('##KUSTOMCLIP##'), 'Missing closing ##KUSTOMCLIP## tag'
+          raw = content.strip()[len(tag):-len(tag)].strip()
+          import json
+          payload = json.loads(raw)
+          assert payload.get('clip_version') == 1, 'Invalid clip version'
+          assert 'clip_modules' in payload, 'Missing clip_modules'
+          with open('widget/preset.json', 'r', encoding='utf-8') as f:
+              preset = json.load(f)
+          assert 'widget_spec' in preset, 'Missing widget_spec'
+          assert 'root' in preset, 'Missing root'
+          print('✓ Clip and preset verification passed')
+          "
+
+  lint:
+    name: Syntax & Code Quality Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Syntax Compilation Check
+        run: |
+          python -m py_compile scripts/*.py setup.py
