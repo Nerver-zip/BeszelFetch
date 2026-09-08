@@ -909,7 +909,14 @@ class TestCompiledVisualRegression(unittest.TestCase):
     def setUpClass(cls):
         import zipfile
         from widget_layout import walk
-        with zipfile.ZipFile(REPO_ROOT / "widget/beszel_monitor.kwgt") as archive:
+        kwgt_path = REPO_ROOT / "widget/beszel_monitor.kwgt"
+        if not kwgt_path.exists():
+            if __package__:
+                from .generate_clip import build_kustom_clip
+            else:
+                from generate_clip import build_kustom_clip
+            build_kustom_clip()
+        with zipfile.ZipFile(kwgt_path) as archive:
             cls.root = json.loads(archive.read("preset.json"))["preset_root"]
         cls.nodes = {node.get("internal_title"): node for node in walk(cls.root)}
 

@@ -1,0 +1,11 @@
+title = "Gitleaks Configuration for Server Monitor"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowlist for sanitized fixtures and synthetic unit tests"
+paths = [
+    "^examples/fixtures/.*$",
+    "^scripts/test_.*$"
+]

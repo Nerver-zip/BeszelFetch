@@ -1,0 +1,28 @@
+name: Gitleaks Security Scan
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 4 * * 0" # Weekly on Sunday at 04:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gitleaks:
+    name: Scan Secrets with Gitleaks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout full commit history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
