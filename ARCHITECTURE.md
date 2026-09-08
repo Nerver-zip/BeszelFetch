@@ -16,7 +16,7 @@ KWGT
  └─ UI
       ├─ Overview
       ├─ Containers
-      └─ Chart
+      └─ Info (manual Fastfetch-style snapshot)
 
           │ HTTPS REST
           ▼
@@ -40,9 +40,7 @@ Global variables:
 - `bz_token`: JWT token
 - `sys_id`: Active PocketBase system record ID
 - `sys_idx`: Active visual index in system list
-- `view`: Current tab (`overview` | `containers` | `chart`)
-- `metric`: Active chart metric (`cpu` | `mem` | `disk` | `net`)
-- `range`: Active time range (`1h` | `12h` | `24h` | `7d` | `30d`)
+- `view`: Current tab (`overview` | `containers` | `info`)
 - `container_page`: Active container pagination page (`0..N`)
 
 Sensitive credentials should use Secret Globals whenever supported by the Kustom version.
@@ -83,7 +81,7 @@ Benefits of separation:
 - Reduced payload size;
 - Simplified debugging;
 - Localized schema updates;
-- The chart view does not need to poll when viewing overview.
+- Info uses separate button-triggered snapshots; no chart rendering.
 
 ### 2.4 Cache Strategy
 
@@ -99,7 +97,8 @@ WebGet -> Validate HTTP -> Validate JSON -> Save Cache -> Update last_ok
 Cache Globals:
 - `systems_json` (or `sys_json`)
 - `containers_json` (or `cnt_json`)
-- `history_json` (or `hist_json`)
+- `day_json`: 24h network aggregates
+- `latest`: newest scalar system stats
 
 On failure:
 - Never overwrite or wipe the last valid JSON;
@@ -142,9 +141,7 @@ In KWGT, the adapter is implemented via:
 ### 2.6 UI State
 
 ```text
-view = overview | containers | chart
-metric = cpu | mem | disk | net
-range = 1h | 12h | 24h | 7d | 30d
+view = overview | containers | info
 sys_id = PocketBase system record id
 sys_idx = Visual position in systems list
 container_page = 0..N
@@ -237,7 +234,7 @@ Beszel provides tiered aggregation types suitable for widget sparklines:
 | `120m` | 7d |
 | `480m` | 30d |
 
-Do not attempt to render hundreds of points on mobile. Fetch the latest points (up to 500) and downsample to 24–30 points for the sparkline bars.
+The current widget only uses `20m` for daily traffic integration and `1m` for latest scalar stats. The other resolutions are API reference, not active UI controls. No chart points or SVG paths are rendered.
 
 ## 6. Refresh Policy
 
@@ -246,7 +243,9 @@ KWGT is designed for battery-efficient widget rendering, not sub-second telemetr
 Recommended schedule:
 - Overview: 5 minutes;
 - Containers: 5 minutes or upon opening the tab;
-- History: Upon opening chart tab + every 15 minutes while active;
+- Daily network history: Every 15 minutes;
+- Overview latest scalars: Every 5 minutes with systems;
+- Info metadata/runtime/host snapshots: buttons only, no cron or initial trigger;
 - Manual refresh: Available at all times via header icon.
 
 ## 7. Network Connectivity
@@ -273,7 +272,7 @@ Do not spin up additional proxies or custom backends solely for the widget.
 | Empty / Malformed JSON | Do not overwrite existing cache |
 | Expired / Invalid Token | Trigger `auth_beszel` flow |
 | Active System Removed | Fallback to first available system |
-| Chart Data Empty | Display graceful empty state |
+| Daily History Empty | Display formatted zero totals |
 | Container Count > 5 | Paginate with page indicator |
 
 ## 9. Security

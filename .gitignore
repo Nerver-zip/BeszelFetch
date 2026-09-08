@@ -10,7 +10,10 @@ notes/
 scratch/
 TODO.md
 IMPLEMENTATION_PLAN.md
+PLANO_*.md
 spotify/
+chat_*.json
+*.png
 
 # -----------------------------------------------------------------------------
 # 2. Security, Credentials & Secrets (CRITICAL)

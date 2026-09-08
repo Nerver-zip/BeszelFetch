@@ -108,10 +108,15 @@ The widget features 3 switchable views and interactive touch targets:
 - **Switch Views**: Tap the bottom navigation tabs:
   - `[ overview ]`: Gauges for CPU %, RAM %, Disk %, Network I/O (sent/recv rate), Load Average, Temperature, and Uptime.
   - `[ containers ]`: Live container list with status dot, name, CPU %, and memory usage.
-  - `[ chart ]`: 24-point historical sparklines. Tap `[CPU]`, `[RAM]`, `[DISK]`, or `[NET]` to toggle metrics.
+  - `[ info ]`: **Fastfetch-style host snapshot**: one OS-selected ASCII logo, colored terminal labels, OS/architecture, kernel, CPU, GPU, cores, uptime, RAM and temperature. Updated only by tapping Info or its refresh button; no Info cron. Missing metadata displays `N/A` or `Not reported`.
 - **Switch Monitored Server**: Tap the **hostname** in the top header to cycle between all registered servers.
 - **Manual Refresh**: Tap the **↻** icon in the top right to force an instant telemetry sync.
 - **Container Pagination**: In the Containers view, tap **◀ Prev** and **Next ▶** to page through running containers.
+- **Overview quantities**: RAM/disk cards show used/total GiB; percentages appear only inside their rings. Network Down/Up use the latest sample, with independent approximate daily traffic totals.
+- **Local validation**: `python3 scripts/test_widget_runtime.py` evaluates the emitted formula subset and mocked Flow actions. `python3 scripts/test_widget_runtime.py --render` previews Info at 480/640 widths (`rsvg-convert` required). See [validation scope](widget/VISUAL_VALIDATION.md); native behavior remains for manual clip import, not ADB testing.
+- **24h traffic**: Every available `20m` aggregate contributes to approximate totals; there is no minimum-record gate. Empty caches display `0 KiB`. Sparse histories show observed traffic, not an extrapolated full day.
+- **Numeric rendering**: Daily totals are plain cached numbers calculated during refresh, not recursive render-time sums. Overview load prefers 5m, then 15m, then 1m, preserving valid zero values.
+- **ASCII attribution**: 22 compact logos adapted from Fastfetch, plus an unknown-host fallback. See [pinned source and MIT license](widget/assets/fastfetch/README.md). Exactly one text module renders the selected logo.
 - **Health Indicator**:
   - 🟢 **Green Dot**: Server is `up` and telemetry is fresh.
   - 🟡 **Yellow Dot**: Stale cache (server temporarily unreachable; displays last known metrics).
@@ -133,8 +138,8 @@ The widget features 3 switchable views and interactive touch targets:
 ## Architectural Principles
 
 1. **Direct Client-to-Hub**: Android/KWGT is the sole client; Beszel Hub/PocketBase is the sole data source. No middleman proxy or cloud bridge.
-2. **Dual-Mode Data Fetching**: Formulas support both cached globals populated by Kustom Flows AND direct native `$wg()` requests, making the widget work equally on KWGT Free and Pro.
-3. **Graceful Degradation**: Network drops never wipe valid data. Stale cache is retained and flagged with a warning indicator.
+2. **Direct data path**: KWGT uses Beszel directly. Visual components read cache globals; no auxiliary service is required.
+3. **Validation scope**: The Python resilience model passes its failure tests. This does not prove that the compiled native Flow preserves cache or reauthenticates correctly on Android; those runtime gates remain open.
 4. **Catppuccin Mocha Palette**: High-contrast dark theme optimized for OLED screens with WCAG 2.1 AA/AAA compliance.
 5. **Touch Accessibility**: All interactive touch targets (tabs, host selector, refresh button, pagination) meet or exceed the 48dp minimum standard.
 

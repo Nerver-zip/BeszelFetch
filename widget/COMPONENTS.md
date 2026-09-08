@@ -48,35 +48,24 @@ Name truncation:
 - Truncate with ellipsis;
 - Fixed right-side padding so metric values never get pushed off-screen.
 
-## ChartBar
+## FetchLogo / FetchDetails
 
-Inputs:
-- `value`: Raw metric value;
-- `normalized_height`: Scaled height (`0..100%`);
-- `is_last`: Boolean flag indicating most recent point.
+One left-aligned monospace TextModule reads the selected ASCII from a local
+catalog. Do not create one TextModule per distro with visibility formulas:
+the supplied native screenshot showed all such modules overlapping.
+The source spaces/newlines are preserved, with proportional font sizing.
 
-Bar styling:
-- Bottom-aligned inside horizontal series container;
-- Subtle corner radius (`2–4 dp`);
-- Identical width and proportional gap across all 24 datapoints.
-
-## MetricChip
-
-Inputs:
-- `metric`: Metric key (`cpu`, `mem`, `disk`, `net`);
-- `label`: Button text (`CPU`, `RAM`, `DISK`, `NET`);
-- `accent`: Theme color token;
-- `is_active`: Boolean active state.
-
-Touch action:
-- Mutates `metric` global;
-- Instantly re-renders series from current history cache;
-- Dispatches refetch only if required metrics are missing from cache.
+Eight colon-aligned rows read the manual snapshot adapter in
+`scripts/widget_fetch.py`: OS, kernel, CPU, GPU, cores, uptime, memory, temperature.
+Labels and palette chips have explicit Catppuccin colors and formula bindings.
+Missing GPU names show `Not reported`; other optional metadata uses `N/A`.
+Info and its header refresh trigger `fetch_info`; scheduled refreshes do not
+write Info snapshots. Failures retain the previous snapshot and display a status.
 
 ## BottomNavItem
 
 Inputs:
-- `view`: Target tab key (`overview`, `containers`, `chart`);
+- `view`: Target tab key (`overview`, `containers`, `info`);
 - `icon`: Tab glyph;
 - `label`: Tab title.
 

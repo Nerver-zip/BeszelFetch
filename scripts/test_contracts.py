@@ -439,7 +439,7 @@ class TestSystemsContract(unittest.TestCase):
         payload = {
             "items": [{
                 "id": "o8buiz12t6q583k",
-                "name": "m910q",
+                "name": "server-01",
                 "status": "up",
                 "host": "/beszel_socket/beszel.sock",
                 "port": "45876",
@@ -459,17 +459,17 @@ class TestSystemsContract(unittest.TestCase):
         }
         systems = DataAdapter.parse_systems(payload)
         self.assertEqual(len(systems), 1)
-        m910q = systems[0]
-        self.assertEqual(m910q["id"], "o8buiz12t6q583k")
-        self.assertEqual(m910q["name"], "m910q")
-        self.assertEqual(m910q["status"], "up")
-        self.assertEqual(m910q["cpu_pct"], 5.22)
-        self.assertEqual(m910q["mem_pct"], 18.58)
-        self.assertEqual(m910q["disk_pct"], 5.77)
-        self.assertEqual(m910q["uptime_s"], 863644)
-        self.assertEqual(m910q["temp_c"], 44.0)
-        self.assertEqual(m910q["load1"], 0.43)
-        self.assertEqual(m910q["net_sent_bps"], 7464)
+        sys_rec = systems[0]
+        self.assertEqual(sys_rec["id"], "o8buiz12t6q583k")
+        self.assertEqual(sys_rec["name"], "server-01")
+        self.assertEqual(sys_rec["status"], "up")
+        self.assertEqual(sys_rec["cpu_pct"], 5.22)
+        self.assertEqual(sys_rec["mem_pct"], 18.58)
+        self.assertEqual(sys_rec["disk_pct"], 5.77)
+        self.assertEqual(sys_rec["uptime_s"], 863644)
+        self.assertEqual(sys_rec["temp_c"], 44.0)
+        self.assertEqual(sys_rec["load1"], 0.43)
+        self.assertEqual(sys_rec["net_sent_bps"], 7464)
 
 
 class TestContainersContract(unittest.TestCase):
@@ -756,7 +756,7 @@ class TestPresetDefinition(unittest.TestCase):
             self.assertIn(color, globals_dict, f"Color token global '{color}' missing")
 
         # State globals
-        for state_key in ["view", "sys_idx", "metric", "range", "container_page", "container_count", "container_max_page", "sys_json", "cnt_json", "hist_json", "last_ok", "last_err", "stale", "busy"]:
+        for state_key in ["view", "sys_idx", "container_page", "container_count", "sys_json", "cnt_json", "day_json", "latest", "last_ok", "last_err", "stale"]:
             self.assertIn(state_key, globals_dict, f"State global '{state_key}' missing")
 
     def test_root_view_layers_present(self):
@@ -778,13 +778,13 @@ class TestPresetDefinition(unittest.TestCase):
         views = {c.get("name"): c for c in view_area.get("children", [])}
         self.assertIn("ViewOverview", views)
         self.assertIn("ViewContainers", views)
-        self.assertIn("ViewChart", views)
+        self.assertIn("ViewInfo", views)
 
     def test_flows_defined(self):
         flows = self.preset.get("flows", [])
         flow_ids = [flow.get("id") for flow in flows]
 
-        for flow_id in ["auth_beszel", "fetch_systems", "fetch_containers", "fetch_history", "refresh_current_view"]:
+        for flow_id in ["fetch_systems", "fetch_containers", "fetch_history", "refresh_beszel"]:
             self.assertIn(flow_id, flow_ids, f"Flow '{flow_id}' missing from preset")
 
     def test_touch_targets_dimensions_in_preset(self):
@@ -822,22 +822,40 @@ class TestKustomClip(unittest.TestCase):
 
     def test_clip_header_and_valid_json(self):
         self.assertTrue(self.content.startswith("##KUSTOMCLIP##\n"), "File must begin with ##KUSTOMCLIP## header")
-        json_str = self.content[len("##KUSTOMCLIP##\n"):]
-        data = json.loads(json_str)
+        self.assertTrue(self.content.strip().endswith("##KUSTOMCLIP##"), "File must end with closing ##KUSTOMCLIP## tag")
+        tag = "##KUSTOMCLIP##"
+        raw = self.content.strip()
+        raw = raw[len(tag):-len(tag)].strip()
+        data = json.loads(raw)
         self.assertEqual(data.get("clip_version"), 1)
         self.assertIn("clip_modules", data)
         self.assertGreaterEqual(len(data["clip_modules"]), 1)
 
+    def test_loose_clip_valid(self):
+        loose_path = REPO_ROOT / "widget" / "beszel_monitor_loose.clip"
+        self.assertTrue(loose_path.exists())
+        with open(loose_path, "r", encoding="utf-8") as f:
+            loose_content = f.read()
+        self.assertTrue(loose_content.startswith("##KUSTOMCLIP##\n"))
+        self.assertTrue(loose_content.strip().endswith("##KUSTOMCLIP##"))
+        tag = "##KUSTOMCLIP##"
+        raw = loose_content.strip()[len(tag):-len(tag)].strip()
+        data = json.loads(raw)
+        self.assertEqual(data.get("clip_version"), 1)
+        self.assertIn("clip_modules", data)
+        self.assertEqual(len(data["clip_modules"]), 3)
+
     def test_komponent_globals(self):
-        json_str = self.content[len("##KUSTOMCLIP##\n"):]
-        data = json.loads(json_str)
+        tag = "##KUSTOMCLIP##"
+        raw = self.content.strip()[len(tag):-len(tag)].strip()
+        data = json.loads(raw)
         komp = data["clip_modules"][0]
         self.assertEqual(komp.get("internal_type"), "KomponentModule")
         self.assertEqual(komp.get("internal_title"), "Beszel Monitor")
 
         globals_list = komp.get("globals_list", {})
         # Essential config keys
-        for key in ["bz_url", "bz_token", "bz_email", "bz_pass", "sys_id", "view", "metric", "sys_idx"]:
+        for key in ["bz_url", "bz_token", "bz_email", "bz_pass", "sys_id", "view", "latest", "sys_idx"]:
             self.assertIn(key, globals_list, f"Global '{key}' missing from Komponent globals_list")
 
         # Color tokens
@@ -845,8 +863,9 @@ class TestKustomClip(unittest.TestCase):
             self.assertIn(c, globals_list, f"Color token '{c}' missing from Komponent globals_list")
 
     def test_komponent_views_and_touch_targets(self):
-        json_str = self.content[len("##KUSTOMCLIP##\n"):]
-        data = json.loads(json_str)
+        tag = "##KUSTOMCLIP##"
+        raw = self.content.strip()[len(tag):-len(tag)].strip()
+        data = json.loads(raw)
         komp = data["clip_modules"][0]
         items = {item.get("internal_title"): item for item in komp.get("viewgroup_items", [])}
 
@@ -876,12 +895,194 @@ class TestKustomClip(unittest.TestCase):
         views = {i.get("internal_title"): i for i in view_area.get("viewgroup_items", [])}
         self.assertIn("ViewOverview", views)
         self.assertIn("ViewContainers", views)
-        self.assertIn("ViewChart", views)
+        self.assertIn("ViewInfo", views)
 
 
 # ==============================================================================
 # Runner
 # ==============================================================================
+
+class TestCompiledVisualRegression(unittest.TestCase):
+    """Inspect shipped geometry/formulas; these checks do not emulate Android."""
+
+    @classmethod
+    def setUpClass(cls):
+        import zipfile
+        from widget_layout import walk
+        with zipfile.ZipFile(REPO_ROOT / "widget/beszel_monitor.kwgt") as archive:
+            cls.root = json.loads(archive.read("preset.json"))["preset_root"]
+        cls.nodes = {node.get("internal_title"): node for node in walk(cls.root)}
+
+    def test_fixed_frame_and_anchors(self):
+        self.assertEqual(self.nodes["ContentFlow"]["internal_type"], "OverlapLayerModule")
+        for title, anchor, y in (("Header", "TOP", 10), ("BottomNav", "BOTTOM", 10), ("ViewArea", "TOP", 62)):
+            node = self.nodes[title]
+            self.assertEqual(node["position_anchor"], anchor)
+            self.assertEqual(node["position_offset_y"], y)
+        bounds = self.nodes["LayoutBounds"]["shape_height"]
+        header_bottom = self.nodes["Header"]["position_offset_y"] + self.nodes["HeaderBounds"]["shape_height"]
+        view_top = self.nodes["ViewArea"]["position_offset_y"]
+        view_bottom = view_top + self.nodes["ViewAreaSpacer"]["shape_height"]
+        nav_height = max(child.get("shape_height", 0)
+                         for tab in self.nodes["BottomNav"]["viewgroup_items"]
+                         for child in tab["viewgroup_items"])
+        nav_top = bounds - self.nodes["BottomNav"]["position_offset_y"] - nav_height
+        self.assertGreaterEqual(view_top - header_bottom, 8)
+        self.assertGreaterEqual(nav_top - view_bottom, 8)
+        self.assertEqual(self.nodes["CardBackground"]["shape_height"], bounds)
+
+    def test_rings_do_not_follow_text_width(self):
+        for metric in ("CPU", "Memory", "Disk"):
+            self.assertEqual(self.nodes[f"Inner_{metric}"]["internal_type"], "OverlapLayerModule")
+            self.assertEqual(self.nodes[f"Gauge_{metric}"]["position_offset_x"], 12)
+            self.assertEqual(self.nodes[f"Details_{metric}"]["position_offset_x"], 108)
+
+    def test_serialized_anchor_names(self):
+        for title, node in self.nodes.items():
+            self.assertNotIn("_", node.get("position_anchor", ""), title)
+            self.assertNotIn("position_x", node, title)
+            self.assertNotIn("position_y", node, title)
+
+    def test_refresh_and_pagination_geometry(self):
+        self.assertGreaterEqual(self.nodes["RefreshGlyph"]["text_size"], 24)
+        header_titles = [n.get("internal_title") for n in self.nodes["Header"]["viewgroup_items"]]
+        for title in ("BtnPrev", "BtnNext", "RefreshTouchTarget"):
+            self.assertIn(title, header_titles)
+            for node in self.nodes[title]["viewgroup_items"]:
+                if node["internal_type"] == "ShapeModule":
+                    self.assertGreaterEqual(node["shape_width"], 44)
+                    self.assertGreaterEqual(node["shape_height"], 44)
+        self.assertEqual(self.nodes["PageText"]["position_anchor"], "BOTTOM")
+
+    def test_docker_columns_and_unbounded_page_lookup(self):
+        globals_ = self.root["globals_list"]
+        for i in range(5):
+            left, right = self.nodes[f"RowLeft_{i}"], self.nodes[f"RowRight_{i}"]
+            self.assertEqual(left["position_anchor"], "CENTERLEFT")
+            self.assertEqual(right["position_anchor"], "CENTERRIGHT")
+            from test_widget_runtime import Kode
+            left_width = Kode(globals_, width=480).eval(left["viewgroup_items"][0]["internal_formulas"]["shape_width"])
+            right_width = float(right["viewgroup_items"][0]["internal_formulas"]["shape_width"].strip("$"))
+            offsets = left["position_offset_x"] + right["position_offset_x"]
+            self.assertLessEqual(left_width + right_width + offsets, 480 - 36)
+            for key in ("name", "cpu", "mem"):
+                expr = globals_[f"row{i}_{key}"]["global_formula"]
+                self.assertIn(f"gv(cpage) * 5 + {i}", expr)
+                self.assertNotIn("container_page) = 1", expr)
+            self.assertIn(f"gv(row{i}_name)", self.nodes[f"ContainerRow_{i}"]["internal_formulas"]["config_visible"])
+
+    def test_overview_network_card_and_docker_glyphs(self):
+        self.assertNotIn("NetSparkline", self.nodes)
+        for i in range(14):
+            self.assertNotIn(f"NetBar_{i:02d}", self.nodes)
+        for title in ("NetDownLabel", "NetDownVal", "NetUpLabel", "NetUpVal", "NetVolLabel", "NetVolVal", "NetVolUpLabel", "NetVolUpVal"):
+            self.assertIn(title, self.nodes)
+        for title in ("ColLabelName", "ColLabelCPU", "ColLabelRAM"):
+            self.assertIn(title, self.nodes)
+        for i in range(5):
+            self.assertIn(f"Glyph_{i}", self.nodes)
+            left_titles = [n.get("internal_title") for n in self.nodes[f"RowLeft_{i}"]["viewgroup_items"]]
+            self.assertIn(f"Glyph_{i}", left_titles)
+        self.assertIn("󰋼 Info", self.nodes["TextInfo"]["text_expression"])
+
+    def test_info_columns_replace_chart(self):
+        for title in ("ViewInfo", "FetchDetails", "FetchLogo"):
+            self.assertIn(title, self.nodes)
+        for title in ("FetchOSValue", "FetchKernelValue", "FetchCPUValue",
+                      "FetchGPUValue", "FetchCoresValue", "FetchUptimeValue",
+                      "FetchMemoryValue", "FetchTempValue"):
+            self.assertIn(title, self.nodes)
+            self.assertIn("gv(", self.nodes[title]["internal_formulas"]["text_expression"])
+        for title in ("ViewChart", "ChartContainer", "HistoryBars", "HistoryArea",
+                      "HistoryLine", "HistoryLineTx", "BtnRange", "BtnScale", "MetricChips"):
+            self.assertNotIn(title, self.nodes)
+        for node in self.nodes.values():
+            self.assertNotEqual(node.get("shape_type"), "PATH")
+        self.assertEqual(self.nodes["TabInfo"]["internal_events"][0]["switch_text"], "info")
+
+    def test_archive_and_dist_match_clip(self):
+        tag = "##KUSTOMCLIP##"
+        clip = json.loads((REPO_ROOT / "widget/beszel_monitor.clip").read_text().strip()[len(tag):-len(tag)])
+        komp = clip["clip_modules"][0]
+        self.assertEqual(self.root["viewgroup_items"], komp["viewgroup_items"])
+        self.assertEqual(self.root["globals_list"], komp["globals_list"])
+        for suffix in ("kwgt", "clip"):
+            name = f"beszel_monitor.{suffix}"
+            self.assertEqual((REPO_ROOT / "widget" / name).read_bytes(), (REPO_ROOT / "dist" / name).read_bytes())
+
+    def test_staged_native_cache_writes(self):
+        flows = self.root["internal_flows"]
+        self.assertEqual({f["name"] for f in flows},
+                         {"refresh_beszel", "fetch_systems", "fetch_containers", "fetch_history", "fetch_info"})
+        for flow in flows:
+            for i, step in enumerate(flow["a"]):
+                params = step.get("params", {})
+                if step["type"] == "A_GLOBAL" and params.get("global") in ("sys_json", "cnt_json", "day_json", "latest"):
+                    previous = flow["a"][i - 1]
+                    self.assertEqual(previous["type"], "A_FORMULA")
+                    self.assertIn(f'gv({params["global"]})', previous["params"]["formula"])
+                    self.assertIn("if(", previous["params"]["formula"])
+        history = next(f for f in flows if f["name"] == "fetch_history")
+        self.assertEqual(history["t"][0]["params"]["cron_string"], "*/15 * * * *")
+
+    def test_scalar_adapter_and_no_credentials(self):
+        globals_ = self.root["globals_list"]
+        for name in ("ramused", "ramtotal", "buffer", "swap", "net_rx", "net_tx"):
+            self.assertIn("tc(json", globals_[name]["global_formula"])
+        for name in ("hist_peak", "hist_scale", "hist_line_path", "metric", "range"):
+            self.assertNotIn(name, globals_)
+        for key in ("bz_token", "bz_email", "bz_pass"):
+            self.assertEqual(globals_[key]["value"], "")
+
+    def test_kustom_formula_restrictions(self):
+        import re
+        def strings(value):
+            if isinstance(value, str):
+                yield value
+            elif isinstance(value, dict):
+                for child in value.values():
+                    yield from strings(child)
+            elif isinstance(value, list):
+                for child in value:
+                    yield from strings(child)
+        for expression in strings(self.root):
+            if "$" not in expression:
+                continue
+            self.assertNotIn("&&", expression)
+            self.assertNotIn("'", expression)
+            self.assertNotIn("mu(ceil", expression)
+            self.assertNotIn("Sem dados", expression)
+            self.assertNotIn("parcial", expression)
+            # Tokenize quoted strings as units, so JSON paths and escaped loop
+            # bodies do not confuse the parenthesis stack.
+            stack = []
+            for match in re.finditer(r'"(?:\\.|[^"\\])*"|([a-z]+)\s*\(|([()])', expression):
+                fn, paren = match.groups()
+                if fn:
+                    if fn == "if":
+                        self.assertNotIn("mu", stack, expression)
+                    stack.append(fn)
+                elif paren == "(":
+                    stack.append("")
+                elif paren == ")":
+                    self.assertTrue(stack, expression)
+                    stack.pop()
+            self.assertFalse(stack, expression)
+
+    def test_history_setup_request_and_failure(self):
+        from unittest.mock import patch
+        from urllib.parse import parse_qs, urlsplit
+        sys.path.insert(0, str(REPO_ROOT))
+        import setup
+        with patch.object(setup, "http_get", return_value=(200, {"items": []})) as fetch:
+            self.assertEqual(setup.fetch_system_stats("https://example.invalid", "synthetic"), {"items": []})
+            query = parse_qs(urlsplit(fetch.call_args.args[0]).query)
+            self.assertEqual(query["sort"], ["created"])
+            self.assertEqual(query["perPage"], ["500"])
+            self.assertIn('type="20m"', query["filter"][0])
+        with patch.object(setup, "http_get", return_value=(503, {})) as fetch:
+            self.assertIsNone(setup.fetch_system_stats("https://example.invalid", "synthetic"))
+            self.assertEqual(fetch.call_count, 1, "Never fetch another host after failure")
 
 if __name__ == "__main__":
     suite = unittest.defaultTestLoader.loadTestsFromModule(sys.modules[__name__])
