@@ -653,7 +653,7 @@
                                     "paint_color": "c_subtext"
                                   },
                                   "internal_formulas": {
-                                    "text_expression": "$\"🌡 \" + gv(temp_fmt)$"
+                                    "text_expression": "$\" \" + gv(temp_fmt)$"
                                   },
                                   "internal_toggles": {
                                     "text_expression": 10
@@ -1116,11 +1116,11 @@
                               },
                               "position_padding_left": 14.0,
                               "position_padding_right": 0.0,
-                              "position_padding_top": 12.0,
+                              "position_padding_top": 10.0,
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPLEFT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 12.0
+                              "position_offset_y": 10.0
                             },
                             {
                               "internal_type": "TextModule",
@@ -1139,11 +1139,11 @@
                               },
                               "position_padding_left": 14.0,
                               "position_padding_right": 0.0,
-                              "position_padding_top": 30.0,
+                              "position_padding_top": 38.0,
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPLEFT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 30.0
+                              "position_offset_y": 38.0
                             },
                             {
                               "internal_type": "TextModule",
@@ -1162,11 +1162,11 @@
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 14.0,
-                              "position_padding_top": 30.0,
+                              "position_padding_top": 38.0,
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPRIGHT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 30.0
+                              "position_offset_y": 38.0
                             },
                             {
                               "internal_type": "TextModule",
@@ -1185,11 +1185,11 @@
                               },
                               "position_padding_left": 14.0,
                               "position_padding_right": 0.0,
-                              "position_padding_top": 52.0,
+                              "position_padding_top": 58.0,
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPLEFT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 52.0
+                              "position_offset_y": 58.0
                             },
                             {
                               "internal_type": "TextModule",
@@ -1208,11 +1208,11 @@
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 14.0,
-                              "position_padding_top": 52.0,
+                              "position_padding_top": 58.0,
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPRIGHT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 52.0
+                              "position_offset_y": 58.0
                             },
                             {
                               "internal_type": "TextModule",
@@ -1231,11 +1231,11 @@
                               },
                               "position_padding_left": 14.0,
                               "position_padding_right": 0.0,
-                              "position_padding_top": 74.0,
+                              "position_padding_top": 78.0,
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPLEFT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 74.0
+                              "position_offset_y": 78.0
                             },
                             {
                               "internal_type": "TextModule",
@@ -1254,11 +1254,11 @@
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 14.0,
-                              "position_padding_top": 74.0,
+                              "position_padding_top": 78.0,
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPRIGHT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 74.0
+                              "position_offset_y": 78.0
                             },
                             {
                               "internal_type": "TextModule",
@@ -1277,11 +1277,11 @@
                               },
                               "position_padding_left": 14.0,
                               "position_padding_right": 0.0,
-                              "position_padding_top": 96.0,
+                              "position_padding_top": 98.0,
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPLEFT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 96.0
+                              "position_offset_y": 98.0
                             },
                             {
                               "internal_type": "TextModule",
@@ -1300,11 +1300,11 @@
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 14.0,
-                              "position_padding_top": 96.0,
+                              "position_padding_top": 98.0,
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPRIGHT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 96.0
+                              "position_offset_y": 98.0
                             }
                           ]
                         }

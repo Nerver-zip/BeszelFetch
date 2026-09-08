@@ -818,7 +818,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                 field_key="cpu",
                                                 color_global="c_cpu",
                                                 fg_hex="#FF89B4FA",
-                                                subtext_expr=f"$if(tc(json, {sys_expr}, \".items[0].info.dt\") != \"\", \"🌡 \" + mu(round, tc(json, {sys_expr}, \".items[0].info.dt\")) + \"°C\", \"🌡 —\")$",
+                                                subtext_expr=f"$if(tc(json, {sys_expr}, \".items[0].info.dt\") != \"\", \" \" + mu(round, tc(json, {sys_expr}, \".items[0].info.dt\")) + \"°C\", \" —\")$",
                                                 second_subtext_expr=f"$if(tc(json, {sys_expr}, \".items[0].info.la[0]\") != \"\", \"Load Avg: \" + mu(round, tc(json, {sys_expr}, \".items[0].info.la[0]\"), 2), if(tc(json, {sys_expr}, \".items[0].info.la\") != \"\", \"Load Avg: \" + mu(round, tc(json, {sys_expr}, \".items[0].info.la\"), 2), \"Load Avg: 0.00\"))$"
                                             ),
                                             make_circular_card(

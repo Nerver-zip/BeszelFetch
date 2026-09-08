@@ -162,7 +162,7 @@ def fix_layout(root):
     net_title = nodes["NetTitle"]
     net_title["text_size"] = 19.0
     net_title["text_expression"] = "󰀂 Network"
-    anchor(net_title, "TOPLEFT", 14, 12)
+    anchor(net_title, "TOPLEFT", 14, 10)
 
     def net_text(name, expr, size=12.0, color_global="c_text"):
         item = {"internal_type": "TextModule", "internal_title": name,
@@ -171,28 +171,28 @@ def fix_layout(root):
         formula(item, "text_expression", expr)
         return item
     down_lbl = net_text("NetDownLabel", "↓ Download", 13.5, "c_subtext")
-    anchor(down_lbl, "TOPLEFT", 14, 30)
+    anchor(down_lbl, "TOPLEFT", 14, 38)
     down_expr = "$gv(rate_rx)$"
     down_val = net_text("NetDownVal", down_expr, 14.0, "c_text")
-    anchor(down_val, "TOPRIGHT", 14, 30)
+    anchor(down_val, "TOPRIGHT", 14, 38)
 
     up_lbl = net_text("NetUpLabel", "↑ Upload", 13.5, "c_subtext")
-    anchor(up_lbl, "TOPLEFT", 14, 52)
+    anchor(up_lbl, "TOPLEFT", 14, 58)
     up_expr = "$gv(rate_tx)$"
     up_val = net_text("NetUpVal", up_expr, 14.0, "c_text")
-    anchor(up_val, "TOPRIGHT", 14, 52)
+    anchor(up_val, "TOPRIGHT", 14, 58)
 
     vol_lbl = net_text("NetVolLabel", "↓ 24h Total", 13.0, "c_muted")
-    anchor(vol_lbl, "TOPLEFT", 14, 74)
+    anchor(vol_lbl, "TOPLEFT", 14, 78)
     vol_expr = "$gv(day_rx)$"
     vol_val = net_text("NetVolVal", vol_expr, 13.5, "c_net")
-    anchor(vol_val, "TOPRIGHT", 14, 74)
+    anchor(vol_val, "TOPRIGHT", 14, 78)
 
     vol_up_lbl = net_text("NetVolUpLabel", "↑ 24h Total", 13.0, "c_muted")
-    anchor(vol_up_lbl, "TOPLEFT", 14, 96)
+    anchor(vol_up_lbl, "TOPLEFT", 14, 98)
     vol_up_expr = "$gv(day_tx)$"
     vol_up_val = net_text("NetVolUpVal", vol_up_expr, 13.5, "c_net")
-    anchor(vol_up_val, "TOPRIGHT", 14, 96)
+    anchor(vol_up_val, "TOPRIGHT", 14, 98)
 
     network["viewgroup_items"] = [
         frame("NetworkBounds", '$mu(max, 150, mu(round, (si(rwidth) - 36) / 2))$', 120),
