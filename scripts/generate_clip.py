@@ -607,6 +607,23 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                     "shape_height": 10
                 }
             },
+            # Glossy Wallpaper Background Image Placeholder
+            {
+                "internal_type": "BitmapModule",
+                "internal_title": "GlossyWallpaper",
+                "bitmap_bitmap": "",
+                "bitmap_width": 1000.0,
+                "bitmap_alpha": 60.0,
+                "bitmap_blur": 70.0,
+                "bitmap_dim": 30.0,
+                "position_anchor": "CENTER",
+                "position_offset_x": 0.0,
+                "position_offset_y": 0.0,
+                "position_padding_left": 0.0,
+                "position_padding_top": 0.0,
+                "position_padding_right": 0.0,
+                "position_padding_bottom": 0.0
+            },
             # Border Stroke (set to 0 width & transparent to eliminate outer shadow / double layer)
             {
                 "internal_type": "ShapeModule",

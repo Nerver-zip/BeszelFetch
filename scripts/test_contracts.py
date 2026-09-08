@@ -843,7 +843,7 @@ class TestKustomClip(unittest.TestCase):
         data = json.loads(raw)
         self.assertEqual(data.get("clip_version"), 1)
         self.assertIn("clip_modules", data)
-        self.assertEqual(len(data["clip_modules"]), 3)
+        self.assertEqual(len(data["clip_modules"]), 4)
 
     def test_komponent_globals(self):
         tag = "##KUSTOMCLIP##"
