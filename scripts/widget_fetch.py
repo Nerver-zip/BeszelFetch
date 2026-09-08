@@ -117,7 +117,7 @@ def build_fetch(root):
     cb = frame("FetchDetailsBounds", "$si(rwidth) * 0.7 - 36$", 224)
     formula(cb, "shape_height", "$gv(frameh) - 152$")
     content["viewgroup_items"].append(cb)
-    heading = text("FetchHeading", '$if(gv(info_ready) = 1, tc(ell, gv(fetch_host), 24) + "@beszel", "~/homelab")$', 16, "c_ram")
+    heading = text("FetchHeading", '$if(gv(info_ready) = 1, tc(ell, gv(fetch_host), 24) + "@beszel", "~/homelab")$', 18, "c_ram")
     anchor(heading, "TOPLEFT")
     content["viewgroup_items"].append(heading)
     specs = [("OS", "fetch_os_line", "c_cpu"), ("Kernel", "fetch_kernel", "c_net"),
@@ -128,12 +128,12 @@ def build_fetch(root):
         row = {"internal_type": "OverlapLayerModule", "internal_title": f"Fetch{label}Row", "viewgroup_items": [frame(f"Fetch{label}Bounds", "$si(rwidth) * 0.7 - 36$", 20)]}
         anchor(row, "TOPLEFT")
         formula(row, "position_offset_y", f'$28 + {i} * (gv(frameh) - 224) / 8$')
-        label_node = text(f"Fetch{label}Label", "├ " + label, 12, color)
-        colon = text(f"Fetch{label}Colon", ":", 12, "c_subtext")
-        value_node = text(f"Fetch{label}Value", f'$tc(ell, gv({global_}), mu(max, 12, mu(floor, (si(rwidth) * 0.7 - 130) / 7.2)))$', 12)
+        label_node = text(f"Fetch{label}Label", "├ " + label, 14, color)
+        colon = text(f"Fetch{label}Colon", ":", 14, "c_subtext")
+        value_node = text(f"Fetch{label}Value", f'$tc(ell, gv({global_}), mu(max, 12, mu(floor, (si(rwidth) * 0.7 - 130) / 7.2)))$', 14)
         anchor(label_node, "CENTERLEFT")
-        anchor(colon, "CENTERLEFT", 74)
-        anchor(value_node, "CENTERLEFT", 86)
+        anchor(colon, "CENTERLEFT", 76)
+        anchor(value_node, "CENTERLEFT", 90)
         row["viewgroup_items"].extend([label_node, colon, value_node])
         content["viewgroup_items"].append(row)
     for i, color in enumerate(("c_err", "c_peach", "c_warn", "c_ok", "c_disk", "c_net", "c_cpu", "c_ram")):

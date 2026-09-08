@@ -120,7 +120,7 @@ def fix_layout(root):
     anchor(nodes["HostSelector"], "CENTERLEFT", 26)
     nodes["HostTouchArea"].update(shape_width=100.0, shape_height=44.0)
     host = nodes["HostnameText"]
-    host["text_size"] = 15.0
+    host["text_size"] = 17.0
     font = host["text_family"]
     original = host["internal_formulas"]["text_expression"][1:-1]
     formula(host, "text_expression", f"$tc(ell, {original}, 12)$")
@@ -130,20 +130,22 @@ def fix_layout(root):
         formula(nodes[title], "config_visible", '$if(gv(view) = "overview", ALWAYS, REMOVE)$')
     refresh = nodes["RefreshTouchTarget"]
     anchor(refresh, "CENTERRIGHT")
-    nodes["RefreshGlyph"].update(text_size=28.0, text_expression="󰑐")
+    nodes["RefreshGlyph"].update(text_size=30.0, text_expression="󰑐")
     border = deepcopy(nodes["RefreshArea"])
     border.update(internal_title="RefreshBorder", paint_style="STROKE", stroke_width=1.0)
     border["internal_globals"] = {"paint_color": "c_surface1"}
     refresh["viewgroup_items"].insert(1, border)
 
-    # Container Prev/Next buttons in Header (74x44dp targets, right offset 134 and 52)
-    for title, offset in (("BtnPrev", 134), ("BtnNext", 52)):
+    # Container Prev/Next buttons in Header (84x44dp targets, right offset 140 and 50)
+    for title, offset in (("BtnPrev", 140), ("BtnNext", 50)):
         button = nodes[title]
         anchor(button, "CENTERRIGHT", offset)
         formula(button, "config_visible", '$if(gv(view) = "containers", ALWAYS, REMOVE)$')
         for child in button["viewgroup_items"]:
             if child["internal_type"] == "ShapeModule":
-                child.update(shape_width=74.0, shape_height=44.0)
+                child.update(shape_width=84.0, shape_height=44.0)
+            elif child["internal_type"] == "TextModule":
+                child["text_size"] = 16.5
         header["viewgroup_items"].append(button)
 
     anchor(nodes["ViewArea"], "TOP", y=62)
@@ -158,7 +160,7 @@ def fix_layout(root):
     network.pop("config_margin", None)
 
     net_title = nodes["NetTitle"]
-    net_title["text_size"] = 15.0
+    net_title["text_size"] = 19.0
     net_title["text_expression"] = "󰀂 Network"
     anchor(net_title, "TOPLEFT", 14, 12)
 
@@ -168,28 +170,28 @@ def fix_layout(root):
                 "internal_globals": {"paint_color": color_global}}
         formula(item, "text_expression", expr)
         return item
-    down_lbl = net_text("NetDownLabel", "↓ Download", 11.5, "c_subtext")
+    down_lbl = net_text("NetDownLabel", "↓ Download", 13.5, "c_subtext")
     anchor(down_lbl, "TOPLEFT", 14, 30)
     down_expr = "$gv(rate_rx)$"
-    down_val = net_text("NetDownVal", down_expr, 12.0, "c_text")
+    down_val = net_text("NetDownVal", down_expr, 14.0, "c_text")
     anchor(down_val, "TOPRIGHT", 14, 30)
 
-    up_lbl = net_text("NetUpLabel", "↑ Upload", 11.5, "c_subtext")
+    up_lbl = net_text("NetUpLabel", "↑ Upload", 13.5, "c_subtext")
     anchor(up_lbl, "TOPLEFT", 14, 52)
     up_expr = "$gv(rate_tx)$"
-    up_val = net_text("NetUpVal", up_expr, 12.0, "c_text")
+    up_val = net_text("NetUpVal", up_expr, 14.0, "c_text")
     anchor(up_val, "TOPRIGHT", 14, 52)
 
-    vol_lbl = net_text("NetVolLabel", "↓ 24h Total", 11.0, "c_muted")
+    vol_lbl = net_text("NetVolLabel", "↓ 24h Total", 13.0, "c_muted")
     anchor(vol_lbl, "TOPLEFT", 14, 74)
     vol_expr = "$gv(day_rx)$"
-    vol_val = net_text("NetVolVal", vol_expr, 11.5, "c_net")
+    vol_val = net_text("NetVolVal", vol_expr, 13.5, "c_net")
     anchor(vol_val, "TOPRIGHT", 14, 74)
 
-    vol_up_lbl = net_text("NetVolUpLabel", "↑ 24h Total", 11.0, "c_muted")
+    vol_up_lbl = net_text("NetVolUpLabel", "↑ 24h Total", 13.0, "c_muted")
     anchor(vol_up_lbl, "TOPLEFT", 14, 96)
     vol_up_expr = "$gv(day_tx)$"
-    vol_up_val = net_text("NetVolUpVal", vol_up_expr, 11.5, "c_net")
+    vol_up_val = net_text("NetVolUpVal", vol_up_expr, 13.5, "c_net")
     anchor(vol_up_val, "TOPRIGHT", 14, 96)
 
     network["viewgroup_items"] = [
@@ -209,9 +211,9 @@ def fix_layout(root):
         "internal_title": "ContainerHeader",
         "viewgroup_items": [
             frame("ContainerHeaderBounds", "$si(rwidth) - 36$", 18),
-            net_text("ColLabelName", "NAME", 10.5, "c_muted"),
-            net_text("ColLabelCPU", "CPU", 10.5, "c_muted"),
-            net_text("ColLabelRAM", "RAM", 10.5, "c_muted"),
+            net_text("ColLabelName", "NAME", 12.5, "c_muted"),
+            net_text("ColLabelCPU", "CPU", 12.5, "c_muted"),
+            net_text("ColLabelRAM", "RAM", 12.5, "c_muted"),
         ]
     }
     anchor(header_row, "TOP", y=0)
@@ -277,7 +279,7 @@ def fix_layout(root):
             "internal_title": f"Glyph_{i}",
             "text_expression": "",
             "text_family": font,
-            "text_size": 13.5,
+            "text_size": 15.5,
             "paint_color": "#FF89B4FA",
             "internal_globals": {"paint_color": "c_cpu"}
         }
@@ -285,8 +287,8 @@ def fix_layout(root):
 
         name = left["viewgroup_items"][2]
         anchor(name, "CENTERLEFT", 34)
-        name["text_size"] = 12.5
-        formula(name, "text_expression", f'$tc(ell, gv(row{i}_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 7.5)))$')
+        name["text_size"] = 14.5
+        formula(name, "text_expression", f'$tc(ell, gv(row{i}_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$')
         left["viewgroup_items"] = [left["viewgroup_items"][0], dot, glyph, name]
 
         cpu, mem = right["viewgroup_items"][1:]
