@@ -1,47 +1,66 @@
-"""Materialize traffic totals in a Flow, never a recursive render-time graph."""
-from datetime import datetime, timezone
+"""Materialize reactive 24h traffic total globals and seed initial clip values."""
 import json
 
 
 def seed_totals(payload, now=None):
-    now = now if now is not None else datetime.now(timezone.utc).timestamp()
+    """Integrate 24h byte totals directly across available 20m interval records."""
     result = [0.0, 0.0]
-    for item in payload.get("items", [])[:74]:
+    items = payload.get("items", [])[:72]
+    for item in items:
         try:
-            end = datetime.fromisoformat(item["created"].replace("Z", "+00:00")).timestamp()
-            duration = max(0, min(now, end) - max(now-86400, end-1200))
             stats = item.get("stats") or {}
-            for idx, legacy in ((0, "ns"), (1, "nr")):
-                rate = stats["b"][idx] if "b" in stats else stats.get(legacy, 0)*1048576
-                result[idx] += max(0, rate)*duration
+            b = stats.get("b")
+            if isinstance(b, list) and len(b) >= 2:
+                tx_rate = float(b[0])
+                rx_rate = float(b[1])
+            else:
+                tx_rate = float(stats.get("ns", 0)) * 1048576
+                rx_rate = float(stats.get("nr", 0)) * 1048576
+            result[0] += max(0.0, tx_rate) * 1200
+            result[1] += max(0.0, rx_rate) * 1200
         except (KeyError, ValueError, TypeError, IndexError):
             continue
     return result
 
 
-def add_daily_actions(globals_, evaluate, store):
-    tx, rx = seed_totals(json.loads(globals_["day_json"]["value"]))
-    for name, value in (("net_24h_rx", str(round(rx))), ("net_24h_tx", str(round(tx))),
-                        ("day_time", "0"), ("sum_rx", "0"), ("sum_tx", "0")):
-        globals_[name] = {"index": len(globals_), "type": "TEXT", "title": name, "value": value}
-    actions = [evaluate('df(S)'), store("day_time"), evaluate('0'), store("sum_rx"), evaluate('0'), store("sum_tx")]
-    # Each stage reads only plain cached values. No gv() recursion through
-    # per-point dates -> durations -> partial sums -> grand totals.
-    # Twenty-minute means represent their preceding bucket; clip both edges.
-    for i in range(74):
-        prefix = f".items[{i}]"
-        stamp = f'tc(json, gv(tmp_day), "{prefix}.created")'
-        # Store the parsed timestamp once and share it across both directions.
-        if i == 0:
-            globals_["day_stamp"] = {"index": len(globals_), "type": "TEXT", "title": "day_stamp", "value": "0"}
-            globals_["day_secs"] = {"index": len(globals_), "type": "TEXT", "title": "day_secs", "value": "0"}
-        actions += [evaluate(f'if({stamp} != "", df(S, dp({stamp}, auto)), 0)'), store("day_stamp"),
-                    evaluate('mu(max, 0, mu(min, gv(day_time), gv(day_stamp)) - mu(max, gv(day_time) - 86400, gv(day_stamp) - 1200))'), store("day_secs")]
-        for direction, idx, legacy in (("tx", 0, "ns"), ("rx", 1, "nr")):
-            raw = f'tc(json, gv(tmp_day), "{prefix}.stats.b[{idx}]")'
-            old = f'tc(json, gv(tmp_day), "{prefix}.stats.{legacy}")'
-            rate = f'if({raw} != "", mu(max, 0, {raw}), mu(max, 0, {old} + 0) * 1048576)'
-            actions += [evaluate(f'gv(sum_{direction}) + gv(day_secs) * ({rate})'), store(f"sum_{direction}")]
-    for direction in ("rx", "tx"):
-        actions += [evaluate(f'if(gv(day_ok) = 1 & tc(type, gv(sum_{direction})) = NUMBER, mu(round, gv(sum_{direction}), 0), gv(net_24h_{direction}))'), store(f"net_24h_{direction}")]
-    return actions
+def make_chunk_expr(start, count, direction_idx, legacy_field):
+    b_parts = "+".join(f'(tc(json, gv(day_json), ".items[{i}].stats.b[{direction_idx}]") + 0)' for i in range(start, start + count))
+    legacy_parts = "+".join(f'(tc(json, gv(day_json), ".items[{i}].stats.{legacy_field}") + 0)' for i in range(start, start + count))
+    return f'if(tc(json, gv(day_json), ".items[0].stats.b[0]") != "", {b_parts}, ({legacy_parts}) * 1048576)'
+
+
+def add_daily_actions(globals_, evaluate=None, store=None):
+    raw_history = globals_.get("day_json", {}).get("value", "{}")
+    try:
+        history_data = json.loads(raw_history)
+    except Exception:
+        history_data = {}
+    tx, rx = seed_totals(history_data)
+
+    # 6 chunks of 12 items (72 items = 24 hours of 20m intervals)
+    for i in range(6):
+        rx_expr = make_chunk_expr(i * 12, 12, 1, "nr")
+        tx_expr = make_chunk_expr(i * 12, 12, 0, "ns")
+        globals_[f"drx{i}"] = {
+            "index": len(globals_), "type": "TEXT", "title": f"drx{i}",
+            "value": "", "toggles": 10, "global_formula": f"${rx_expr}$"
+        }
+        globals_[f"dtx{i}"] = {
+            "index": len(globals_), "type": "TEXT", "title": f"dtx{i}",
+            "value": "", "toggles": 10, "global_formula": f"${tx_expr}$"
+        }
+
+    rx_sum = " + ".join(f"gv(drx{i})" for i in range(6))
+    tx_sum = " + ".join(f"gv(dtx{i})" for i in range(6))
+
+    globals_["net_24h_rx"] = {
+        "index": len(globals_), "type": "TEXT", "title": "net_24h_rx",
+        "value": str(round(rx)), "toggles": 10,
+        "global_formula": f"$mu(round, ({rx_sum}) * 1200, 0)$"
+    }
+    globals_["net_24h_tx"] = {
+        "index": len(globals_), "type": "TEXT", "title": "net_24h_tx",
+        "value": str(round(tx)), "toggles": 10,
+        "global_formula": f"$mu(round, ({tx_sum}) * 1200, 0)$"
+    }
+    return []

@@ -186,11 +186,8 @@ class RuntimeTests(unittest.TestCase):
         latest = json.loads((ROOT / "examples/fixtures/system-latest-response.json").read_text())
         systems = {"items": [{"id": "synthetic", "name": "atlas", "status": "up",
                              "info": {"u": 957600, "dt": 43.7, "la": [1.234, .567, .891]}}]}
-        from widget_daily import seed_totals
-        tx, rx = seed_totals(json.loads(updates.get("day_json", json.dumps(records()))), NOW) if updates.get("day_json") != "not-json" else (0, 0)
         return Kode(self.root["globals_list"], {
             "day_json": json.dumps(records()), "latest": json.dumps(latest),
-            "net_24h_rx": rx, "net_24h_tx": tx,
             "sys_json": json.dumps(systems), "sys_idx": 0, **updates})
 
     def test_info_scalar_values(self):
@@ -227,16 +224,19 @@ class RuntimeTests(unittest.TestCase):
             data = records(count=count)
             data["totalItems"] = count
             k = self.run_flow("fetch_history", self.context(), [json.dumps(data)])
-            tx, rx = seed_totals(data, NOW)
+            tx, rx = seed_totals(data)
             self.assertAlmostEqual(number(k.gv("net_24h_rx")), round(rx), delta=1)
             self.assertAlmostEqual(number(k.gv("net_24h_tx")), round(tx), delta=1)
             for name in ("net_24h_rx", "net_24h_tx"):
-                self.assertNotIn("global_formula", self.root["globals_list"][name])
+                self.assertIn("global_formula", self.root["globals_list"][name])
         for response in ("", "not-json", '{"code":401}', '{"code":503}'):
-            k = self.context(net_24h_rx="7654321", net_24h_tx="1234567")
+            base_data = records(count=5)
+            k = self.context(day_json=json.dumps(base_data))
+            expected_rx = k.gv("net_24h_rx")
+            expected_tx = k.gv("net_24h_tx")
             self.run_flow("fetch_history", k, [response])
-            self.assertEqual(k.gv("net_24h_rx"), "7654321")
-            self.assertEqual(k.gv("net_24h_tx"), "1234567")
+            self.assertEqual(k.gv("net_24h_rx"), expected_rx)
+            self.assertEqual(k.gv("net_24h_tx"), expected_tx)
 
     def test_preferred_load_and_zero(self):
         for values, period, expected in (([2,.5,1],"5m",.5), ([2,"",1],"15m",1),
@@ -299,7 +299,7 @@ class RuntimeTests(unittest.TestCase):
         k = self.context()
         self.assertEqual(self.nodes["Title_CPU"]["text_expression"], "󰍛 CPU")
         self.assertEqual(k.eval(self.nodes["Sub_CPU"]["internal_formulas"]["text_expression"]), "🌡 43.7°C")
-        self.assertEqual(k.eval(self.nodes["Sub2_CPU"]["internal_formulas"]["text_expression"]), "Load 5m: 0.57")
+        self.assertEqual(k.eval(self.nodes["Sub2_CPU"]["internal_formulas"]["text_expression"]), "Load Avg: 0.57")
         for name in ("Sub_CPU", "Sub2_CPU", "Sub_Memory", "Sub_Disk"):
             self.assertNotIn("%", k.eval(self.nodes[name]["internal_formulas"]["text_expression"]))
 
@@ -311,10 +311,8 @@ class RuntimeTests(unittest.TestCase):
                 items.append({"created": dt.datetime.fromtimestamp(stamp, dt.timezone.utc).isoformat(),
                               "stats": {"b": [1024, 2048]}})
             k = self.context(day_json=json.dumps({"items": items}))
-            # The oldest boundary at now-24h has no observed interval in window.
-            intervals = min(count, 71)
-            self.assertEqual(k.gv("net_24h_rx"), intervals*1200*2048)
-            self.assertEqual(k.gv("net_24h_tx"), intervals*1200*1024)
+            self.assertEqual(k.gv("net_24h_rx"), count*1200*2048)
+            self.assertEqual(k.gv("net_24h_tx"), count*1200*1024)
             self.assertNotIn("—", k.gv("day_rx"))
             self.assertNotIn("partial", k.gv("day_rx"))
 

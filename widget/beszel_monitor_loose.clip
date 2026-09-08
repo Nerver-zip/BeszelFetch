@@ -654,7 +654,7 @@
                                     "paint_color": "c_muted"
                                   },
                                   "internal_formulas": {
-                                    "text_expression": "$\"Load \" + gv(load_period) + \": \" + gv(load_best)$"
+                                    "text_expression": "$\"Load Avg: \" + if(gv(load_best) != \"\", gv(load_best), \"N/A\")$"
                                   },
                                   "internal_toggles": {
                                     "text_expression": 10
