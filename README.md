@@ -62,34 +62,20 @@
 
 ---
 
-## 📋 Prerequisites & Beszel API Setup
+## 📋 Prerequisites & Quick Setup
 
-This widget connects directly to [Beszel](https://github.com/henrygd/beszel), a lightweight server monitoring hub powered by an embedded PocketBase database.
+This widget connects directly to your [Beszel](https://github.com/henrygd/beszel) Hub.
 
-Before installing the widget, ensure:
-1. Your phone can reach your Beszel Hub over LAN, Wi-Fi, or VPN (e.g. Tailscale / WireGuard).
-2. The Hub\'s PocketBase API allows reading system data.
-
-### Option A: Public Read-Only Access (Easiest — Recommended for Homelabs)
-Allows KWGT to read metrics without managing expiring auth tokens:
-1. Open the PocketBase Admin UI in your browser by appending `/_/` to your Hub URL:
-   ```text
-   http://<YOUR_SERVER_IP>:8090/_/
-   ```
-2. In the left navigation, open **Collections**.
-3. Select **`systems`** → click the **API Rules** tab (padlock icon) → leave **View Rule** and **List Rule** completely blank (empty string `""`) → click **Save changes**.
-4. *(For Docker tab)* Repeat for **`container_stats`** collection → set rules to empty → Save.
-5. *(For 24h Network totals)* Repeat for **`system_stats`** collection → set rules to empty → Save.
-
-### Option B: Authenticated User (For Internet-Exposed Setups)
-1. In the PocketBase Admin UI, go to **Collections** → **`users`** → create a user account.
-2. Generate an auth token via curl or use the interactive setup script below.
+### Prerequisites
+1. **Running Beszel Hub**: An active Beszel server instance with your account (the email and password you created during initial Beszel setup).
+2. **Network Reachability**: Your Android device must be able to reach your Hub (via local Wi-Fi, LAN, or VPN like Tailscale/WireGuard).
+3. **Android Device with KWGT**: Installed from Google Play (Free or Pro both supported).
 
 ---
 
-## ⚡ Quick Setup Wizard (`setup.py`)
+## ⚡ Setup Wizard (`setup.py`)
 
-We provide an interactive Python wizard that verifies connectivity with your Beszel Hub, authenticates your account, lists your available systems, and compiles custom `.kwgt` and `.clip` files with your settings pre-filled:
+Run the interactive setup wizard on your machine. It connects to your Beszel Hub using your login credentials, discovers all registered servers, and compiles customized widget presets (`dist/beszel_monitor.clip` and `dist/beszel_monitor.kwgt`) with your settings pre-filled:
 
 ```bash
 python3 setup.py
@@ -113,7 +99,7 @@ Select server to monitor by default [1]: 1
 ✓ Built dist/beszel_monitor.clip
 ```
 
-The script outputs ready-to-import bundles into the `dist/` directory.
+The script automatically generates ready-to-import bundles inside the `dist/` directory.
 
 ---
 
@@ -249,6 +235,18 @@ python3 -m unittest discover -s scripts -p "test_*.py"
 # Regenerate presets and clipboard files
 python3 scripts/generate_preset.py
 ```
+
+---
+
+## 📚 Documentation Index
+ 
+Technical guides and specifications are organized inside the [`docs/`](docs/) directory:
+
+- [Architecture & Constraints](docs/ARCHITECTURE.md) — System boundaries, data paths, and caching policies.
+- [Data Contract](docs/DATA_CONTRACT.md) — Beszel REST API schemas and JSON field mappings.
+- [KWGT Build Guide](docs/KWGT_BUILD_GUIDE.md) — Step-by-step layer assembly and Kustom formula details.
+- [Widget Specification](docs/WIDGET_SPEC.md) — Screen dimensions, typography, and layout mockups.
+- [Security Policy](docs/SECURITY.md) — Threat model, secrets quarantine, and network boundaries.
 
 ---
 
