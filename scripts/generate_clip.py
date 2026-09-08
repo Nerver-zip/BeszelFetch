@@ -18,6 +18,7 @@ Features:
 - Native Kustom Flow data ingestion (CRON + ONCE + TRIGGER_FLOW)
 """
 
+import copy
 import json
 import shutil
 import zipfile
@@ -88,23 +89,6 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
     email_val = email if email is not None else ""
     pass_val = password if password is not None else ""
     srv_name_val = server_name if server_name is not None else "localhost"
-
-    # Auto-detect wallpaper from wallpapers/ directory
-    valid_img_exts = {".png", ".jpg", ".jpeg", ".webp"}
-    wallpaper_file = None
-    if wallpaper_path is not None and Path(wallpaper_path).is_file():
-        wallpaper_file = Path(wallpaper_path)
-    else:
-        wallpapers_dir = REPO_ROOT / "wallpapers"
-        if wallpapers_dir.is_dir():
-            candidates = sorted([
-                p for p in wallpapers_dir.iterdir()
-                if p.is_file() and p.suffix.lower() in valid_img_exts
-            ])
-            if candidates:
-                wallpaper_file = candidates[0]
-
-    wallpaper_uri = f"kfile://org.kustom.provider/bitmaps/{wallpaper_file.name}" if wallpaper_file else ""
 
     # Self-contained globals embedded inside Komponent and preset_root
     globals_list = {
@@ -268,7 +252,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                 "internal_title": f"Title_{title}",
                 "text_expression": f"{glyph} {title}",
                 "text_family": font_path,
-                "text_size": 17.0,
+                "text_size": 19.0,
                 "paint_color": fg_hex,
                 "internal_globals": {"paint_color": color_global}
             }
@@ -279,7 +263,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                 "internal_title": f"Sub_{title}",
                 "text_expression": "—",
                 "text_family": font_path,
-                "text_size": 14.5,
+                "text_size": 16.5,
                 "paint_color": "#FFBAC2DE",
                 "internal_globals": {"paint_color": "c_subtext"},
                 "internal_formulas": {"text_expression": subtext_expr},
@@ -291,7 +275,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                 "internal_title": f"Sub2_{title}",
                 "text_expression": "—",
                 "text_family": font_path,
-                "text_size": 13.5,
+                "text_size": 15.5,
                 "paint_color": "#FF6C7086",
                 "internal_globals": {"paint_color": "c_muted"},
                 "internal_formulas": {"text_expression": second_subtext_expr},
@@ -378,7 +362,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                     "internal_title": f"Pct_{title}",
                                     "text_expression": "0%",
                                     "text_family": font_path,
-                                    "text_size": 15.5,
+                                    "text_size": 17.5,
                                     "paint_color": "#FFCDD6F4",
                                     "internal_globals": {"paint_color": "c_text"},
                                     "internal_formulas": {
@@ -457,7 +441,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                     "internal_title": "NetTitle",
                                     "text_expression": "󰀂 Network",
                                     "text_family": font_path,
-                                    "text_size": 17.0,
+                                    "text_size": 19.0,
                                     "paint_color": "#FF74C7EC",
                                     "internal_globals": {"paint_color": "c_net"}
                                 },
@@ -466,7 +450,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                     "internal_title": "NetRate",
                                     "text_expression": "▲ 0 KB/s",
                                     "text_family": font_path,
-                                    "text_size": 13.5,
+                                    "text_size": 15.5,
                                     "paint_color": "#FFCDD6F4",
                                     "internal_globals": {"paint_color": "c_text"},
                                     "internal_formulas": {
@@ -490,7 +474,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                             "internal_title": "NetSub",
                             "text_expression": "Realtime Traffic",
                             "text_family": font_path,
-                            "text_size": 12.0,
+                            "text_size": 14.0,
                             "paint_color": "#FF6C7086",
                             "internal_globals": {"paint_color": "c_muted"}
                         }
@@ -560,7 +544,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                             "internal_title": "Name",
                             "text_expression": f" container-{idx}",
                             "text_family": font_path,
-                            "text_size": 13.5,
+                            "text_size": 15.5,
                             "paint_color": "#FFCDD6F4",
                             "internal_globals": {"paint_color": "c_text"},
                             "internal_formulas": {
@@ -584,7 +568,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                             "internal_title": "Cpu",
                             "text_expression": "0.0%",
                             "text_family": font_path,
-                            "text_size": 12.5,
+                            "text_size": 14.5,
                             "paint_color": "#FF89B4FA",
                             "internal_globals": {"paint_color": "c_cpu"},
                             "internal_formulas": {
@@ -597,7 +581,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                             "internal_title": "Mem",
                             "text_expression": "0 MB",
                             "text_family": font_path,
-                            "text_size": 12.5,
+                            "text_size": 14.5,
                             "paint_color": "#FFCBA6F7",
                             "internal_globals": {"paint_color": "c_ram"},
                             "internal_formulas": {
@@ -639,7 +623,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
             {
                 "internal_type": "BitmapModule",
                 "internal_title": "GlossyWallpaper",
-                "bitmap_bitmap": wallpaper_uri,
+                "bitmap_bitmap": "",
                 "bitmap_width": 1000.0,
                 "bitmap_alpha": 60.0,
                 "bitmap_blur": 70.0,
@@ -725,7 +709,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "internal_title": "HostnameText",
                                         "text_expression": srv_name_val,
                                         "text_family": font_path,
-                                        "text_size": 18.0,
+                                        "text_size": 20.0,
                                         "paint_color": "#FFCDD6F4",
                                         "internal_globals": {"paint_color": "c_text"},
                                         "internal_formulas": {
@@ -741,7 +725,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                 "internal_title": "DotSep",
                                 "text_expression": "·",
                                 "text_family": font_path,
-                                "text_size": 14.0,
+                                "text_size": 16.0,
                                 "paint_color": "#FF6C7086",
                                 "internal_globals": {"paint_color": "c_muted"}
                             },
@@ -751,7 +735,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                 "internal_title": "TimeText",
                                 "text_expression": "up 0d 0h",
                                 "text_family": font_path,
-                                "text_size": 14.0,
+                                "text_size": 16.0,
                                 "paint_color": "#FFBAC2DE",
                                 "internal_globals": {"paint_color": "c_subtext"},
                                 "internal_formulas": {
@@ -928,7 +912,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                         "internal_type": "TextModule",
                                                         "text_expression": "◀ Prev",
                                                         "text_family": font_path,
-                                                        "text_size": 13.0,
+                                                        "text_size": 16.0,
                                                         "paint_color": "#FFCDD6F4",
                                                         "internal_globals": {"paint_color": "c_text"}
                                                     }
@@ -939,7 +923,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                 "internal_title": "PageText",
                                                 "text_expression": "Page 1 / 1",
                                                 "text_family": font_path,
-                                                "text_size": 13.0,
+                                                "text_size": 15.0,
                                                 "paint_color": "#FFBAC2DE",
                                                 "internal_globals": {"paint_color": "c_subtext"},
                                                 "internal_formulas": {
@@ -983,7 +967,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                         "internal_type": "TextModule",
                                                         "text_expression": "Next ▶",
                                                         "text_family": font_path,
-                                                        "text_size": 13.0,
+                                                        "text_size": 16.0,
                                                         "paint_color": "#FFCDD6F4",
                                                         "internal_globals": {"paint_color": "c_text"}
                                                     }
@@ -1053,7 +1037,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "internal_title": "TextOverview",
                                         "text_expression": "󰍛 Overview",
                                         "text_family": font_path,
-                                        "text_size": 15.5,
+                                        "text_size": 17.5,
                                         "paint_color": "#FFCDD6F4",
                                         "internal_formulas": {"paint_color": "$if(gv(view) = \"overview\", gv(c_text), gv(c_muted))$"},
                                         "internal_toggles": {"paint_color": 10}
@@ -1105,7 +1089,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "internal_title": "TextContainers",
                                         "text_expression": " Docker",
                                         "text_family": font_path,
-                                        "text_size": 15.5,
+                                        "text_size": 17.5,
                                         "paint_color": "#FF6C7086",
                                         "internal_formulas": {"paint_color": "$if(gv(view) = \"containers\", gv(c_text), gv(c_muted))$"},
                                         "internal_toggles": {"paint_color": 10}
@@ -1157,7 +1141,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "internal_title": "TextInfo",
                                         "text_expression": "󰋼 Info",
                                         "text_family": font_path,
-                                        "text_size": 15.5,
+                                        "text_size": 17.5,
                                         "paint_color": "#FF6C7086",
                                         "internal_formulas": {"paint_color": "$if(gv(view) = \"info\", gv(c_text), gv(c_muted))$"},
                                         "internal_toggles": {"paint_color": 10}
@@ -1207,7 +1191,6 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
         f.write(loose_clip_content)
 
     # Package as standalone .kwgt archive (directly mirroring ghinfo.kwgt)
-    # Roots globals, flows, and items directly on preset_root for flawless KWGT execution
     preset_wrapper = {
         "preset_info": {
             "archive": "",
@@ -1243,8 +1226,6 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
         zf.write(REPO_ROOT / "widget/assets/fastfetch/LICENSE.fastfetch", arcname="licenses/fastfetch.txt")
         if FONT_SRC.exists():
             zf.write(FONT_SRC, arcname="fonts/JetBrainsMonoNerdFont.ttf")
-        if wallpaper_file and wallpaper_file.exists():
-            zf.write(wallpaper_file, arcname=f"bitmaps/{wallpaper_file.name}")
 
     # Mirror outputs to dist/
     dist_dir = REPO_ROOT / "dist"

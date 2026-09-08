@@ -64,7 +64,7 @@ def build_info(root):
     formula(nodes["Sub2_CPU"], "text_expression", '$"Load Avg: " + if(gv(load_best) != "", gv(load_best), "N/A")$')
     for title, global_ in (("Memory", "ram_fmt"), ("Disk", "disk_fmt")):
         formula(nodes[f"Sub_{title}"], "text_expression", f'$gv({global_})$')
-        nodes[f"Sub_{title}"]["text_size"] = 12.0
+        nodes[f"Sub_{title}"]["text_size"] = 14.0
     for title, global_ in (("NetDownVal", "rate_rx"), ("NetUpVal", "rate_tx"),
                            ("NetVolVal", "day_rx"), ("NetVolUpVal", "day_tx")):
         formula(nodes[title], "text_expression", f'$gv({global_})$')

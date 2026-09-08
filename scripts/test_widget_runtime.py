@@ -390,35 +390,23 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(globals_["c_mantle"]["value"], "#B3181825")
 
     def test_pagination_button_expanded_geometry(self):
-        for title, exp_offset in (("BtnPrev", 134), ("BtnNext", 52)):
+        for title, exp_offset in (("BtnPrev", 140), ("BtnNext", 50)):
             btn = self.nodes[title]
             self.assertEqual(btn["position_offset_x"], float(exp_offset))
             for child in btn["viewgroup_items"]:
                 if child["internal_type"] == "ShapeModule":
-                    self.assertEqual(child["shape_width"], 74.0)
+                    self.assertEqual(child["shape_width"], 84.0)
                     self.assertEqual(child["shape_height"], 44.0)
 
-    def test_wallpaper_autodetection_and_packaging(self):
-        import tempfile, zipfile
+    def test_wallpaper_placeholder_and_frosted_effect(self):
         from generate_clip import build_kustom_clip
-        # Empty wallpapers dir generates empty bitmap_bitmap
         komp = build_kustom_clip(write_outputs=False)
         gw = next(n for n in komp["viewgroup_items"] if n.get("internal_title") == "GlossyWallpaper")
         self.assertEqual(gw["bitmap_bitmap"], "")
-
-        # With a wallpaper provided
-        with tempfile.NamedTemporaryFile(suffix=".png") as tmp:
-            tmp.write(b"\x89PNG\r\n\x1a\nfake")
-            tmp.flush()
-            komp2 = build_kustom_clip(wallpaper_path=tmp.name, write_outputs=False)
-            gw2 = next(n for n in komp2["viewgroup_items"] if n.get("internal_title") == "GlossyWallpaper")
-            self.assertIn(Path(tmp.name).name, gw2["bitmap_bitmap"])
-            # Verify packaging in a standalone temp zip archive
-            with tempfile.NamedTemporaryFile(suffix=".kwgt") as tmp_kwgt:
-                with zipfile.ZipFile(tmp_kwgt.name, "w") as zf:
-                    zf.write(tmp.name, arcname=f"bitmaps/{Path(tmp.name).name}")
-                with zipfile.ZipFile(tmp_kwgt.name, "r") as zf:
-                    self.assertIn(f"bitmaps/{Path(tmp.name).name}", zf.namelist())
+        self.assertEqual(gw["bitmap_alpha"], 60.0)
+        self.assertEqual(gw["bitmap_blur"], 70.0)
+        self.assertEqual(gw["bitmap_dim"], 30.0)
+        self.assertEqual(gw["bitmap_width"], 1000.0)
 
     def test_failure_keeps_cache_and_empty_clears(self):
         flow = next(f for f in self.root["internal_flows"] if f["name"] == "fetch_history")

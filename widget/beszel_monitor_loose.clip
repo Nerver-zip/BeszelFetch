@@ -142,7 +142,7 @@
                   "internal_title": "HostnameText",
                   "text_expression": "localhost",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                  "text_size": 15.0,
+                  "text_size": 17.0,
                   "paint_color": "#FFCDD6F4",
                   "internal_globals": {
                     "paint_color": "c_text"
@@ -168,7 +168,7 @@
               "internal_title": "DotSep",
               "text_expression": "·",
               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-              "text_size": 14.0,
+              "text_size": 16.0,
               "paint_color": "#FF6C7086",
               "internal_globals": {
                 "paint_color": "c_muted"
@@ -192,7 +192,7 @@
               "internal_title": "TimeText",
               "text_expression": "up 0d 0h",
               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-              "text_size": 14.0,
+              "text_size": 16.0,
               "paint_color": "#FFBAC2DE",
               "internal_globals": {
                 "paint_color": "c_subtext"
@@ -255,7 +255,7 @@
                   "internal_title": "RefreshGlyph",
                   "text_expression": "󰑐",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                  "text_size": 28.0,
+                  "text_size": 30.0,
                   "paint_color": "#FFBAC2DE",
                   "internal_globals": {
                     "paint_color": "c_subtext"
@@ -291,7 +291,7 @@
                 {
                   "internal_type": "ShapeModule",
                   "shape_type": "RECT",
-                  "shape_width": 74.0,
+                  "shape_width": 84.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
                   "paint_color": "#FF313244",
@@ -302,7 +302,7 @@
                 {
                   "internal_type": "ShapeModule",
                   "shape_type": "RECT",
-                  "shape_width": 74.0,
+                  "shape_width": 84.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
                   "paint_style": "STROKE",
@@ -316,7 +316,7 @@
                   "internal_type": "TextModule",
                   "text_expression": "◀ Prev",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                  "text_size": 13.0,
+                  "text_size": 16.5,
                   "paint_color": "#FFCDD6F4",
                   "internal_globals": {
                     "paint_color": "c_text"
@@ -324,11 +324,11 @@
                 }
               ],
               "position_padding_left": 0.0,
-              "position_padding_right": 134.0,
+              "position_padding_right": 140.0,
               "position_padding_top": 0.0,
               "position_padding_bottom": 0.0,
               "position_anchor": "CENTERRIGHT",
-              "position_offset_x": 134.0,
+              "position_offset_x": 140.0,
               "position_offset_y": 0.0,
               "internal_formulas": {
                 "config_visible": "$if(gv(view) = \"containers\", ALWAYS, REMOVE)$"
@@ -352,7 +352,7 @@
                 {
                   "internal_type": "ShapeModule",
                   "shape_type": "RECT",
-                  "shape_width": 74.0,
+                  "shape_width": 84.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
                   "paint_color": "#FF313244",
@@ -363,7 +363,7 @@
                 {
                   "internal_type": "ShapeModule",
                   "shape_type": "RECT",
-                  "shape_width": 74.0,
+                  "shape_width": 84.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
                   "paint_style": "STROKE",
@@ -377,7 +377,7 @@
                   "internal_type": "TextModule",
                   "text_expression": "Next ▶",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                  "text_size": 13.0,
+                  "text_size": 16.5,
                   "paint_color": "#FFCDD6F4",
                   "internal_globals": {
                     "paint_color": "c_text"
@@ -385,11 +385,11 @@
                 }
               ],
               "position_padding_left": 0.0,
-              "position_padding_right": 52.0,
+              "position_padding_right": 50.0,
               "position_padding_top": 0.0,
               "position_padding_bottom": 0.0,
               "position_anchor": "CENTERRIGHT",
-              "position_offset_x": 52.0,
+              "position_offset_x": 50.0,
               "position_offset_y": 0.0,
               "internal_formulas": {
                 "config_visible": "$if(gv(view) = \"containers\", ALWAYS, REMOVE)$"
@@ -440,7 +440,7 @@
                   "internal_title": "InfoRefreshGlyph",
                   "text_expression": "󰑐",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                  "text_size": 28.0,
+                  "text_size": 30.0,
                   "paint_color": "#FFBAC2DE",
                   "internal_globals": {
                     "paint_color": "c_subtext"
@@ -608,7 +608,7 @@
                                   "internal_title": "Pct_CPU",
                                   "text_expression": "0%",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                                  "text_size": 15.5,
+                                  "text_size": 17.5,
                                   "paint_color": "#FFCDD6F4",
                                   "internal_globals": {
                                     "paint_color": "c_text"
@@ -636,7 +636,7 @@
                                   "internal_title": "Title_CPU",
                                   "text_expression": "󰍛 CPU",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                                  "text_size": 17.0,
+                                  "text_size": 19.0,
                                   "paint_color": "#FF89B4FA",
                                   "internal_globals": {
                                     "paint_color": "c_cpu"
@@ -647,7 +647,7 @@
                                   "internal_title": "Sub_CPU",
                                   "text_expression": "—",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                                  "text_size": 14.5,
+                                  "text_size": 16.5,
                                   "paint_color": "#FFBAC2DE",
                                   "internal_globals": {
                                     "paint_color": "c_subtext"
@@ -664,7 +664,7 @@
                                   "internal_title": "Sub2_CPU",
                                   "text_expression": "—",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                                  "text_size": 13.5,
+                                  "text_size": 15.5,
                                   "paint_color": "#FF6C7086",
                                   "internal_globals": {
                                     "paint_color": "c_muted"
@@ -782,7 +782,7 @@
                                   "internal_title": "Pct_Memory",
                                   "text_expression": "0%",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                                  "text_size": 15.5,
+                                  "text_size": 17.5,
                                   "paint_color": "#FFCDD6F4",
                                   "internal_globals": {
                                     "paint_color": "c_text"
@@ -810,7 +810,7 @@
                                   "internal_title": "Title_Memory",
                                   "text_expression": " Memory",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                                  "text_size": 17.0,
+                                  "text_size": 19.0,
                                   "paint_color": "#FFCBA6F7",
                                   "internal_globals": {
                                     "paint_color": "c_ram"
@@ -821,7 +821,7 @@
                                   "internal_title": "Sub_Memory",
                                   "text_expression": "—",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                                  "text_size": 12.0,
+                                  "text_size": 14.0,
                                   "paint_color": "#FFBAC2DE",
                                   "internal_globals": {
                                     "paint_color": "c_subtext"
@@ -838,7 +838,7 @@
                                   "internal_title": "Sub2_Memory",
                                   "text_expression": "—",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                                  "text_size": 13.5,
+                                  "text_size": 15.5,
                                   "paint_color": "#FF6C7086",
                                   "internal_globals": {
                                     "paint_color": "c_muted"
@@ -964,7 +964,7 @@
                                   "internal_title": "Pct_Disk",
                                   "text_expression": "0%",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                                  "text_size": 15.5,
+                                  "text_size": 17.5,
                                   "paint_color": "#FFCDD6F4",
                                   "internal_globals": {
                                     "paint_color": "c_text"
@@ -992,7 +992,7 @@
                                   "internal_title": "Title_Disk",
                                   "text_expression": "󰋊 Disk",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                                  "text_size": 17.0,
+                                  "text_size": 19.0,
                                   "paint_color": "#FF94E2D5",
                                   "internal_globals": {
                                     "paint_color": "c_disk"
@@ -1003,7 +1003,7 @@
                                   "internal_title": "Sub_Disk",
                                   "text_expression": "—",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                                  "text_size": 12.0,
+                                  "text_size": 14.0,
                                   "paint_color": "#FFBAC2DE",
                                   "internal_globals": {
                                     "paint_color": "c_subtext"
@@ -1020,7 +1020,7 @@
                                   "internal_title": "Sub2_Disk",
                                   "text_expression": "—",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                                  "text_size": 13.5,
+                                  "text_size": 15.5,
                                   "paint_color": "#FF6C7086",
                                   "internal_globals": {
                                     "paint_color": "c_muted"
@@ -1109,7 +1109,7 @@
                               "internal_title": "NetTitle",
                               "text_expression": "󰀂 Network",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 15.0,
+                              "text_size": 19.0,
                               "paint_color": "#FF74C7EC",
                               "internal_globals": {
                                 "paint_color": "c_net"
@@ -1127,7 +1127,7 @@
                               "internal_title": "NetDownLabel",
                               "text_expression": "",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 11.5,
+                              "text_size": 13.5,
                               "internal_globals": {
                                 "paint_color": "c_subtext"
                               },
@@ -1150,7 +1150,7 @@
                               "internal_title": "NetDownVal",
                               "text_expression": "",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 12.0,
+                              "text_size": 14.0,
                               "internal_globals": {
                                 "paint_color": "c_text"
                               },
@@ -1173,7 +1173,7 @@
                               "internal_title": "NetUpLabel",
                               "text_expression": "",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 11.5,
+                              "text_size": 13.5,
                               "internal_globals": {
                                 "paint_color": "c_subtext"
                               },
@@ -1196,7 +1196,7 @@
                               "internal_title": "NetUpVal",
                               "text_expression": "",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 12.0,
+                              "text_size": 14.0,
                               "internal_globals": {
                                 "paint_color": "c_text"
                               },
@@ -1219,7 +1219,7 @@
                               "internal_title": "NetVolLabel",
                               "text_expression": "",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 11.0,
+                              "text_size": 13.0,
                               "internal_globals": {
                                 "paint_color": "c_muted"
                               },
@@ -1242,7 +1242,7 @@
                               "internal_title": "NetVolVal",
                               "text_expression": "",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 11.5,
+                              "text_size": 13.5,
                               "internal_globals": {
                                 "paint_color": "c_net"
                               },
@@ -1265,7 +1265,7 @@
                               "internal_title": "NetVolUpLabel",
                               "text_expression": "",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 11.0,
+                              "text_size": 13.0,
                               "internal_globals": {
                                 "paint_color": "c_muted"
                               },
@@ -1288,7 +1288,7 @@
                               "internal_title": "NetVolUpVal",
                               "text_expression": "",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 11.5,
+                              "text_size": 13.5,
                               "internal_globals": {
                                 "paint_color": "c_net"
                               },
@@ -1370,7 +1370,7 @@
                       "internal_title": "ColLabelName",
                       "text_expression": "",
                       "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                      "text_size": 10.5,
+                      "text_size": 12.5,
                       "internal_globals": {
                         "paint_color": "c_muted"
                       },
@@ -1411,7 +1411,7 @@
                           "internal_title": "ColLabelCPU",
                           "text_expression": "",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 10.5,
+                          "text_size": 12.5,
                           "internal_globals": {
                             "paint_color": "c_muted"
                           },
@@ -1461,7 +1461,7 @@
                           "internal_title": "ColLabelRAM",
                           "text_expression": "",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 10.5,
+                          "text_size": 12.5,
                           "internal_globals": {
                             "paint_color": "c_muted"
                           },
@@ -1597,7 +1597,7 @@
                           "internal_title": "Glyph_0",
                           "text_expression": "",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 13.5,
+                          "text_size": 15.5,
                           "paint_color": "#FF89B4FA",
                           "internal_globals": {
                             "paint_color": "c_cpu"
@@ -1615,13 +1615,13 @@
                           "internal_title": "Name",
                           "text_expression": " container-0",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.5,
+                          "text_size": 14.5,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
                           },
                           "internal_formulas": {
-                            "text_expression": "$tc(ell, gv(row0_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 7.5)))$"
+                            "text_expression": "$tc(ell, gv(row0_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$"
                           },
                           "internal_toggles": {
                             "text_expression": 10
@@ -1683,7 +1683,7 @@
                               "internal_title": "Cpu",
                               "text_expression": "0.0%",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 12.5,
+                              "text_size": 14.5,
                               "paint_color": "#FF89B4FA",
                               "internal_globals": {
                                 "paint_color": "c_cpu"
@@ -1736,7 +1736,7 @@
                               "internal_title": "Mem",
                               "text_expression": "0 MB",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 12.5,
+                              "text_size": 14.5,
                               "paint_color": "#FFCBA6F7",
                               "internal_globals": {
                                 "paint_color": "c_ram"
@@ -1877,7 +1877,7 @@
                           "internal_title": "Glyph_1",
                           "text_expression": "",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 13.5,
+                          "text_size": 15.5,
                           "paint_color": "#FF89B4FA",
                           "internal_globals": {
                             "paint_color": "c_cpu"
@@ -1895,13 +1895,13 @@
                           "internal_title": "Name",
                           "text_expression": " container-1",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.5,
+                          "text_size": 14.5,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
                           },
                           "internal_formulas": {
-                            "text_expression": "$tc(ell, gv(row1_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 7.5)))$"
+                            "text_expression": "$tc(ell, gv(row1_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$"
                           },
                           "internal_toggles": {
                             "text_expression": 10
@@ -1963,7 +1963,7 @@
                               "internal_title": "Cpu",
                               "text_expression": "0.0%",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 12.5,
+                              "text_size": 14.5,
                               "paint_color": "#FF89B4FA",
                               "internal_globals": {
                                 "paint_color": "c_cpu"
@@ -2016,7 +2016,7 @@
                               "internal_title": "Mem",
                               "text_expression": "0 MB",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 12.5,
+                              "text_size": 14.5,
                               "paint_color": "#FFCBA6F7",
                               "internal_globals": {
                                 "paint_color": "c_ram"
@@ -2157,7 +2157,7 @@
                           "internal_title": "Glyph_2",
                           "text_expression": "",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 13.5,
+                          "text_size": 15.5,
                           "paint_color": "#FF89B4FA",
                           "internal_globals": {
                             "paint_color": "c_cpu"
@@ -2175,13 +2175,13 @@
                           "internal_title": "Name",
                           "text_expression": " container-2",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.5,
+                          "text_size": 14.5,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
                           },
                           "internal_formulas": {
-                            "text_expression": "$tc(ell, gv(row2_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 7.5)))$"
+                            "text_expression": "$tc(ell, gv(row2_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$"
                           },
                           "internal_toggles": {
                             "text_expression": 10
@@ -2243,7 +2243,7 @@
                               "internal_title": "Cpu",
                               "text_expression": "0.0%",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 12.5,
+                              "text_size": 14.5,
                               "paint_color": "#FF89B4FA",
                               "internal_globals": {
                                 "paint_color": "c_cpu"
@@ -2296,7 +2296,7 @@
                               "internal_title": "Mem",
                               "text_expression": "0 MB",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 12.5,
+                              "text_size": 14.5,
                               "paint_color": "#FFCBA6F7",
                               "internal_globals": {
                                 "paint_color": "c_ram"
@@ -2437,7 +2437,7 @@
                           "internal_title": "Glyph_3",
                           "text_expression": "",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 13.5,
+                          "text_size": 15.5,
                           "paint_color": "#FF89B4FA",
                           "internal_globals": {
                             "paint_color": "c_cpu"
@@ -2455,13 +2455,13 @@
                           "internal_title": "Name",
                           "text_expression": " container-3",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.5,
+                          "text_size": 14.5,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
                           },
                           "internal_formulas": {
-                            "text_expression": "$tc(ell, gv(row3_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 7.5)))$"
+                            "text_expression": "$tc(ell, gv(row3_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$"
                           },
                           "internal_toggles": {
                             "text_expression": 10
@@ -2523,7 +2523,7 @@
                               "internal_title": "Cpu",
                               "text_expression": "0.0%",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 12.5,
+                              "text_size": 14.5,
                               "paint_color": "#FF89B4FA",
                               "internal_globals": {
                                 "paint_color": "c_cpu"
@@ -2576,7 +2576,7 @@
                               "internal_title": "Mem",
                               "text_expression": "0 MB",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 12.5,
+                              "text_size": 14.5,
                               "paint_color": "#FFCBA6F7",
                               "internal_globals": {
                                 "paint_color": "c_ram"
@@ -2717,7 +2717,7 @@
                           "internal_title": "Glyph_4",
                           "text_expression": "",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 13.5,
+                          "text_size": 15.5,
                           "paint_color": "#FF89B4FA",
                           "internal_globals": {
                             "paint_color": "c_cpu"
@@ -2735,13 +2735,13 @@
                           "internal_title": "Name",
                           "text_expression": " container-4",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.5,
+                          "text_size": 14.5,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
                           },
                           "internal_formulas": {
-                            "text_expression": "$tc(ell, gv(row4_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 7.5)))$"
+                            "text_expression": "$tc(ell, gv(row4_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$"
                           },
                           "internal_toggles": {
                             "text_expression": 10
@@ -2803,7 +2803,7 @@
                               "internal_title": "Cpu",
                               "text_expression": "0.0%",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 12.5,
+                              "text_size": 14.5,
                               "paint_color": "#FF89B4FA",
                               "internal_globals": {
                                 "paint_color": "c_cpu"
@@ -2856,7 +2856,7 @@
                               "internal_title": "Mem",
                               "text_expression": "0 MB",
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                              "text_size": 12.5,
+                              "text_size": 14.5,
                               "paint_color": "#FFCBA6F7",
                               "internal_globals": {
                                 "paint_color": "c_ram"
@@ -2902,7 +2902,7 @@
                   "internal_title": "PageText",
                   "text_expression": "Page 1 / 1",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                  "text_size": 13.0,
+                  "text_size": 15.0,
                   "paint_color": "#FFBAC2DE",
                   "internal_globals": {
                     "paint_color": "c_subtext"
@@ -2926,7 +2926,7 @@
                   "internal_title": "ContainersEmpty",
                   "text_expression": "Page 1 / 1",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                  "text_size": 13.0,
+                  "text_size": 15.0,
                   "paint_color": "#FFBAC2DE",
                   "internal_globals": {
                     "paint_color": "c_subtext"
@@ -3028,7 +3028,7 @@
                       "internal_title": "FetchHeading",
                       "text_expression": "$if(gv(info_ready) = 1, tc(ell, gv(fetch_host), 24) + \"@beszel\", \"~/homelab\")$",
                       "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                      "text_size": 16.0,
+                      "text_size": 18.0,
                       "paint_color": "#FFCBA6F7",
                       "internal_globals": {
                         "paint_color": "c_ram"
@@ -3072,7 +3072,7 @@
                           "internal_title": "FetchOSLabel",
                           "text_expression": "├ OS",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FF89B4FA",
                           "internal_globals": {
                             "paint_color": "c_cpu"
@@ -3096,7 +3096,7 @@
                           "internal_title": "FetchOSColon",
                           "text_expression": ":",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFBAC2DE",
                           "internal_globals": {
                             "paint_color": "c_subtext"
@@ -3107,12 +3107,12 @@
                           "internal_toggles": {
                             "paint_color": 10
                           },
-                          "position_padding_left": 74.0,
+                          "position_padding_left": 76.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 74.0,
+                          "position_offset_x": 76.0,
                           "position_offset_y": 0.0
                         },
                         {
@@ -3120,7 +3120,7 @@
                           "internal_title": "FetchOSValue",
                           "text_expression": "$tc(ell, gv(fetch_os_line), mu(max, 12, mu(floor, (si(rwidth) * 0.7 - 130) / 7.2)))$",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
@@ -3133,12 +3133,12 @@
                             "paint_color": 10,
                             "text_expression": 10
                           },
-                          "position_padding_left": 86.0,
+                          "position_padding_left": 90.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 86.0,
+                          "position_offset_x": 90.0,
                           "position_offset_y": 0.0
                         }
                       ],
@@ -3181,7 +3181,7 @@
                           "internal_title": "FetchKernelLabel",
                           "text_expression": "├ Kernel",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FF74C7EC",
                           "internal_globals": {
                             "paint_color": "c_net"
@@ -3205,7 +3205,7 @@
                           "internal_title": "FetchKernelColon",
                           "text_expression": ":",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFBAC2DE",
                           "internal_globals": {
                             "paint_color": "c_subtext"
@@ -3216,12 +3216,12 @@
                           "internal_toggles": {
                             "paint_color": 10
                           },
-                          "position_padding_left": 74.0,
+                          "position_padding_left": 76.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 74.0,
+                          "position_offset_x": 76.0,
                           "position_offset_y": 0.0
                         },
                         {
@@ -3229,7 +3229,7 @@
                           "internal_title": "FetchKernelValue",
                           "text_expression": "$tc(ell, gv(fetch_kernel), mu(max, 12, mu(floor, (si(rwidth) * 0.7 - 130) / 7.2)))$",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
@@ -3242,12 +3242,12 @@
                             "paint_color": 10,
                             "text_expression": 10
                           },
-                          "position_padding_left": 86.0,
+                          "position_padding_left": 90.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 86.0,
+                          "position_offset_x": 90.0,
                           "position_offset_y": 0.0
                         }
                       ],
@@ -3290,7 +3290,7 @@
                           "internal_title": "FetchCPULabel",
                           "text_expression": "├ CPU",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFFAB387",
                           "internal_globals": {
                             "paint_color": "c_peach"
@@ -3314,7 +3314,7 @@
                           "internal_title": "FetchCPUColon",
                           "text_expression": ":",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFBAC2DE",
                           "internal_globals": {
                             "paint_color": "c_subtext"
@@ -3325,12 +3325,12 @@
                           "internal_toggles": {
                             "paint_color": 10
                           },
-                          "position_padding_left": 74.0,
+                          "position_padding_left": 76.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 74.0,
+                          "position_offset_x": 76.0,
                           "position_offset_y": 0.0
                         },
                         {
@@ -3338,7 +3338,7 @@
                           "internal_title": "FetchCPUValue",
                           "text_expression": "$tc(ell, gv(fetch_cpu), mu(max, 12, mu(floor, (si(rwidth) * 0.7 - 130) / 7.2)))$",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
@@ -3351,12 +3351,12 @@
                             "paint_color": 10,
                             "text_expression": 10
                           },
-                          "position_padding_left": 86.0,
+                          "position_padding_left": 90.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 86.0,
+                          "position_offset_x": 90.0,
                           "position_offset_y": 0.0
                         }
                       ],
@@ -3399,7 +3399,7 @@
                           "internal_title": "FetchGPULabel",
                           "text_expression": "├ GPU",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFA6E3A1",
                           "internal_globals": {
                             "paint_color": "c_ok"
@@ -3423,7 +3423,7 @@
                           "internal_title": "FetchGPUColon",
                           "text_expression": ":",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFBAC2DE",
                           "internal_globals": {
                             "paint_color": "c_subtext"
@@ -3434,12 +3434,12 @@
                           "internal_toggles": {
                             "paint_color": 10
                           },
-                          "position_padding_left": 74.0,
+                          "position_padding_left": 76.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 74.0,
+                          "position_offset_x": 76.0,
                           "position_offset_y": 0.0
                         },
                         {
@@ -3447,7 +3447,7 @@
                           "internal_title": "FetchGPUValue",
                           "text_expression": "$tc(ell, gv(fetch_gpu), mu(max, 12, mu(floor, (si(rwidth) * 0.7 - 130) / 7.2)))$",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
@@ -3460,12 +3460,12 @@
                             "paint_color": 10,
                             "text_expression": 10
                           },
-                          "position_padding_left": 86.0,
+                          "position_padding_left": 90.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 86.0,
+                          "position_offset_x": 90.0,
                           "position_offset_y": 0.0
                         }
                       ],
@@ -3508,7 +3508,7 @@
                           "internal_title": "FetchCoresLabel",
                           "text_expression": "├ Cores",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFF9E2AF",
                           "internal_globals": {
                             "paint_color": "c_warn"
@@ -3532,7 +3532,7 @@
                           "internal_title": "FetchCoresColon",
                           "text_expression": ":",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFBAC2DE",
                           "internal_globals": {
                             "paint_color": "c_subtext"
@@ -3543,12 +3543,12 @@
                           "internal_toggles": {
                             "paint_color": 10
                           },
-                          "position_padding_left": 74.0,
+                          "position_padding_left": 76.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 74.0,
+                          "position_offset_x": 76.0,
                           "position_offset_y": 0.0
                         },
                         {
@@ -3556,7 +3556,7 @@
                           "internal_title": "FetchCoresValue",
                           "text_expression": "$tc(ell, gv(fetch_cores), mu(max, 12, mu(floor, (si(rwidth) * 0.7 - 130) / 7.2)))$",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
@@ -3569,12 +3569,12 @@
                             "paint_color": 10,
                             "text_expression": 10
                           },
-                          "position_padding_left": 86.0,
+                          "position_padding_left": 90.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 86.0,
+                          "position_offset_x": 90.0,
                           "position_offset_y": 0.0
                         }
                       ],
@@ -3617,7 +3617,7 @@
                           "internal_title": "FetchUptimeLabel",
                           "text_expression": "├ Uptime",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FF94E2D5",
                           "internal_globals": {
                             "paint_color": "c_disk"
@@ -3641,7 +3641,7 @@
                           "internal_title": "FetchUptimeColon",
                           "text_expression": ":",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFBAC2DE",
                           "internal_globals": {
                             "paint_color": "c_subtext"
@@ -3652,12 +3652,12 @@
                           "internal_toggles": {
                             "paint_color": 10
                           },
-                          "position_padding_left": 74.0,
+                          "position_padding_left": 76.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 74.0,
+                          "position_offset_x": 76.0,
                           "position_offset_y": 0.0
                         },
                         {
@@ -3665,7 +3665,7 @@
                           "internal_title": "FetchUptimeValue",
                           "text_expression": "$tc(ell, gv(fetch_uptime), mu(max, 12, mu(floor, (si(rwidth) * 0.7 - 130) / 7.2)))$",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
@@ -3678,12 +3678,12 @@
                             "paint_color": 10,
                             "text_expression": 10
                           },
-                          "position_padding_left": 86.0,
+                          "position_padding_left": 90.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 86.0,
+                          "position_offset_x": 90.0,
                           "position_offset_y": 0.0
                         }
                       ],
@@ -3726,7 +3726,7 @@
                           "internal_title": "FetchMemoryLabel",
                           "text_expression": "├ Memory",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFCBA6F7",
                           "internal_globals": {
                             "paint_color": "c_ram"
@@ -3750,7 +3750,7 @@
                           "internal_title": "FetchMemoryColon",
                           "text_expression": ":",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFBAC2DE",
                           "internal_globals": {
                             "paint_color": "c_subtext"
@@ -3761,12 +3761,12 @@
                           "internal_toggles": {
                             "paint_color": 10
                           },
-                          "position_padding_left": 74.0,
+                          "position_padding_left": 76.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 74.0,
+                          "position_offset_x": 76.0,
                           "position_offset_y": 0.0
                         },
                         {
@@ -3774,7 +3774,7 @@
                           "internal_title": "FetchMemoryValue",
                           "text_expression": "$tc(ell, gv(fetch_memory), mu(max, 12, mu(floor, (si(rwidth) * 0.7 - 130) / 7.2)))$",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
@@ -3787,12 +3787,12 @@
                             "paint_color": 10,
                             "text_expression": 10
                           },
-                          "position_padding_left": 86.0,
+                          "position_padding_left": 90.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 86.0,
+                          "position_offset_x": 90.0,
                           "position_offset_y": 0.0
                         }
                       ],
@@ -3835,7 +3835,7 @@
                           "internal_title": "FetchTempLabel",
                           "text_expression": "├ Temp",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFF38BA8",
                           "internal_globals": {
                             "paint_color": "c_err"
@@ -3859,7 +3859,7 @@
                           "internal_title": "FetchTempColon",
                           "text_expression": ":",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFBAC2DE",
                           "internal_globals": {
                             "paint_color": "c_subtext"
@@ -3870,12 +3870,12 @@
                           "internal_toggles": {
                             "paint_color": 10
                           },
-                          "position_padding_left": 74.0,
+                          "position_padding_left": 76.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 74.0,
+                          "position_offset_x": 76.0,
                           "position_offset_y": 0.0
                         },
                         {
@@ -3883,7 +3883,7 @@
                           "internal_title": "FetchTempValue",
                           "text_expression": "$tc(ell, gv(fetch_temperature), mu(max, 12, mu(floor, (si(rwidth) * 0.7 - 130) / 7.2)))$",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                          "text_size": 12.0,
+                          "text_size": 14.0,
                           "paint_color": "#FFCDD6F4",
                           "internal_globals": {
                             "paint_color": "c_text"
@@ -3896,12 +3896,12 @@
                             "paint_color": 10,
                             "text_expression": 10
                           },
-                          "position_padding_left": 86.0,
+                          "position_padding_left": 90.0,
                           "position_padding_right": 0.0,
                           "position_padding_top": 0.0,
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
-                          "position_offset_x": 86.0,
+                          "position_offset_x": 90.0,
                           "position_offset_y": 0.0
                         }
                       ],
@@ -4204,7 +4204,7 @@
                   "internal_title": "TextOverview",
                   "text_expression": "󰍛 Overview",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                  "text_size": 15.5,
+                  "text_size": 17.5,
                   "paint_color": "#FFCDD6F4",
                   "internal_formulas": {
                     "paint_color": "$if(gv(view) = \"overview\", gv(c_text), gv(c_muted))$"
@@ -4266,7 +4266,7 @@
                   "internal_title": "TextContainers",
                   "text_expression": " Docker",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                  "text_size": 15.5,
+                  "text_size": 17.5,
                   "paint_color": "#FF6C7086",
                   "internal_formulas": {
                     "paint_color": "$if(gv(view) = \"containers\", gv(c_text), gv(c_muted))$"
@@ -4333,7 +4333,7 @@
                   "internal_title": "TextInfo",
                   "text_expression": "󰋼 Info",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
-                  "text_size": 15.5,
+                  "text_size": 17.5,
                   "paint_color": "#FF6C7086",
                   "internal_formulas": {
                     "paint_color": "$if(gv(view) = \"info\", gv(c_text), gv(c_muted))$"
