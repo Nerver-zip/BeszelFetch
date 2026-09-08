@@ -23,27 +23,27 @@
       "value": "http://localhost:8090"
     },
     {
-      "name": "bz_token",
+      "name": "bz_email",
       "index": 2,
       "type": "TEXT",
-      "title": "PocketBase JWT Token",
-      "description": "Optional JWT auth token if Hub requires authentication",
-      "value": ""
-    },
-    {
-      "name": "bz_email",
-      "index": 3,
-      "type": "TEXT",
       "title": "Beszel User Email",
-      "description": "Optional user email for token refresh",
+      "description": "PocketBase Admin or regular user email",
       "value": ""
     },
     {
       "name": "bz_pass",
+      "index": 3,
+      "type": "TEXT",
+      "title": "Beszel Password",
+      "description": "PocketBase Admin or regular user password",
+      "value": ""
+    },
+    {
+      "name": "bz_token",
       "index": 4,
       "type": "TEXT",
-      "title": "Beszel User Password",
-      "description": "Optional user password for token refresh",
+      "title": "PocketBase Auth Token",
+      "description": "Bearer token populated dynamically by Auth Flow",
       "value": ""
     },
     {
@@ -51,7 +51,7 @@
       "index": 5,
       "type": "TEXT",
       "title": "System ID",
-      "description": "PocketBase record ID of active system",
+      "description": "Current system record ID (e.g. sys_atlas)",
       "value": ""
     },
     {
@@ -59,40 +59,52 @@
       "index": 6,
       "type": "TEXT",
       "title": "Active View",
-      "description": "overview, containers, or info",
+      "description": "Current active view: overview | containers | info",
       "value": "overview"
     },
     {
       "name": "sys_idx",
-      "index": 9,
-      "type": "NUMBER",
+      "index": 7,
+      "type": "TEXT",
       "title": "Active System Index",
-      "description": "0-indexed active system",
-      "value": 0
+      "value": "0"
     },
     {
       "name": "container_page",
-      "index": 10,
+      "index": 8,
       "type": "TEXT",
-      "title": "Container Page",
-      "description": "0-indexed container page",
+      "title": "Containers Page",
       "value": "0"
     },
     {
       "name": "container_count",
-      "index": 11,
+      "index": 9,
       "type": "TEXT",
-      "title": "Total Containers",
+      "title": "Containers Total Count",
       "value": 5,
       "toggles": 10,
       "global_formula": "$tc(count, tc(reg, gv(cnt_json), \" *:\", \":\"), tc(utf, 22) + \"n\" + tc(utf, 22) + \":\") + 0$"
     },
     {
       "name": "sys_json",
-      "index": 12,
+      "index": 10,
       "type": "TEXT",
       "title": "Systems Cache",
       "value": "{\"page\": 1, \"perPage\": 100, \"totalItems\": 2, \"totalPages\": 1, \"items\": [{\"id\": \"sys_atlas\", \"name\": \"atlas\", \"status\": \"up\", \"info\": {\"u\": 1051200, \"cpu\": 18.4, \"mp\": 62.1, \"dp\": 47.8, \"bb\": [420000, 2210000], \"la\": [0.42, 0.38, 0.31], \"dt\": 43.0}}, {\"id\": \"sys_nova\", \"name\": \"nova\", \"status\": \"up\", \"info\": {\"u\": 221500, \"cpu\": 7.3, \"mp\": 39.0, \"dp\": 68.2, \"bb\": [155000, 540000], \"la\": [0.18, 0.22, 0.25], \"dt\": 39.5}}]}"
+    },
+    {
+      "name": "latest",
+      "index": 114,
+      "type": "TEXT",
+      "title": "Latest scalar stats",
+      "value": "{\"page\": 1, \"perPage\": 1, \"totalItems\": 1, \"items\": [{\"created\": \"2026-09-07 20:59:00.000Z\", \"stats\": {\"cpu\": 7.5, \"m\": 16, \"mu\": 2.4, \"mp\": 15, \"mb\": 3.25, \"s\": 4, \"su\": 0.125, \"d\": 1000, \"du\": 60, \"dp\": 6, \"b\": [4096, 2097152]}}]}"
+    },
+    {
+      "name": "tmp_now",
+      "index": 119,
+      "type": "TEXT",
+      "title": "tmp_now",
+      "value": ""
     },
     {
       "name": "cnt_json",
@@ -134,14 +146,14 @@
       "index": 18,
       "type": "COLOR",
       "title": "Base Background",
-      "value": "#FF1E1E2E"
+      "value": "#D91E1E2E"
     },
     {
       "name": "c_mantle",
       "index": 19,
       "type": "COLOR",
       "title": "Mantle Background",
-      "value": "#FF181825"
+      "value": "#B3181825"
     },
     {
       "name": "c_surface0",
@@ -236,7 +248,7 @@
     },
     {
       "name": "cnt_base",
-      "index": 31,
+      "index": 33,
       "type": "TEXT",
       "title": "Container cache path",
       "toggles": 10,
@@ -245,7 +257,7 @@
     },
     {
       "name": "cpage",
-      "index": 32,
+      "index": 34,
       "type": "TEXT",
       "title": "Bounded container page",
       "toggles": 10,
@@ -254,7 +266,7 @@
     },
     {
       "name": "row0_name",
-      "index": 33,
+      "index": 35,
       "type": "TEXT",
       "title": "Container 0 name",
       "toggles": 10,
@@ -263,7 +275,7 @@
     },
     {
       "name": "row0_cpu",
-      "index": 34,
+      "index": 36,
       "type": "TEXT",
       "title": "Container 0 cpu",
       "toggles": 10,
@@ -272,7 +284,7 @@
     },
     {
       "name": "row0_mem",
-      "index": 35,
+      "index": 37,
       "type": "TEXT",
       "title": "Container 0 mem",
       "toggles": 10,
@@ -280,8 +292,17 @@
       "value": ""
     },
     {
+      "name": "row0_status",
+      "index": 38,
+      "type": "TEXT",
+      "title": "Container 0 status",
+      "toggles": 10,
+      "global_formula": "$if(tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 0) + \"].s\") != \"\", tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 0) + \"].s\"), tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 0) + \"].status\"))$",
+      "value": ""
+    },
+    {
       "name": "row1_name",
-      "index": 36,
+      "index": 39,
       "type": "TEXT",
       "title": "Container 1 name",
       "toggles": 10,
@@ -290,7 +311,7 @@
     },
     {
       "name": "row1_cpu",
-      "index": 37,
+      "index": 40,
       "type": "TEXT",
       "title": "Container 1 cpu",
       "toggles": 10,
@@ -299,7 +320,7 @@
     },
     {
       "name": "row1_mem",
-      "index": 38,
+      "index": 41,
       "type": "TEXT",
       "title": "Container 1 mem",
       "toggles": 10,
@@ -307,8 +328,17 @@
       "value": ""
     },
     {
+      "name": "row1_status",
+      "index": 42,
+      "type": "TEXT",
+      "title": "Container 1 status",
+      "toggles": 10,
+      "global_formula": "$if(tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 1) + \"].s\") != \"\", tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 1) + \"].s\"), tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 1) + \"].status\"))$",
+      "value": ""
+    },
+    {
       "name": "row2_name",
-      "index": 39,
+      "index": 43,
       "type": "TEXT",
       "title": "Container 2 name",
       "toggles": 10,
@@ -317,7 +347,7 @@
     },
     {
       "name": "row2_cpu",
-      "index": 40,
+      "index": 44,
       "type": "TEXT",
       "title": "Container 2 cpu",
       "toggles": 10,
@@ -326,7 +356,7 @@
     },
     {
       "name": "row2_mem",
-      "index": 41,
+      "index": 45,
       "type": "TEXT",
       "title": "Container 2 mem",
       "toggles": 10,
@@ -334,8 +364,17 @@
       "value": ""
     },
     {
+      "name": "row2_status",
+      "index": 46,
+      "type": "TEXT",
+      "title": "Container 2 status",
+      "toggles": 10,
+      "global_formula": "$if(tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 2) + \"].s\") != \"\", tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 2) + \"].s\"), tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 2) + \"].status\"))$",
+      "value": ""
+    },
+    {
       "name": "row3_name",
-      "index": 42,
+      "index": 47,
       "type": "TEXT",
       "title": "Container 3 name",
       "toggles": 10,
@@ -344,7 +383,7 @@
     },
     {
       "name": "row3_cpu",
-      "index": 43,
+      "index": 48,
       "type": "TEXT",
       "title": "Container 3 cpu",
       "toggles": 10,
@@ -353,7 +392,7 @@
     },
     {
       "name": "row3_mem",
-      "index": 44,
+      "index": 49,
       "type": "TEXT",
       "title": "Container 3 mem",
       "toggles": 10,
@@ -361,8 +400,17 @@
       "value": ""
     },
     {
+      "name": "row3_status",
+      "index": 50,
+      "type": "TEXT",
+      "title": "Container 3 status",
+      "toggles": 10,
+      "global_formula": "$if(tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 3) + \"].s\") != \"\", tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 3) + \"].s\"), tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 3) + \"].status\"))$",
+      "value": ""
+    },
+    {
       "name": "row4_name",
-      "index": 45,
+      "index": 51,
       "type": "TEXT",
       "title": "Container 4 name",
       "toggles": 10,
@@ -371,7 +419,7 @@
     },
     {
       "name": "row4_cpu",
-      "index": 46,
+      "index": 52,
       "type": "TEXT",
       "title": "Container 4 cpu",
       "toggles": 10,
@@ -380,7 +428,7 @@
     },
     {
       "name": "row4_mem",
-      "index": 47,
+      "index": 53,
       "type": "TEXT",
       "title": "Container 4 mem",
       "toggles": 10,
@@ -388,8 +436,17 @@
       "value": ""
     },
     {
+      "name": "row4_status",
+      "index": 54,
+      "type": "TEXT",
+      "title": "Container 4 status",
+      "toggles": 10,
+      "global_formula": "$if(tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 4) + \"].s\") != \"\", tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 4) + \"].s\"), tc(json, gv(cnt_json), gv(cnt_base) + \"[\" + (gv(cpage) * 5 + 4) + \"].status\"))$",
+      "value": ""
+    },
+    {
       "name": "frameh",
-      "index": 48,
+      "index": 55,
       "type": "TEXT",
       "value": "376",
       "toggles": 10,
@@ -397,7 +454,7 @@
     },
     {
       "name": "host",
-      "index": 49,
+      "index": 56,
       "type": "TEXT",
       "title": "host",
       "value": "",
@@ -406,7 +463,7 @@
     },
     {
       "name": "host_status",
-      "index": 50,
+      "index": 57,
       "type": "TEXT",
       "title": "host_status",
       "value": "",
@@ -415,7 +472,7 @@
     },
     {
       "name": "uptime",
-      "index": 51,
+      "index": 58,
       "type": "TEXT",
       "title": "uptime",
       "value": "",
@@ -424,7 +481,7 @@
     },
     {
       "name": "temp",
-      "index": 52,
+      "index": 59,
       "type": "TEXT",
       "title": "temp",
       "value": "",
@@ -433,7 +490,7 @@
     },
     {
       "name": "load1",
-      "index": 53,
+      "index": 60,
       "type": "TEXT",
       "title": "load1",
       "value": "",
@@ -442,7 +499,7 @@
     },
     {
       "name": "load5",
-      "index": 54,
+      "index": 61,
       "type": "TEXT",
       "title": "load5",
       "value": "",
@@ -451,7 +508,7 @@
     },
     {
       "name": "load15",
-      "index": 55,
+      "index": 62,
       "type": "TEXT",
       "title": "load15",
       "value": "",
@@ -460,7 +517,7 @@
     },
     {
       "name": "ramused",
-      "index": 56,
+      "index": 63,
       "type": "TEXT",
       "title": "ramused",
       "value": "",
@@ -469,7 +526,7 @@
     },
     {
       "name": "ramtotal",
-      "index": 57,
+      "index": 64,
       "type": "TEXT",
       "title": "ramtotal",
       "value": "",
@@ -478,7 +535,7 @@
     },
     {
       "name": "diskused",
-      "index": 58,
+      "index": 65,
       "type": "TEXT",
       "title": "diskused",
       "value": "",
@@ -487,7 +544,7 @@
     },
     {
       "name": "disktotal",
-      "index": 59,
+      "index": 66,
       "type": "TEXT",
       "title": "disktotal",
       "value": "",
@@ -496,7 +553,7 @@
     },
     {
       "name": "buffer",
-      "index": 60,
+      "index": 67,
       "type": "TEXT",
       "title": "buffer",
       "value": "",
@@ -505,7 +562,7 @@
     },
     {
       "name": "swap",
-      "index": 61,
+      "index": 68,
       "type": "TEXT",
       "title": "swap",
       "value": "",
@@ -514,7 +571,7 @@
     },
     {
       "name": "swapused",
-      "index": 62,
+      "index": 69,
       "type": "TEXT",
       "title": "swapused",
       "value": "",
@@ -523,7 +580,7 @@
     },
     {
       "name": "net_tx",
-      "index": 63,
+      "index": 70,
       "type": "TEXT",
       "title": "net_tx",
       "value": "",
@@ -532,7 +589,7 @@
     },
     {
       "name": "rate_tx",
-      "index": 64,
+      "index": 71,
       "type": "TEXT",
       "title": "rate_tx",
       "value": "",
@@ -541,7 +598,7 @@
     },
     {
       "name": "net_rx",
-      "index": 65,
+      "index": 72,
       "type": "TEXT",
       "title": "net_rx",
       "value": "",
@@ -550,7 +607,7 @@
     },
     {
       "name": "rate_rx",
-      "index": 66,
+      "index": 73,
       "type": "TEXT",
       "title": "rate_rx",
       "value": "",
@@ -559,7 +616,7 @@
     },
     {
       "name": "ram_fmt",
-      "index": 67,
+      "index": 74,
       "type": "TEXT",
       "title": "ram_fmt",
       "value": "",
@@ -568,7 +625,7 @@
     },
     {
       "name": "disk_fmt",
-      "index": 68,
+      "index": 75,
       "type": "TEXT",
       "title": "disk_fmt",
       "value": "",
@@ -577,7 +634,7 @@
     },
     {
       "name": "temp_fmt",
-      "index": 69,
+      "index": 76,
       "type": "TEXT",
       "title": "temp_fmt",
       "value": "",
@@ -586,7 +643,7 @@
     },
     {
       "name": "up_days",
-      "index": 70,
+      "index": 77,
       "type": "TEXT",
       "title": "up_days",
       "value": "",
@@ -595,7 +652,7 @@
     },
     {
       "name": "up_hours",
-      "index": 71,
+      "index": 78,
       "type": "TEXT",
       "title": "up_hours",
       "value": "",
@@ -604,7 +661,7 @@
     },
     {
       "name": "up_fmt",
-      "index": 72,
+      "index": 79,
       "type": "TEXT",
       "title": "up_fmt",
       "value": "",
@@ -613,7 +670,7 @@
     },
     {
       "name": "load1_fmt",
-      "index": 73,
+      "index": 80,
       "type": "TEXT",
       "title": "load1_fmt",
       "value": "",
@@ -622,7 +679,7 @@
     },
     {
       "name": "load5_fmt",
-      "index": 74,
+      "index": 81,
       "type": "TEXT",
       "title": "load5_fmt",
       "value": "",
@@ -631,7 +688,7 @@
     },
     {
       "name": "load15_fmt",
-      "index": 75,
+      "index": 82,
       "type": "TEXT",
       "title": "load15_fmt",
       "value": "",
@@ -640,7 +697,7 @@
     },
     {
       "name": "loads",
-      "index": 76,
+      "index": 83,
       "type": "TEXT",
       "title": "loads",
       "value": "",
@@ -649,7 +706,7 @@
     },
     {
       "name": "buffer_fmt",
-      "index": 77,
+      "index": 84,
       "type": "TEXT",
       "title": "buffer_fmt",
       "value": "",
@@ -658,7 +715,7 @@
     },
     {
       "name": "swap_fmt",
-      "index": 78,
+      "index": 85,
       "type": "TEXT",
       "title": "swap_fmt",
       "value": "",
@@ -667,7 +724,7 @@
     },
     {
       "name": "partition",
-      "index": 79,
+      "index": 86,
       "type": "TEXT",
       "title": "partition",
       "value": "",
@@ -676,7 +733,7 @@
     },
     {
       "name": "load_period",
-      "index": 80,
+      "index": 87,
       "type": "TEXT",
       "title": "load_period",
       "value": "",
@@ -685,7 +742,7 @@
     },
     {
       "name": "load_best",
-      "index": 81,
+      "index": 88,
       "type": "TEXT",
       "title": "load_best",
       "value": "",
@@ -694,7 +751,7 @@
     },
     {
       "name": "day_rx",
-      "index": 82,
+      "index": 89,
       "type": "TEXT",
       "title": "day_rx",
       "value": "",
@@ -703,7 +760,7 @@
     },
     {
       "name": "day_tx",
-      "index": 83,
+      "index": 90,
       "type": "TEXT",
       "title": "day_tx",
       "value": "",
@@ -712,7 +769,7 @@
     },
     {
       "name": "info_ready",
-      "index": 84,
+      "index": 91,
       "type": "TEXT",
       "title": "info_ready",
       "value": "",
@@ -721,7 +778,7 @@
     },
     {
       "name": "fetch_host",
-      "index": 85,
+      "index": 92,
       "type": "TEXT",
       "title": "fetch_host",
       "value": "",
@@ -730,7 +787,7 @@
     },
     {
       "name": "fetch_kernel",
-      "index": 86,
+      "index": 93,
       "type": "TEXT",
       "title": "fetch_kernel",
       "value": "",
@@ -739,7 +796,7 @@
     },
     {
       "name": "fetch_cpu",
-      "index": 87,
+      "index": 94,
       "type": "TEXT",
       "title": "fetch_cpu",
       "value": "",
@@ -748,7 +805,7 @@
     },
     {
       "name": "fetch_os_name",
-      "index": 88,
+      "index": 95,
       "type": "TEXT",
       "title": "fetch_os_name",
       "value": "",
@@ -757,7 +814,7 @@
     },
     {
       "name": "fetch_os_id",
-      "index": 89,
+      "index": 96,
       "type": "TEXT",
       "title": "fetch_os_id",
       "value": "",
@@ -766,7 +823,7 @@
     },
     {
       "name": "fetch_arch",
-      "index": 90,
+      "index": 97,
       "type": "TEXT",
       "title": "fetch_arch",
       "value": "",
@@ -775,7 +832,7 @@
     },
     {
       "name": "fetch_os",
-      "index": 91,
+      "index": 98,
       "type": "TEXT",
       "title": "fetch_os",
       "value": "",
@@ -784,7 +841,7 @@
     },
     {
       "name": "fetch_os_lower",
-      "index": 92,
+      "index": 99,
       "type": "TEXT",
       "title": "fetch_os_lower",
       "value": "",
@@ -793,7 +850,7 @@
     },
     {
       "name": "fetch_os_line",
-      "index": 93,
+      "index": 100,
       "type": "TEXT",
       "title": "fetch_os_line",
       "value": "",
@@ -802,7 +859,7 @@
     },
     {
       "name": "fetch_u",
-      "index": 94,
+      "index": 101,
       "type": "TEXT",
       "title": "fetch_u",
       "value": "",
@@ -811,7 +868,7 @@
     },
     {
       "name": "fetch_temp",
-      "index": 95,
+      "index": 102,
       "type": "TEXT",
       "title": "fetch_temp",
       "value": "",
@@ -820,7 +877,7 @@
     },
     {
       "name": "fetch_uptime",
-      "index": 96,
+      "index": 103,
       "type": "TEXT",
       "title": "fetch_uptime",
       "value": "",
@@ -829,7 +886,7 @@
     },
     {
       "name": "fetch_temperature",
-      "index": 97,
+      "index": 104,
       "type": "TEXT",
       "title": "fetch_temperature",
       "value": "",
@@ -838,7 +895,7 @@
     },
     {
       "name": "fetch_memory",
-      "index": 98,
+      "index": 105,
       "type": "TEXT",
       "title": "fetch_memory",
       "value": "",
@@ -847,7 +904,7 @@
     },
     {
       "name": "fetch_cores",
-      "index": 99,
+      "index": 106,
       "type": "TEXT",
       "title": "fetch_cores",
       "value": "",
@@ -856,7 +913,7 @@
     },
     {
       "name": "fetch_gpus",
-      "index": 100,
+      "index": 107,
       "type": "TEXT",
       "title": "fetch_gpus",
       "value": "",
@@ -865,7 +922,7 @@
     },
     {
       "name": "fetch_gpu",
-      "index": 101,
+      "index": 108,
       "type": "TEXT",
       "title": "fetch_gpu",
       "value": "",
@@ -874,7 +931,7 @@
     },
     {
       "name": "fetch_logo",
-      "index": 102,
+      "index": 109,
       "type": "TEXT",
       "title": "fetch_logo",
       "value": "",
@@ -883,14 +940,14 @@
     },
     {
       "name": "ascii_data",
-      "index": 103,
+      "index": 110,
       "type": "TEXT",
       "title": "Fastfetch ASCII catalog",
       "value": "{\"linux\": {\"art\": \"    ___\\n   (.. \\\\\\n   (<> |\\n  //  \\\\ \\\\\\n ( |  | /|\\n_/\\\\ __)/_)\\n\\\\/-____\\\\/\", \"cols\": 10, \"color\": \"#FFFAB387\"}, \"debian\": {\"art\": \"  _____\\n /  __ \\\\\\n|  /    |\\n|  \\\\___-\\n-_\\n  --_\", \"cols\": 9, \"color\": \"#FFF38BA8\"}, \"ubuntu\": {\"art\": \"       ..;,; .,;,.\\n    .,lool: .ooooo,\\n   ;oo;:    .coool.\\n ....         ''' ,l;\\n:oooo,            'oo.\\nlooooc            :oo'\\n '::'             ,oo:\\n   ,.,       .... co,\\n    lo:;.   :oooo; .\\n     ':ooo; cooooc\\n        '''  ''''\", \"cols\": 22, \"color\": \"#FFFAB387\"}, \"arch\": {\"art\": \"      /\\\\\\n     /  \\\\\\n    /    \\\\\\n   /      \\\\\\n  /   ,,   \\\\\\n /   |  |   \\\\\\n/_-''    ''-_\\\\\", \"cols\": 14, \"color\": \"#FF89B4FA\"}, \"fedora\": {\"art\": \"        ,'''''.\\n       |   ,.  |\\n       |  |  '_'\\n  ,....|  |..\\n.'  ,_;|   ..'\\n|  |   |  |\\n|  ',_,'  |\\n '.     ,'\\n   '''''\", \"cols\": 16, \"color\": \"#FF89B4FA\"}, \"alpine\": {\"art\": \"   /\\\\ /\\\\\\n  // \\\\  \\\\\\n //   \\\\  \\\\\\n///    \\\\  \\\\\\n//      \\\\  \\\\\\n         \\\\\", \"cols\": 12, \"color\": \"#FF89B4FA\"}, \"nixos\": {\"art\": \"  \\u2597\\u2584   \\u2597\\u2584 \\u2584\\u2596\\n \\u2584\\u2584\\ud83e\\udf38\\u2588\\u2584\\u2584\\u2584\\ud83e\\udf38\\u2588\\u259b \\u2583\\n   \\u259f\\u259b    \\u259c\\u2583\\u259f\\ud83e\\udf15\\n\\ud83e\\udf0b\\ud83e\\udf0b\\ud83e\\udf2b\\u2588      \\u2588\\ud83e\\udf1b\\ud83e\\udf0b\\ud83e\\udf0b\\n \\ud83e\\udf37\\u259b\\ud83e\\udf83\\u2599    \\u259f\\u259b\\n \\ud83e\\udf83 \\u259f\\u2588\\ud83e\\udf34\\u2580\\u2580\\u2580\\u2588\\ud83e\\udf34\\u2580\\u2580\\n  \\u259d\\u2580 \\u2580\\u2598   \\u2580\\u2598\", \"cols\": 14, \"color\": \"#FFCBA6F7\"}, \"linuxmint\": {\"art\": \" ____________________\\n|                    \\\\\\n|_  |   ___________   |\\n  | |  /  __   __  \\\\  |\\n  | |  | |  | |  | |  |\\n  | |  | |  | |  | |  |\\n  | |  | |  | |  | |  |\\n  | |  \\\\_/  \\\\_/  | |  |\\n  | \\\\____________/_/  |\\n  \\\\___________________/\", \"cols\": 23, \"color\": \"#FFA6E3A1\"}, \"manjaro\": {\"art\": \"||||||||| ||||\\n||||||||| ||||\\n||||      ||||\\n|||| |||| ||||\\n|||| |||| ||||\\n|||| |||| ||||\\n|||| |||| ||||\", \"cols\": 14, \"color\": \"#FFA6E3A1\"}, \"raspbian\": {\"art\": \"   .~~.   .~~.\\n  '. \\\\ ' ' / .'\\n   .~ .~~~..~.\\n  : .~.'~'.~. :\\n ~ (   ) (   ) ~\\n( : '~'.~.'~' : )\\n ~ .~ (   ) ~. ~\\n  (  : '~' :  )\\n   '~ .~~~. ~'\\n       '~'\", \"cols\": 17, \"color\": \"#FFFAB387\"}, \"rhel\": {\"art\": \"      .M.:MMM\\n     MMMMMMMMMM.\\n    ,MMMMMMMMMMM\\n .MM MMMMMMMMMMM\\nMMMM   MMMMMMMMM\\nMMMMMM           MM\\n MMMMMMMMM     ,MMMM\\n   MMMMMMMMMMMMMMMM:\\n      `MMMMMMMMMMMM\", \"cols\": 20, \"color\": \"#FFF38BA8\"}, \"rocky\": {\"art\": \"    `-/+++++++++/-.`\\n `-+++++++++++++++++-`\\n.+++++++++++++++++++++.\\n-+++++++++++++++++++++++.\\n+++++++++++++++/-/+++++++\\n+++++++++++++/.   ./+++++\\n+++++++++++:.       ./+++\\n+++++++++:`   `:/:`   .:/\\n-++++++:`   .:+++++:`\\n .+++-`   ./+++++++++:`\\n  `-`   ./+++++++++++-\\n       -+++++++++:-.`\", \"cols\": 25, \"color\": \"#FF89B4FA\"}, \"centos\": {\"art\": \" ____^____\\n |\\\\  |  /|\\n | \\\\ | / |\\n<---- ---->\\n | / | \\\\ |\\n |/__|__\\\\|\\n     v\", \"cols\": 11, \"color\": \"#FF89B4FA\"}, \"opensuse\": {\"art\": \"  _______\\n__|   __ \\\\\\n     / .\\\\ \\\\\\n     \\\\__/ |\\n   _______|\\n   \\\\_______\\n__________/\", \"cols\": 11, \"color\": \"#FFA6E3A1\"}, \"gentoo\": {\"art\": \" _-----_\\n(       \\\\\\n\\\\    0   \\\\\\n \\\\        )\\n /      _/\\n(     _-\\n\\\\____-\", \"cols\": 11, \"color\": \"#FFCBA6F7\"}, \"void\": {\"art\": \"    ____\\n  'pfPfp.%\\n//  _._  \\\\\\\\\\nUU |===| UU\\n\\\\\\\\  ^~^  //\\n `0PpppP'\\n   `````\", \"cols\": 11, \"color\": \"#FFA6E3A1\"}, \"freebsd\": {\"art\": \"/\\\\,-'''''-,/\\\\\\n\\\\_)       (_/\\n|           |\\n|           |\\n ;         ;\\n  '-_____-'\", \"cols\": 13, \"color\": \"#FFF38BA8\"}, \"openbsd\": {\"art\": \"      _____\\n    \\\\-     -/\\n \\\\_/         \\\\\\n |        O O |\\n |_  <   )  3 )\\n / \\\\         /\\n    /-_____-\\\\\", \"cols\": 15, \"color\": \"#FFF38BA8\"}, \"netbsd\": {\"art\": \" \\\\\\\\`-______,----__\\n  \\\\\\\\        __,---`_\\n   \\\\\\\\       `.____\\n    \\\\\\\\-______,----`-\\n     \\\\\\\\\\n      \\\\\\\\\\n       \\\\\\\\\\n        \\\\\\\\\", \"cols\": 20, \"color\": \"#FF89B4FA\"}, \"macos\": {\"art\": \"        .:'\\n    __ :'__\\n .'`__`-'__``.\\n:__________.-'\\n:_________:\\n :_________`-;\\n  `.__.-.__.'\", \"cols\": 14, \"color\": \"#FF89B4FA\"}, \"windows_11\": {\"art\": \"lllllll  lllllll\\nlllllll  lllllll\\nlllllll  lllllll\\n\\nlllllll  lllllll\\nlllllll  lllllll\\nlllllll  lllllll\", \"cols\": 16, \"color\": \"#FF89B4FA\"}, \"android\": {\"art\": \"  ;,           ,;\\n   ';,.-----.,;'\\n  ,'           ',\\n /    O     O    \\\\\\n|                 |\\n'-----------------'\", \"cols\": 19, \"color\": \"#FFA6E3A1\"}, \"unknown\": {\"art\": \"  .--------.\\n  |  HOST  |\\n  |   ??   |\\n  |________|\\n     |__|\", \"cols\": 12, \"color\": \"#FF89B4FA\"}}"
     },
     {
       "name": "fetch_art",
-      "index": 104,
+      "index": 111,
       "type": "TEXT",
       "title": "fetch_art",
       "value": "",
@@ -899,7 +956,7 @@
     },
     {
       "name": "fetch_art_cols",
-      "index": 105,
+      "index": 112,
       "type": "TEXT",
       "title": "fetch_art_cols",
       "value": "",
@@ -908,7 +965,7 @@
     },
     {
       "name": "fetch_art_color",
-      "index": 106,
+      "index": 113,
       "type": "TEXT",
       "title": "fetch_art_color",
       "value": "",
@@ -916,71 +973,57 @@
       "global_formula": "$tc(json, gv(ascii_data), \".\" + gv(fetch_logo) + \".color\")$"
     },
     {
-      "name": "latest",
-      "index": 107,
-      "type": "TEXT",
-      "title": "Latest scalar stats",
-      "value": "{\"page\": 1, \"perPage\": 1, \"totalItems\": 1, \"items\": [{\"created\": \"2026-09-07 20:59:00.000Z\", \"stats\": {\"cpu\": 7.5, \"m\": 16, \"mu\": 2.4, \"mp\": 15, \"mb\": 3.25, \"s\": 4, \"su\": 0.125, \"d\": 1000, \"du\": 60, \"dp\": 6, \"b\": [4096, 2097152]}}]}"
-    },
-    {
       "name": "tmp_sys",
-      "index": 108,
+      "index": 114,
       "type": "TEXT",
       "title": "tmp_sys",
       "value": ""
     },
     {
       "name": "tmp_cnt",
-      "index": 109,
+      "index": 115,
       "type": "TEXT",
       "title": "tmp_cnt",
       "value": ""
     },
     {
       "name": "sys_ok",
-      "index": 110,
+      "index": 116,
       "type": "TEXT",
       "title": "sys_ok",
       "value": ""
     },
     {
       "name": "cnt_ok",
-      "index": 111,
+      "index": 117,
       "type": "TEXT",
       "title": "cnt_ok",
       "value": ""
     },
     {
       "name": "tmp_day",
-      "index": 112,
+      "index": 118,
       "type": "TEXT",
       "title": "tmp_day",
       "value": ""
     },
     {
-      "name": "tmp_now",
-      "index": 113,
-      "type": "TEXT",
-      "title": "tmp_now",
-      "value": ""
-    },
-    {
       "name": "day_ok",
-      "index": 114,
+      "index": 119,
       "type": "TEXT",
       "title": "day_ok",
       "value": ""
     },
     {
       "name": "now_ok",
-      "index": 115,
+      "index": 120,
       "type": "TEXT",
       "title": "now_ok",
       "value": ""
     },
     {
       "name": "drx0",
-      "index": 116,
+      "index": 121,
       "type": "TEXT",
       "title": "drx0",
       "value": "",
@@ -989,7 +1032,7 @@
     },
     {
       "name": "dtx0",
-      "index": 117,
+      "index": 122,
       "type": "TEXT",
       "title": "dtx0",
       "value": "",
@@ -998,7 +1041,7 @@
     },
     {
       "name": "drx1",
-      "index": 118,
+      "index": 123,
       "type": "TEXT",
       "title": "drx1",
       "value": "",
@@ -1007,7 +1050,7 @@
     },
     {
       "name": "dtx1",
-      "index": 119,
+      "index": 124,
       "type": "TEXT",
       "title": "dtx1",
       "value": "",
@@ -1016,7 +1059,7 @@
     },
     {
       "name": "drx2",
-      "index": 120,
+      "index": 125,
       "type": "TEXT",
       "title": "drx2",
       "value": "",
@@ -1025,7 +1068,7 @@
     },
     {
       "name": "dtx2",
-      "index": 121,
+      "index": 126,
       "type": "TEXT",
       "title": "dtx2",
       "value": "",
@@ -1034,7 +1077,7 @@
     },
     {
       "name": "drx3",
-      "index": 122,
+      "index": 127,
       "type": "TEXT",
       "title": "drx3",
       "value": "",
@@ -1043,7 +1086,7 @@
     },
     {
       "name": "dtx3",
-      "index": 123,
+      "index": 128,
       "type": "TEXT",
       "title": "dtx3",
       "value": "",
@@ -1052,7 +1095,7 @@
     },
     {
       "name": "drx4",
-      "index": 124,
+      "index": 129,
       "type": "TEXT",
       "title": "drx4",
       "value": "",
@@ -1061,7 +1104,7 @@
     },
     {
       "name": "dtx4",
-      "index": 125,
+      "index": 130,
       "type": "TEXT",
       "title": "dtx4",
       "value": "",
@@ -1070,7 +1113,7 @@
     },
     {
       "name": "drx5",
-      "index": 126,
+      "index": 131,
       "type": "TEXT",
       "title": "drx5",
       "value": "",
@@ -1079,7 +1122,7 @@
     },
     {
       "name": "dtx5",
-      "index": 127,
+      "index": 132,
       "type": "TEXT",
       "title": "dtx5",
       "value": "",
@@ -1088,7 +1131,7 @@
     },
     {
       "name": "net_24h_rx",
-      "index": 128,
+      "index": 133,
       "type": "TEXT",
       "title": "net_24h_rx",
       "value": "43728000000",
@@ -1097,7 +1140,7 @@
     },
     {
       "name": "net_24h_tx",
-      "index": 129,
+      "index": 134,
       "type": "TEXT",
       "title": "net_24h_tx",
       "value": "7104000000",
@@ -1106,84 +1149,84 @@
     },
     {
       "name": "info_meta",
-      "index": 130,
+      "index": 135,
       "type": "TEXT",
       "title": "info_meta",
       "value": "{}"
     },
     {
       "name": "info_stats",
-      "index": 131,
+      "index": 136,
       "type": "TEXT",
       "title": "info_stats",
       "value": "{}"
     },
     {
       "name": "info_sys",
-      "index": 132,
+      "index": 137,
       "type": "TEXT",
       "title": "info_sys",
       "value": "{}"
     },
     {
       "name": "info_host",
-      "index": 133,
+      "index": 138,
       "type": "TEXT",
       "title": "info_host",
       "value": ""
     },
     {
       "name": "info_req",
-      "index": 134,
+      "index": 139,
       "type": "TEXT",
       "title": "info_req",
       "value": ""
     },
     {
       "name": "info_at",
-      "index": 135,
+      "index": 140,
       "type": "TEXT",
       "title": "info_at",
       "value": "0"
     },
     {
       "name": "info_error",
-      "index": 136,
+      "index": 141,
       "type": "TEXT",
       "title": "info_error",
       "value": "Tap refresh"
     },
     {
       "name": "tmp_meta",
-      "index": 137,
+      "index": 142,
       "type": "TEXT",
       "title": "tmp_meta",
       "value": "{}"
     },
     {
       "name": "tmp_isys",
-      "index": 138,
+      "index": 143,
       "type": "TEXT",
       "title": "tmp_isys",
       "value": "{}"
     },
     {
       "name": "tmp_istat",
-      "index": 139,
+      "index": 144,
       "type": "TEXT",
       "title": "tmp_istat",
       "value": "{}"
     },
     {
       "name": "meta_ok",
-      "index": 140,
+      "index": 145,
       "type": "TEXT",
       "title": "meta_ok",
       "value": "0"
     },
     {
       "name": "info_ok",
-      "index": 141,
+      "index": 146,
       "type": "TEXT",
       "title": "info_ok",
       "value": "0"
@@ -1198,7 +1241,7 @@
         "shape_width": 640.0,
         "shape_height": 376.0,
         "shape_corners": 22.0,
-        "paint_color": "#FF1E1E2E",
+        "paint_color": "#D91E1E2E",
         "internal_globals": {
           "paint_color": "c_base"
         },
@@ -1524,11 +1567,11 @@
                   }
                 ],
                 "position_padding_left": 0.0,
-                "position_padding_right": 106.0,
+                "position_padding_right": 134.0,
                 "position_padding_top": 0.0,
                 "position_padding_bottom": 0.0,
                 "position_anchor": "CENTERRIGHT",
-                "position_offset_x": 106.0,
+                "position_offset_x": 134.0,
                 "position_offset_y": 0.0,
                 "internal_formulas": {
                   "config_visible": "$if(gv(view) = \"containers\", ALWAYS, REMOVE)$"
@@ -1541,7 +1584,7 @@
                 "children": [
                   {
                     "shape_type": "RECT",
-                    "shape_width": 52.0,
+                    "shape_width": 74.0,
                     "shape_height": 44.0,
                     "shape_corners": 10.0,
                     "paint_color": "#FF313244",
@@ -1550,12 +1593,12 @@
                     },
                     "name": "",
                     "type": "ShapeModule",
-                    "width": 52.0,
+                    "width": 74.0,
                     "height": 44.0
                   },
                   {
                     "shape_type": "RECT",
-                    "shape_width": 52.0,
+                    "shape_width": 74.0,
                     "shape_height": 44.0,
                     "shape_corners": 10.0,
                     "paint_style": "STROKE",
@@ -1566,7 +1609,7 @@
                     },
                     "name": "",
                     "type": "ShapeModule",
-                    "width": 52.0,
+                    "width": 74.0,
                     "height": 44.0
                   },
                   {
@@ -1583,7 +1626,7 @@
                     "height": 0
                   }
                 ],
-                "width": 52.0,
+                "width": 74.0,
                 "height": 44.0,
                 "touch_action": {
                   "type": "SINGLE_TAP",
@@ -1602,11 +1645,11 @@
                   }
                 ],
                 "position_padding_left": 0.0,
-                "position_padding_right": 48.0,
+                "position_padding_right": 52.0,
                 "position_padding_top": 0.0,
                 "position_padding_bottom": 0.0,
                 "position_anchor": "CENTERRIGHT",
-                "position_offset_x": 48.0,
+                "position_offset_x": 52.0,
                 "position_offset_y": 0.0,
                 "internal_formulas": {
                   "config_visible": "$if(gv(view) = \"containers\", ALWAYS, REMOVE)$"
@@ -1619,7 +1662,7 @@
                 "children": [
                   {
                     "shape_type": "RECT",
-                    "shape_width": 52.0,
+                    "shape_width": 74.0,
                     "shape_height": 44.0,
                     "shape_corners": 10.0,
                     "paint_color": "#FF313244",
@@ -1628,12 +1671,12 @@
                     },
                     "name": "",
                     "type": "ShapeModule",
-                    "width": 52.0,
+                    "width": 74.0,
                     "height": 44.0
                   },
                   {
                     "shape_type": "RECT",
-                    "shape_width": 52.0,
+                    "shape_width": 74.0,
                     "shape_height": 44.0,
                     "shape_corners": 10.0,
                     "paint_style": "STROKE",
@@ -1644,7 +1687,7 @@
                     },
                     "name": "",
                     "type": "ShapeModule",
-                    "width": 52.0,
+                    "width": 74.0,
                     "height": 44.0
                   },
                   {
@@ -1661,7 +1704,7 @@
                     "height": 0
                   }
                 ],
-                "width": 52.0,
+                "width": 74.0,
                 "height": 44.0,
                 "touch_action": {
                   "type": "SINGLE_TAP",
@@ -1813,7 +1856,7 @@
                             "shape_width": 160.0,
                             "shape_height": 120.0,
                             "shape_corners": 16.0,
-                            "paint_color": "#FF181825",
+                            "paint_color": "#B3181825",
                             "internal_globals": {
                               "paint_color": "c_mantle"
                             },
@@ -2012,7 +2055,7 @@
                             "shape_width": 160.0,
                             "shape_height": 120.0,
                             "shape_corners": 16.0,
-                            "paint_color": "#FF181825",
+                            "paint_color": "#B3181825",
                             "internal_globals": {
                               "paint_color": "c_mantle"
                             },
@@ -2221,7 +2264,7 @@
                             "shape_width": 160.0,
                             "shape_height": 120.0,
                             "shape_corners": 16.0,
-                            "paint_color": "#FF181825",
+                            "paint_color": "#B3181825",
                             "internal_globals": {
                               "paint_color": "c_mantle"
                             },
@@ -2420,7 +2463,7 @@
                             "shape_width": 160.0,
                             "shape_height": 120.0,
                             "shape_corners": 16.0,
-                            "paint_color": "#FF181825",
+                            "paint_color": "#B3181825",
                             "internal_globals": {
                               "paint_color": "c_mantle"
                             },
@@ -2948,7 +2991,7 @@
                         "shape_width": 320.0,
                         "shape_height": 36.0,
                         "shape_corners": 9.0,
-                        "paint_color": "#FF181825",
+                        "paint_color": "#B3181825",
                         "internal_globals": {
                           "paint_color": "c_mantle"
                         },
@@ -3024,7 +3067,7 @@
                             "position_offset_x": 0.0,
                             "position_offset_y": 0.0,
                             "internal_formulas": {
-                              "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok)))$"
+                              "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(row0_name) = \"\", gv(c_muted), if(gv(row0_status) != \"\", if(tc(count, tc(low, gv(row0_status)), \"exit\") > 0 | tc(count, tc(low, gv(row0_status)), \"stop\") > 0 | tc(count, tc(low, gv(row0_status)), \"dead\") > 0, gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok))), if(gv(row0_mem) != \"\" & gv(row0_mem) > 0, if(gv(stale) = 1, gv(c_warn), gv(c_ok)), gv(c_err)))))$"
                             },
                             "internal_toggles": {
                               "paint_color": 10
@@ -3260,7 +3303,7 @@
                         "shape_width": 320.0,
                         "shape_height": 36.0,
                         "shape_corners": 9.0,
-                        "paint_color": "#FF181825",
+                        "paint_color": "#B3181825",
                         "internal_globals": {
                           "paint_color": "c_mantle"
                         },
@@ -3336,7 +3379,7 @@
                             "position_offset_x": 0.0,
                             "position_offset_y": 0.0,
                             "internal_formulas": {
-                              "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok)))$"
+                              "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(row1_name) = \"\", gv(c_muted), if(gv(row1_status) != \"\", if(tc(count, tc(low, gv(row1_status)), \"exit\") > 0 | tc(count, tc(low, gv(row1_status)), \"stop\") > 0 | tc(count, tc(low, gv(row1_status)), \"dead\") > 0, gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok))), if(gv(row1_mem) != \"\" & gv(row1_mem) > 0, if(gv(stale) = 1, gv(c_warn), gv(c_ok)), gv(c_err)))))$"
                             },
                             "internal_toggles": {
                               "paint_color": 10
@@ -3572,7 +3615,7 @@
                         "shape_width": 320.0,
                         "shape_height": 36.0,
                         "shape_corners": 9.0,
-                        "paint_color": "#FF181825",
+                        "paint_color": "#B3181825",
                         "internal_globals": {
                           "paint_color": "c_mantle"
                         },
@@ -3648,7 +3691,7 @@
                             "position_offset_x": 0.0,
                             "position_offset_y": 0.0,
                             "internal_formulas": {
-                              "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok)))$"
+                              "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(row2_name) = \"\", gv(c_muted), if(gv(row2_status) != \"\", if(tc(count, tc(low, gv(row2_status)), \"exit\") > 0 | tc(count, tc(low, gv(row2_status)), \"stop\") > 0 | tc(count, tc(low, gv(row2_status)), \"dead\") > 0, gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok))), if(gv(row2_mem) != \"\" & gv(row2_mem) > 0, if(gv(stale) = 1, gv(c_warn), gv(c_ok)), gv(c_err)))))$"
                             },
                             "internal_toggles": {
                               "paint_color": 10
@@ -3884,7 +3927,7 @@
                         "shape_width": 320.0,
                         "shape_height": 36.0,
                         "shape_corners": 9.0,
-                        "paint_color": "#FF181825",
+                        "paint_color": "#B3181825",
                         "internal_globals": {
                           "paint_color": "c_mantle"
                         },
@@ -3960,7 +4003,7 @@
                             "position_offset_x": 0.0,
                             "position_offset_y": 0.0,
                             "internal_formulas": {
-                              "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok)))$"
+                              "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(row3_name) = \"\", gv(c_muted), if(gv(row3_status) != \"\", if(tc(count, tc(low, gv(row3_status)), \"exit\") > 0 | tc(count, tc(low, gv(row3_status)), \"stop\") > 0 | tc(count, tc(low, gv(row3_status)), \"dead\") > 0, gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok))), if(gv(row3_mem) != \"\" & gv(row3_mem) > 0, if(gv(stale) = 1, gv(c_warn), gv(c_ok)), gv(c_err)))))$"
                             },
                             "internal_toggles": {
                               "paint_color": 10
@@ -4196,7 +4239,7 @@
                         "shape_width": 320.0,
                         "shape_height": 36.0,
                         "shape_corners": 9.0,
-                        "paint_color": "#FF181825",
+                        "paint_color": "#B3181825",
                         "internal_globals": {
                           "paint_color": "c_mantle"
                         },
@@ -4272,7 +4315,7 @@
                             "position_offset_x": 0.0,
                             "position_offset_y": 0.0,
                             "internal_formulas": {
-                              "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok)))$"
+                              "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(row4_name) = \"\", gv(c_muted), if(gv(row4_status) != \"\", if(tc(count, tc(low, gv(row4_status)), \"exit\") > 0 | tc(count, tc(low, gv(row4_status)), \"stop\") > 0 | tc(count, tc(low, gv(row4_status)), \"dead\") > 0, gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok))), if(gv(row4_mem) != \"\" & gv(row4_mem) > 0, if(gv(stale) = 1, gv(c_warn), gv(c_ok)), gv(c_err)))))$"
                             },
                             "internal_toggles": {
                               "paint_color": 10
