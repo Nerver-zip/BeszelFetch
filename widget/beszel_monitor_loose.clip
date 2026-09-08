@@ -10,7 +10,7 @@
       "shape_width": 640.0,
       "shape_height": 376.0,
       "shape_corners": 22.0,
-      "paint_color": "#FF1E1E2E",
+      "paint_color": "#D91E1E2E",
       "internal_globals": {
         "paint_color": "c_base"
       },
@@ -291,7 +291,7 @@
                 {
                   "internal_type": "ShapeModule",
                   "shape_type": "RECT",
-                  "shape_width": 52.0,
+                  "shape_width": 74.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
                   "paint_color": "#FF313244",
@@ -302,7 +302,7 @@
                 {
                   "internal_type": "ShapeModule",
                   "shape_type": "RECT",
-                  "shape_width": 52.0,
+                  "shape_width": 74.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
                   "paint_style": "STROKE",
@@ -324,11 +324,11 @@
                 }
               ],
               "position_padding_left": 0.0,
-              "position_padding_right": 106.0,
+              "position_padding_right": 134.0,
               "position_padding_top": 0.0,
               "position_padding_bottom": 0.0,
               "position_anchor": "CENTERRIGHT",
-              "position_offset_x": 106.0,
+              "position_offset_x": 134.0,
               "position_offset_y": 0.0,
               "internal_formulas": {
                 "config_visible": "$if(gv(view) = \"containers\", ALWAYS, REMOVE)$"
@@ -352,7 +352,7 @@
                 {
                   "internal_type": "ShapeModule",
                   "shape_type": "RECT",
-                  "shape_width": 52.0,
+                  "shape_width": 74.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
                   "paint_color": "#FF313244",
@@ -363,7 +363,7 @@
                 {
                   "internal_type": "ShapeModule",
                   "shape_type": "RECT",
-                  "shape_width": 52.0,
+                  "shape_width": 74.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
                   "paint_style": "STROKE",
@@ -385,11 +385,11 @@
                 }
               ],
               "position_padding_left": 0.0,
-              "position_padding_right": 48.0,
+              "position_padding_right": 52.0,
               "position_padding_top": 0.0,
               "position_padding_bottom": 0.0,
               "position_anchor": "CENTERRIGHT",
-              "position_offset_x": 48.0,
+              "position_offset_x": 52.0,
               "position_offset_y": 0.0,
               "internal_formulas": {
                 "config_visible": "$if(gv(view) = \"containers\", ALWAYS, REMOVE)$"
@@ -519,7 +519,7 @@
                           "shape_width": 160.0,
                           "shape_height": 120.0,
                           "shape_corners": 16.0,
-                          "paint_color": "#FF181825",
+                          "paint_color": "#B3181825",
                           "internal_globals": {
                             "paint_color": "c_mantle"
                           },
@@ -693,7 +693,7 @@
                           "shape_width": 160.0,
                           "shape_height": 120.0,
                           "shape_corners": 16.0,
-                          "paint_color": "#FF181825",
+                          "paint_color": "#B3181825",
                           "internal_globals": {
                             "paint_color": "c_mantle"
                           },
@@ -875,7 +875,7 @@
                           "shape_width": 160.0,
                           "shape_height": 120.0,
                           "shape_corners": 16.0,
-                          "paint_color": "#FF181825",
+                          "paint_color": "#B3181825",
                           "internal_globals": {
                             "paint_color": "c_mantle"
                           },
@@ -1049,7 +1049,7 @@
                           "shape_width": 160.0,
                           "shape_height": 120.0,
                           "shape_corners": 16.0,
-                          "paint_color": "#FF181825",
+                          "paint_color": "#B3181825",
                           "internal_globals": {
                             "paint_color": "c_mantle"
                           },
@@ -1518,7 +1518,7 @@
                       "shape_width": 320.0,
                       "shape_height": 36.0,
                       "shape_corners": 9.0,
-                      "paint_color": "#FF181825",
+                      "paint_color": "#B3181825",
                       "internal_globals": {
                         "paint_color": "c_mantle"
                       },
@@ -1586,7 +1586,7 @@
                           "position_offset_x": 0.0,
                           "position_offset_y": 0.0,
                           "internal_formulas": {
-                            "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok)))$"
+                            "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(row0_name) = \"\", gv(c_muted), if(gv(row0_status) != \"\", if(tc(count, tc(low, gv(row0_status)), \"exit\") > 0 | tc(count, tc(low, gv(row0_status)), \"stop\") > 0 | tc(count, tc(low, gv(row0_status)), \"dead\") > 0, gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok))), if(gv(row0_mem) != \"\" & gv(row0_mem) > 0, if(gv(stale) = 1, gv(c_warn), gv(c_ok)), gv(c_err)))))$"
                           },
                           "internal_toggles": {
                             "paint_color": 10
@@ -1798,7 +1798,7 @@
                       "shape_width": 320.0,
                       "shape_height": 36.0,
                       "shape_corners": 9.0,
-                      "paint_color": "#FF181825",
+                      "paint_color": "#B3181825",
                       "internal_globals": {
                         "paint_color": "c_mantle"
                       },
@@ -1866,7 +1866,7 @@
                           "position_offset_x": 0.0,
                           "position_offset_y": 0.0,
                           "internal_formulas": {
-                            "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok)))$"
+                            "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(row1_name) = \"\", gv(c_muted), if(gv(row1_status) != \"\", if(tc(count, tc(low, gv(row1_status)), \"exit\") > 0 | tc(count, tc(low, gv(row1_status)), \"stop\") > 0 | tc(count, tc(low, gv(row1_status)), \"dead\") > 0, gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok))), if(gv(row1_mem) != \"\" & gv(row1_mem) > 0, if(gv(stale) = 1, gv(c_warn), gv(c_ok)), gv(c_err)))))$"
                           },
                           "internal_toggles": {
                             "paint_color": 10
@@ -2078,7 +2078,7 @@
                       "shape_width": 320.0,
                       "shape_height": 36.0,
                       "shape_corners": 9.0,
-                      "paint_color": "#FF181825",
+                      "paint_color": "#B3181825",
                       "internal_globals": {
                         "paint_color": "c_mantle"
                       },
@@ -2146,7 +2146,7 @@
                           "position_offset_x": 0.0,
                           "position_offset_y": 0.0,
                           "internal_formulas": {
-                            "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok)))$"
+                            "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(row2_name) = \"\", gv(c_muted), if(gv(row2_status) != \"\", if(tc(count, tc(low, gv(row2_status)), \"exit\") > 0 | tc(count, tc(low, gv(row2_status)), \"stop\") > 0 | tc(count, tc(low, gv(row2_status)), \"dead\") > 0, gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok))), if(gv(row2_mem) != \"\" & gv(row2_mem) > 0, if(gv(stale) = 1, gv(c_warn), gv(c_ok)), gv(c_err)))))$"
                           },
                           "internal_toggles": {
                             "paint_color": 10
@@ -2358,7 +2358,7 @@
                       "shape_width": 320.0,
                       "shape_height": 36.0,
                       "shape_corners": 9.0,
-                      "paint_color": "#FF181825",
+                      "paint_color": "#B3181825",
                       "internal_globals": {
                         "paint_color": "c_mantle"
                       },
@@ -2426,7 +2426,7 @@
                           "position_offset_x": 0.0,
                           "position_offset_y": 0.0,
                           "internal_formulas": {
-                            "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok)))$"
+                            "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(row3_name) = \"\", gv(c_muted), if(gv(row3_status) != \"\", if(tc(count, tc(low, gv(row3_status)), \"exit\") > 0 | tc(count, tc(low, gv(row3_status)), \"stop\") > 0 | tc(count, tc(low, gv(row3_status)), \"dead\") > 0, gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok))), if(gv(row3_mem) != \"\" & gv(row3_mem) > 0, if(gv(stale) = 1, gv(c_warn), gv(c_ok)), gv(c_err)))))$"
                           },
                           "internal_toggles": {
                             "paint_color": 10
@@ -2638,7 +2638,7 @@
                       "shape_width": 320.0,
                       "shape_height": 36.0,
                       "shape_corners": 9.0,
-                      "paint_color": "#FF181825",
+                      "paint_color": "#B3181825",
                       "internal_globals": {
                         "paint_color": "c_mantle"
                       },
@@ -2706,7 +2706,7 @@
                           "position_offset_x": 0.0,
                           "position_offset_y": 0.0,
                           "internal_formulas": {
-                            "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok)))$"
+                            "paint_color": "$if(gv(host_status) = \"down\", gv(c_err), if(gv(row4_name) = \"\", gv(c_muted), if(gv(row4_status) != \"\", if(tc(count, tc(low, gv(row4_status)), \"exit\") > 0 | tc(count, tc(low, gv(row4_status)), \"stop\") > 0 | tc(count, tc(low, gv(row4_status)), \"dead\") > 0, gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok))), if(gv(row4_mem) != \"\" & gv(row4_mem) > 0, if(gv(stale) = 1, gv(c_warn), gv(c_ok)), gv(c_err)))))$"
                           },
                           "internal_toggles": {
                             "paint_color": 10

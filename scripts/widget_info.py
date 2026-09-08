@@ -70,7 +70,16 @@ def build_info(root):
         formula(nodes[title], "text_expression", f'$gv({global_})$')
     for i in range(5):
         dot = nodes[f"RowLeft_{i}"]["viewgroup_items"][1]
-        formula(dot, "paint_color", '$if(gv(host_status) = "down", gv(c_err), if(gv(stale) = 1, gv(c_warn), gv(c_ok)))$')
+        formula(
+            dot,
+            "paint_color",
+            f'$if(gv(host_status) = "down", gv(c_err), '
+            f'if(gv(row{i}_name) = "", gv(c_muted), '
+            f'if(gv(row{i}_status) != "", '
+            f'if(tc(count, tc(low, gv(row{i}_status)), "exit") > 0 | tc(count, tc(low, gv(row{i}_status)), "stop") > 0 | tc(count, tc(low, gv(row{i}_status)), "dead") > 0, gv(c_err), '
+            f'if(gv(stale) = 1, gv(c_warn), gv(c_ok))), '
+            f'if(gv(row{i}_mem) != "" & gv(row{i}_mem) > 0, if(gv(stale) = 1, gv(c_warn), gv(c_ok)), gv(c_err)))))$'
+        )
 
     if __package__:
         from .widget_fetch import build_fetch

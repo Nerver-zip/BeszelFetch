@@ -39,7 +39,7 @@ KWGT_FILE = REPO_ROOT / "widget" / "beszel_monitor.kwgt"
 FONT_SRC = REPO_ROOT / "widget" / "fonts" / "JetBrainsMonoNerdFont.ttf"
 
 
-def build_kustom_clip(hub_url=None, token=None, email=None, password=None, server_name=None, systems_data=None, containers_data=None, history_data=None, latest_data=None, write_outputs=True):
+def build_kustom_clip(hub_url=None, token=None, email=None, password=None, server_name=None, systems_data=None, containers_data=None, history_data=None, latest_data=None, wallpaper_path=None, write_outputs=True):
     with open(PALETTE_FILE, "r", encoding="utf-8") as f:
         palette_data = json.load(f)
 
@@ -89,6 +89,23 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
     pass_val = password if password is not None else ""
     srv_name_val = server_name if server_name is not None else "localhost"
 
+    # Auto-detect wallpaper from wallpapers/ directory
+    valid_img_exts = {".png", ".jpg", ".jpeg", ".webp"}
+    wallpaper_file = None
+    if wallpaper_path is not None and Path(wallpaper_path).is_file():
+        wallpaper_file = Path(wallpaper_path)
+    else:
+        wallpapers_dir = REPO_ROOT / "wallpapers"
+        if wallpapers_dir.is_dir():
+            candidates = sorted([
+                p for p in wallpapers_dir.iterdir()
+                if p.is_file() and p.suffix.lower() in valid_img_exts
+            ])
+            if candidates:
+                wallpaper_file = candidates[0]
+
+    wallpaper_uri = f"kfile://org.kustom.provider/bitmaps/{wallpaper_file.name}" if wallpaper_file else ""
+
     # Self-contained globals embedded inside Komponent and preset_root
     globals_list = {
         "server_name": {
@@ -105,66 +122,77 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
             "description": "Base URL of Beszel instance (e.g. http://localhost:8090)",
             "value": hub_url_val
         },
-        "bz_token": {
+        "bz_email": {
             "index": 2,
             "type": "TEXT",
-            "title": "PocketBase JWT Token",
-            "description": "Optional JWT auth token if Hub requires authentication",
-            "value": token_val
-        },
-        "bz_email": {
-            "index": 3,
-            "type": "TEXT",
             "title": "Beszel User Email",
-            "description": "Optional user email for token refresh",
+            "description": "PocketBase Admin or regular user email",
             "value": email_val
         },
         "bz_pass": {
+            "index": 3,
+            "type": "TEXT",
+            "title": "Beszel Password",
+            "description": "PocketBase Admin or regular user password",
+            "value": pass_val
+        },
+        "bz_token": {
             "index": 4,
             "type": "TEXT",
-            "title": "Beszel User Password",
-            "description": "Optional user password for token refresh",
-            "value": pass_val
+            "title": "PocketBase Auth Token",
+            "description": "Bearer token populated dynamically by Auth Flow",
+            "value": token_val
         },
         "sys_id": {
             "index": 5,
             "type": "TEXT",
             "title": "System ID",
-            "description": "PocketBase record ID of active system",
+            "description": "Current system record ID (e.g. sys_atlas)",
             "value": ""
         },
         "view": {
             "index": 6,
             "type": "TEXT",
             "title": "Active View",
-            "description": "overview, containers, or info",
+            "description": "Current active view: overview | containers | info",
             "value": "overview"
         },
         "sys_idx": {
-            "index": 9,
-            "type": "NUMBER",
+            "index": 7,
+            "type": "TEXT",
             "title": "Active System Index",
-            "description": "0-indexed active system",
-            "value": 0
+            "value": "0"
         },
         "container_page": {
-            "index": 10,
+            "index": 8,
             "type": "NUMBER",
-            "title": "Container Page",
-            "description": "0-indexed container page",
+            "title": "Containers Page",
             "value": 0
         },
         "container_count": {
-            "index": 11,
+            "index": 9,
             "type": "NUMBER",
-            "title": "Total Containers",
+            "title": "Containers Total Count",
             "value": cnt_count_val
         },
+        # Cache globals
         "sys_json": {
-            "index": 12,
+            "index": 10,
             "type": "TEXT",
             "title": "Systems Cache",
             "value": default_systems
+        },
+        "latest": {
+            "index": 11,
+            "type": "TEXT",
+            "title": "Latest System Cache",
+            "value": json.dumps(latest_data) if latest_data is not None else "{}"
+        },
+        "tmp_now": {
+            "index": 12,
+            "type": "TEXT",
+            "title": "Temporary Latest Cache",
+            "value": ""
         },
         "cnt_json": {
             "index": 13,
@@ -196,9 +224,9 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
             "title": "Stale Cache Flag",
             "value": 0
         },
-        # Catppuccin Mocha Color Tokens
-        "c_base": {"index": 18, "type": "COLOR", "title": "Base Background", "value": to_kustom_color(tokens.get("base", "#1E1E2E"))},
-        "c_mantle": {"index": 19, "type": "COLOR", "title": "Mantle Background", "value": to_kustom_color(tokens.get("mantle", "#181825"))},
+        # Catppuccin Mocha Color Tokens (Translucent base & mantle for glossy effect)
+        "c_base": {"index": 18, "type": "COLOR", "title": "Base Background", "value": to_kustom_color(tokens.get("base_alpha", "#D91E1E2E"))},
+        "c_mantle": {"index": 19, "type": "COLOR", "title": "Mantle Background", "value": to_kustom_color(tokens.get("mantle_alpha", "#B3181825"))},
         "c_surface0": {"index": 20, "type": "COLOR", "title": "Surface0 Track", "value": to_kustom_color(tokens.get("surface0", "#313244"))},
         "c_surface1": {"index": 21, "type": "COLOR", "title": "Surface1 Border", "value": to_kustom_color(tokens.get("surface1", "#45475A"))},
         "c_text": {"index": 22, "type": "COLOR", "title": "Primary Text", "value": to_kustom_color(tokens.get("text", "#CDD6F4"))},
@@ -282,7 +310,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                     "shape_width": 160.0,
                     "shape_height": 120.0,
                     "shape_corners": 16.0,
-                    "paint_color": "#FF181825",
+                    "paint_color": "#B3181825",
                     "internal_globals": {"paint_color": "c_mantle"},
                     "internal_formulas": {"shape_width": card_w_formula},
                     "internal_toggles": {"shape_width": 10}
@@ -390,7 +418,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                     "shape_width": 160.0,
                     "shape_height": 120.0,
                     "shape_corners": 16.0,
-                    "paint_color": "#FF181825",
+                    "paint_color": "#B3181825",
                     "internal_globals": {"paint_color": "c_mantle"},
                     "internal_formulas": {"shape_width": card_w_formula},
                     "internal_toggles": {"shape_width": 10}
@@ -489,7 +517,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                     "shape_width": 320.0,
                     "shape_height": 36.0,
                     "shape_corners": 9.0,
-                    "paint_color": "#FF181825",
+                    "paint_color": "#B3181825",
                     "internal_globals": {"paint_color": "c_mantle"},
                     "internal_formulas": {"shape_width": "$si(rwidth) - 36$"},
                     "internal_toggles": {"shape_width": 10}
@@ -596,7 +624,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                 "shape_width": 640.0,
                 "shape_height": 360.0,
                 "shape_corners": 22.0,
-                "paint_color": "#FF1E1E2E",
+                "paint_color": "#D91E1E2E",
                 "internal_globals": {"paint_color": "c_base"},
                 "internal_formulas": {
                     "shape_width": "$si(rwidth)$",
@@ -611,7 +639,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
             {
                 "internal_type": "BitmapModule",
                 "internal_title": "GlossyWallpaper",
-                "bitmap_bitmap": "",
+                "bitmap_bitmap": wallpaper_uri,
                 "bitmap_width": 1000.0,
                 "bitmap_alpha": 60.0,
                 "bitmap_blur": 70.0,
@@ -1215,6 +1243,8 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
         zf.write(REPO_ROOT / "widget/assets/fastfetch/LICENSE.fastfetch", arcname="licenses/fastfetch.txt")
         if FONT_SRC.exists():
             zf.write(FONT_SRC, arcname="fonts/JetBrainsMonoNerdFont.ttf")
+        if wallpaper_file and wallpaper_file.exists():
+            zf.write(wallpaper_file, arcname=f"bitmaps/{wallpaper_file.name}")
 
     # Mirror outputs to dist/
     dist_dir = REPO_ROOT / "dist"

@@ -136,14 +136,14 @@ def fix_layout(root):
     border["internal_globals"] = {"paint_color": "c_surface1"}
     refresh["viewgroup_items"].insert(1, border)
 
-    # Container Prev/Next buttons in Header (52x44dp targets, right offset 106 and 48)
-    for title, offset in (("BtnPrev", 106), ("BtnNext", 48)):
+    # Container Prev/Next buttons in Header (74x44dp targets, right offset 134 and 52)
+    for title, offset in (("BtnPrev", 134), ("BtnNext", 52)):
         button = nodes[title]
         anchor(button, "CENTERRIGHT", offset)
         formula(button, "config_visible", '$if(gv(view) = "containers", ALWAYS, REMOVE)$')
         for child in button["viewgroup_items"]:
             if child["internal_type"] == "ShapeModule":
-                child.update(shape_width=52.0, shape_height=44.0)
+                child.update(shape_width=74.0, shape_height=44.0)
         header["viewgroup_items"].append(button)
 
     anchor(nodes["ViewArea"], "TOP", y=62)
@@ -261,7 +261,16 @@ def fix_layout(root):
         dot = left["viewgroup_items"][1]
         dot.update(shape_width=7.0, shape_height=7.0)
         anchor(dot, "CENTERLEFT", 0)
-        formula(dot, "paint_color", f'$if(gv(row{i}_name) != "", gv(c_ok), gv(c_muted))$')
+        formula(
+            dot,
+            "paint_color",
+            f'$if(gv(host_status) = "down", gv(c_err), '
+            f'if(gv(row{i}_name) = "", gv(c_muted), '
+            f'if(gv(row{i}_status) != "", '
+            f'if(tc(count, tc(low, gv(row{i}_status)), "exit") > 0 | tc(count, tc(low, gv(row{i}_status)), "stop") > 0 | tc(count, tc(low, gv(row{i}_status)), "dead") > 0, gv(c_err), '
+            f'if(gv(stale) = 1, gv(c_warn), gv(c_ok))), '
+            f'if(gv(row{i}_mem) != "" & gv(row{i}_mem) > 0, if(gv(stale) = 1, gv(c_warn), gv(c_ok)), gv(c_err)))))$'
+        )
 
         glyph = {
             "internal_type": "TextModule",
@@ -290,6 +299,13 @@ def fix_layout(root):
                 "index": len(root["globals_list"]), "type": "TEXT",
                 "title": f"Container {i} {key}", "toggles": 10,
                 "global_formula": f'${expression}$', "value": ""}
+        path_s = f'gv(cnt_base) + "[" + (gv(container_page) * 5 + {i}) + "].s"'
+        path_status = f'gv(cnt_base) + "[" + (gv(container_page) * 5 + {i}) + "].status"'
+        expr_status = f'if(tc(json, gv(cnt_json), {path_s}) != "", tc(json, gv(cnt_json), {path_s}), tc(json, gv(cnt_json), {path_status}))'
+        root["globals_list"][f"row{i}_status"] = {
+            "index": len(root["globals_list"]), "type": "TEXT",
+            "title": f"Container {i} status", "toggles": 10,
+            "global_formula": f'${expr_status}$', "value": ""}
         formula(cpu, "text_expression", f'$if(gv(row{i}_cpu) != "", mu(round, gv(row{i}_cpu), 1) + "%", "—")$')
         formula(mem, "text_expression", f'$if(gv(row{i}_mem) != "", mu(round, gv(row{i}_mem), 1) + " MiB", "—")$')
         badges = []
