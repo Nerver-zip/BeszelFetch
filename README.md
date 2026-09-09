@@ -122,7 +122,7 @@ The script automatically generates ready-to-import bundles inside the `dist/` di
    - In the top right toolbar, tap the **`+` (Add)** icon.
    - Tap **Komponent**.
    - **The Trick**: Now, immediately press your phone\'s **Back button** (or perform your Android back swipe gesture) to exit the Komponent file browser.
-   - Upon backing out, KWGT will detect the clipboard content and display a **"Paste Komponent from Clipboard"** prompt. Tap to paste!
+   - Upon backing out, KWGT will detect the clipboard content and display a **"Paste Komponent from Clipboard"** prompt. Tap the clipboard icon in the top right to paste!
 5. **Save**:
    - Tap the **Floppy Disk (Save)** icon in the top right.
 
