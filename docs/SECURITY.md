@@ -66,17 +66,14 @@ Before publishing or sharing a `.kwgt` file:
 - Flush cached JSON payloads;
 - Review any exported screenshots for confidential information.
 
-## Credential Storage Trade-offs
+## Credential Storage & Token Architecture
 
-### Option A: Email + Password + Token (Recommended Default)
-The widget stores credentials and requests new JWT tokens upon expiry.
-- Advantage: Fully autonomous background operation without user intervention.
-- Risk: Password persists on the mobile device (mitigated via read-only dedicated user).
-
-### Option B: Token Only
-The user manually pastes a pre-generated PocketBase auth token into KWGT.
-- Advantage: Password never touches the mobile device.
-- Disadvantage: Requires manual renewal whenever the token expires or is revoked.
+### Personal Access Token (PAT) Model (Recommended Default)
+Because KWGT operates as a headless Android client without interactive OAuth or background HTTP POST body capabilities, the widget uses a long-lived JWT token generated via `setup.py` and treated as an API Key / PAT.
+- **Advantage**: Password never touches the mobile device; zero background credential storage risk.
+- **Durability**: Configured for 1 year (`31536000`s) in PocketBase, providing a true "Set & Forget" user experience.
+- **Revocability**: Can be instantly revoked on demand from the PocketBase Admin dashboard (*"Invalidate all previously issued tokens"*) if the mobile device is replaced or lost.
+- **Privilege Isolation**: We recommend pairing with a dedicated read-only Beszel user rather than primary superuser credentials.
 
 ## Out of Scope / Anti-Patterns
 

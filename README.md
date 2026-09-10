@@ -73,6 +73,44 @@ This widget connects directly to your [Beszel](https://github.com/henrygd/beszel
 
 ---
 
+## 🔑 Authentication: Long-Lived Token (PAT) Setup
+
+Android widgets operate as **headless clients**: they cannot prompt for interactive logins or perform background HTTP POST session renewals. By default, PocketBase auth tokens expire after 5 days (`432000` seconds), which causes the widget to freeze on cached data once expired.
+
+To achieve a true **"Set & Forget"** setup without compromising security (avoiding insecure public/unlocked API rules), configure your token as a **Personal Access Token (PAT) / API Key** valid for 1 year (`31536000` seconds):
+
+> [!TIP]
+> **Why a PAT instead of Unlocked/Public API Rules?**
+> In accordance with the *Defense in Depth* principle, a PAT keeps all endpoints protected by an `Authorization` header. Telemetry data (internal IPs, Docker container names, hostnames) is never exposed to unauthenticated network scanners. If your device is ever lost or replaced, you can instantly revoke the token with a single click in PocketBase without altering firewall or database rules.
+
+### How to Configure in PocketBase Admin
+
+1. Open your Beszel PocketBase Admin panel in your browser:
+   ```text
+   http://<your-hub-ip>:8090/_/
+   ```
+2. In the left sidebar under **Collections**, select the **`users`** collection.
+3. **Unhide Collection Settings**:
+   Beszel hides administrative collection controls by default via CSS (`hideControls: true`). To make the settings button visible:
+   - Open your browser's Developer Tools Console (<kbd>F12</kbd> or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>J</kbd>).
+   - Paste and run this one-line snippet:
+     ```javascript
+     document.querySelector('.app').classList.remove('hide-controls')
+     ```
+   - The **Collection settings (⚙️ gear icon)** will immediately appear in the top header, directly to the left of the circular Refresh button (`↻`).
+4. Click the **⚙️ gear icon** (*Collection settings*).
+5. In the slide-over panel, switch to the **Options** tab (the 3rd tab, next to *Fields* and *API rules*).
+6. Scroll down to the **Other** section and expand:
+   👉 **Token options (invalidate, duration)**
+7. In the **Auth duration (in seconds) \*** field:
+   - Change the value from `432000` to **`31536000`** (1 year) or **`63072000`** (2 years).
+8. Click **Save changes** in the bottom right.
+
+> [!NOTE]
+> **Best Practice (Dedicated Widget User)**: For optimal privilege isolation, you can create a dedicated user in Beszel (e.g. `kwgt@local` with role `readonly`) and generate the widget token using those credentials rather than your primary admin account.
+
+---
+
 ## ⚡ Setup Wizard (`setup.py`)
 
 Run the interactive setup wizard on your machine. It connects to your Beszel Hub using your login credentials, discovers all registered servers, and compiles customized widget presets (`dist/beszel_monitor.clip` and `dist/beszel_monitor.kwgt`) with your settings pre-filled:
