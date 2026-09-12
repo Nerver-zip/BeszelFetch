@@ -404,7 +404,7 @@ class RuntimeTests(unittest.TestCase):
         gw = next(n for n in komp["viewgroup_items"] if n.get("internal_title") == "GlossyWallpaper")
         self.assertEqual(gw["bitmap_bitmap"], "")
         self.assertEqual(gw["bitmap_alpha"], 60.0)
-        self.assertEqual(gw["bitmap_blur"], 70.0)
+        self.assertEqual(gw["bitmap_blur"], 50.0)
         self.assertEqual(gw["bitmap_dim"], 30.0)
         self.assertEqual(gw["bitmap_width"], 1000.0)
 

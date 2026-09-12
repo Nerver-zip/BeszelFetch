@@ -626,7 +626,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                 "bitmap_bitmap": "",
                 "bitmap_width": 1000.0,
                 "bitmap_alpha": 60.0,
-                "bitmap_blur": 70.0,
+                "bitmap_blur": 50.0,
                 "bitmap_dim": 30.0,
                 "position_anchor": "CENTER",
                 "position_offset_x": 0.0,
