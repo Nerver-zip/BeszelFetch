@@ -77,17 +77,17 @@ def http_get(url, headers=None):
 def authenticate(hub_url, identity, password):
     hub_url = hub_url.rstrip("/")
 
-    # 1. Try _superusers (PocketBase v0.23+ admin)
-    url_super = f"{hub_url}/api/collections/_superusers/auth-with-password"
-    status, res = http_post(url_super, {"identity": identity, "password": password})
-    if status == 200 and "token" in res:
-        return res["token"], "superuser", res.get("record", {})
-
-    # 2. Try users collection (standard Beszel user)
+    # 1. Try users collection first (standard Beszel user - respects configured Auth duration / PAT)
     url_users = f"{hub_url}/api/collections/users/auth-with-password"
     status, res = http_post(url_users, {"identity": identity, "password": password})
     if status == 200 and "token" in res:
         return res["token"], "user", res.get("record", {})
+
+    # 2. Try _superusers (PocketBase v0.23+ admin fallback)
+    url_super = f"{hub_url}/api/collections/_superusers/auth-with-password"
+    status, res = http_post(url_super, {"identity": identity, "password": password})
+    if status == 200 and "token" in res:
+        return res["token"], "superuser", res.get("record", {})
 
     # 3. Try legacy admins endpoint (PocketBase < v0.23)
     url_admin = f"{hub_url}/api/admins/auth-with-password"
@@ -227,6 +227,21 @@ def main():
 
         print(f"\033[1;32m✓ Authentication successful!\033[0m (Logged in as \033[36m{role}\033[0m)")
         print(f"  Token: \033[33m{token[:18]}...{token[-8:]}\033[0m")
+        try:
+            import base64
+            payload_b64 = token.split(".")[1]
+            payload_b64 += "=" * ((4 - len(payload_b64) % 4) % 4)
+            payload_data = json.loads(base64.b64decode(payload_b64))
+            exp_ts = payload_data.get("exp")
+            if exp_ts:
+                exp_dt = datetime.fromtimestamp(exp_ts, timezone.utc).astimezone()
+                print(f"  Token Expiration: \033[1;32m{exp_dt.strftime('%Y-%m-%d %H:%M:%S %Z')}\033[0m")
+        except Exception:
+            pass
+
+        if role == "superuser":
+            print("\033[33m  ⚠ Warning: Logged in as superuser. In PocketBase, superuser tokens have a maximum lifetime of 24h.")
+            print("    For a 1-year token, configure and log in with an account from the 'users' collection.\033[0m")
     else:
         print("\nℹ Skipping authentication (no identity provided).")
 
