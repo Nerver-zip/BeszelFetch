@@ -243,7 +243,7 @@
                   "shape_width": 44.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
-                  "paint_color": "#FF313244",
+                  "paint_color": "#FF45475A",
                   "internal_globals": {
                     "paint_color": "c_surface1"
                   },
@@ -428,7 +428,7 @@
                   "shape_width": 44.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
-                  "paint_color": "#FF313244",
+                  "paint_color": "#FF45475A",
                   "internal_globals": {
                     "paint_color": "c_surface1"
                   },
@@ -1676,7 +1676,10 @@
                                 "shape_width": 10
                               },
                               "shape_corners": 6.0,
-                              "fx_mask": "CLIP_ALL"
+                              "fx_mask": "CLIP_ALL",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
                             },
                             {
                               "internal_type": "TextModule",
@@ -1729,7 +1732,10 @@
                                 "shape_width": 10
                               },
                               "shape_corners": 6.0,
-                              "fx_mask": "CLIP_ALL"
+                              "fx_mask": "CLIP_ALL",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
                             },
                             {
                               "internal_type": "TextModule",
@@ -1956,7 +1962,10 @@
                                 "shape_width": 10
                               },
                               "shape_corners": 6.0,
-                              "fx_mask": "CLIP_ALL"
+                              "fx_mask": "CLIP_ALL",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
                             },
                             {
                               "internal_type": "TextModule",
@@ -2009,7 +2018,10 @@
                                 "shape_width": 10
                               },
                               "shape_corners": 6.0,
-                              "fx_mask": "CLIP_ALL"
+                              "fx_mask": "CLIP_ALL",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
                             },
                             {
                               "internal_type": "TextModule",
@@ -2236,7 +2248,10 @@
                                 "shape_width": 10
                               },
                               "shape_corners": 6.0,
-                              "fx_mask": "CLIP_ALL"
+                              "fx_mask": "CLIP_ALL",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
                             },
                             {
                               "internal_type": "TextModule",
@@ -2289,7 +2304,10 @@
                                 "shape_width": 10
                               },
                               "shape_corners": 6.0,
-                              "fx_mask": "CLIP_ALL"
+                              "fx_mask": "CLIP_ALL",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
                             },
                             {
                               "internal_type": "TextModule",
@@ -2516,7 +2534,10 @@
                                 "shape_width": 10
                               },
                               "shape_corners": 6.0,
-                              "fx_mask": "CLIP_ALL"
+                              "fx_mask": "CLIP_ALL",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
                             },
                             {
                               "internal_type": "TextModule",
@@ -2569,7 +2590,10 @@
                                 "shape_width": 10
                               },
                               "shape_corners": 6.0,
-                              "fx_mask": "CLIP_ALL"
+                              "fx_mask": "CLIP_ALL",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
                             },
                             {
                               "internal_type": "TextModule",
@@ -2796,7 +2820,10 @@
                                 "shape_width": 10
                               },
                               "shape_corners": 6.0,
-                              "fx_mask": "CLIP_ALL"
+                              "fx_mask": "CLIP_ALL",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
                             },
                             {
                               "internal_type": "TextModule",
@@ -2849,7 +2876,10 @@
                                 "shape_width": 10
                               },
                               "shape_corners": 6.0,
-                              "fx_mask": "CLIP_ALL"
+                              "fx_mask": "CLIP_ALL",
+                              "internal_globals": {
+                                "paint_color": "c_surface0"
+                              }
                             },
                             {
                               "internal_type": "TextModule",
@@ -3031,10 +3061,10 @@
                       "text_size": 18.0,
                       "paint_color": "#FFCBA6F7",
                       "internal_globals": {
-                        "paint_color": "c_ram"
+                        "paint_color": "c_accent"
                       },
                       "internal_formulas": {
-                        "paint_color": "$gv(c_ram)$",
+                        "paint_color": "$gv(c_accent)$",
                         "text_expression": "$if(gv(info_ready) = 1, tc(ell, gv(fetch_host), 24) + \"@beszel\", \"~/homelab\")$"
                       },
                       "internal_toggles": {

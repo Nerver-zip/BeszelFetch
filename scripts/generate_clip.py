@@ -28,10 +28,12 @@ if __package__:
     from .widget_layout import fix_layout
     from .widget_info import build_info
     from .widget_transport import build_flows
+    from .theme_catalog import resolve_theme, DEFAULT_THEME_ID, ResolvedTheme
 else:
     from widget_layout import fix_layout
     from widget_info import build_info
     from widget_transport import build_flows
+    from theme_catalog import resolve_theme, DEFAULT_THEME_ID, ResolvedTheme
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PALETTE_FILE = REPO_ROOT / "examples" / "palette.json"
@@ -40,19 +42,25 @@ KWGT_FILE = REPO_ROOT / "widget" / "beszel_monitor.kwgt"
 FONT_SRC = REPO_ROOT / "widget" / "fonts" / "JetBrainsMonoNerdFont.ttf"
 
 
-def build_kustom_clip(hub_url=None, token=None, email=None, password=None, server_name=None, systems_data=None, containers_data=None, history_data=None, latest_data=None, wallpaper_path=None, write_outputs=True):
-    with open(PALETTE_FILE, "r", encoding="utf-8") as f:
-        palette_data = json.load(f)
-
-    tokens = palette_data.get("tokens", {})
-
-    def to_kustom_color(hex_str):
-        hex_clean = hex_str.lstrip("#")
-        if len(hex_clean) == 6:
-            return f"#FF{hex_clean.upper()}"
-        elif len(hex_clean) == 8:
-            return f"#{hex_clean.upper()}"
-        return "#FFFFFFFF"
+def build_kustom_clip(
+    hub_url=None,
+    token=None,
+    email=None,
+    password=None,
+    server_name=None,
+    systems_data=None,
+    containers_data=None,
+    history_data=None,
+    latest_data=None,
+    wallpaper_path=None,
+    write_outputs=True,
+    theme=None,
+    output_dir=None,
+):
+    if theme is None:
+        theme = DEFAULT_THEME_ID
+    resolved_theme = resolve_theme(theme)
+    k_colors = resolved_theme.kustom_colors
 
     # Pre-load realistic fixtures from examples/fixtures as initial cache
     fixtures_dir = REPO_ROOT / "examples" / "fixtures"
@@ -208,22 +216,23 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
             "title": "Stale Cache Flag",
             "value": 0
         },
-        # Catppuccin Mocha Color Tokens (Translucent base & mantle for glossy effect)
-        "c_base": {"index": 18, "type": "COLOR", "title": "Base Background", "value": to_kustom_color(tokens.get("base_alpha", "#D91E1E2E"))},
-        "c_mantle": {"index": 19, "type": "COLOR", "title": "Mantle Background", "value": to_kustom_color(tokens.get("mantle_alpha", "#B3181825"))},
-        "c_surface0": {"index": 20, "type": "COLOR", "title": "Surface0 Track", "value": to_kustom_color(tokens.get("surface0", "#313244"))},
-        "c_surface1": {"index": 21, "type": "COLOR", "title": "Surface1 Border", "value": to_kustom_color(tokens.get("surface1", "#45475A"))},
-        "c_text": {"index": 22, "type": "COLOR", "title": "Primary Text", "value": to_kustom_color(tokens.get("text", "#CDD6F4"))},
-        "c_subtext": {"index": 23, "type": "COLOR", "title": "Secondary Label", "value": to_kustom_color(tokens.get("subtext1", "#BAC2DE"))},
-        "c_muted": {"index": 24, "type": "COLOR", "title": "Muted Text", "value": to_kustom_color(tokens.get("overlay0", "#6C7086"))},
-        "c_cpu": {"index": 25, "type": "COLOR", "title": "CPU Accent", "value": to_kustom_color(tokens.get("blue", "#89B4FA"))},
-        "c_ram": {"index": 26, "type": "COLOR", "title": "RAM Accent", "value": to_kustom_color(tokens.get("mauve", "#CBA6F7"))},
-        "c_disk": {"index": 27, "type": "COLOR", "title": "Disk Accent", "value": to_kustom_color(tokens.get("teal", "#94E2D5"))},
-        "c_net": {"index": 28, "type": "COLOR", "title": "Network Accent", "value": to_kustom_color(tokens.get("sapphire", "#74C7EC"))},
-        "c_ok": {"index": 29, "type": "COLOR", "title": "Online / OK", "value": to_kustom_color(tokens.get("green", "#A6E3A1"))},
-        "c_warn": {"index": 30, "type": "COLOR", "title": "Warning / Stale", "value": to_kustom_color(tokens.get("yellow", "#F9E2AF"))},
-        "c_peach": {"index": 31, "type": "COLOR", "title": "High Usage Warning", "value": to_kustom_color(tokens.get("peach", "#FAB387"))},
-        "c_err": {"index": 32, "type": "COLOR", "title": "Error / Offline", "value": to_kustom_color(tokens.get("red", "#F38BA8"))},
+        # Semantic Theme Color Tokens
+        "c_base": {"index": 18, "type": "COLOR", "title": "Base Background", "value": k_colors["c_base"]},
+        "c_mantle": {"index": 19, "type": "COLOR", "title": "Mantle Background", "value": k_colors["c_mantle"]},
+        "c_surface0": {"index": 20, "type": "COLOR", "title": "Surface0 Track", "value": k_colors["c_surface0"]},
+        "c_surface1": {"index": 21, "type": "COLOR", "title": "Surface1 Border", "value": k_colors["c_surface1"]},
+        "c_text": {"index": 22, "type": "COLOR", "title": "Primary Text", "value": k_colors["c_text"]},
+        "c_subtext": {"index": 23, "type": "COLOR", "title": "Secondary Label", "value": k_colors["c_subtext"]},
+        "c_muted": {"index": 24, "type": "COLOR", "title": "Muted Text", "value": k_colors["c_muted"]},
+        "c_cpu": {"index": 25, "type": "COLOR", "title": "CPU Accent", "value": k_colors["c_cpu"]},
+        "c_ram": {"index": 26, "type": "COLOR", "title": "RAM Accent", "value": k_colors["c_ram"]},
+        "c_disk": {"index": 27, "type": "COLOR", "title": "Disk Accent", "value": k_colors["c_disk"]},
+        "c_net": {"index": 28, "type": "COLOR", "title": "Network Accent", "value": k_colors["c_net"]},
+        "c_ok": {"index": 29, "type": "COLOR", "title": "Online / OK", "value": k_colors["c_ok"]},
+        "c_warn": {"index": 30, "type": "COLOR", "title": "Warning / Stale", "value": k_colors["c_warn"]},
+        "c_peach": {"index": 31, "type": "COLOR", "title": "High Usage Warning", "value": k_colors["c_peach"]},
+        "c_err": {"index": 32, "type": "COLOR", "title": "Error / Offline", "value": k_colors["c_err"]},
+        "c_accent": {"index": 33, "type": "COLOR", "title": "Semantic UI Accent", "value": k_colors["c_accent"]},
     }
 
     # Direct cache globals expression according to AGENTS.md decoupled architecture
@@ -264,7 +273,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                 "text_expression": "—",
                 "text_family": font_path,
                 "text_size": 16.5,
-                "paint_color": "#FFBAC2DE",
+                "paint_color": k_colors["c_subtext"],
                 "internal_globals": {"paint_color": "c_subtext"},
                 "internal_formulas": {"text_expression": subtext_expr},
                 "internal_toggles": {"text_expression": 10}
@@ -276,7 +285,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                 "text_expression": "—",
                 "text_family": font_path,
                 "text_size": 15.5,
-                "paint_color": "#FF6C7086",
+                "paint_color": k_colors["c_muted"],
                 "internal_globals": {"paint_color": "c_muted"},
                 "internal_formulas": {"text_expression": second_subtext_expr},
                 "internal_toggles": {"text_expression": 10}
@@ -294,7 +303,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                     "shape_width": 160.0,
                     "shape_height": 120.0,
                     "shape_corners": 16.0,
-                    "paint_color": "#B3181825",
+                    "paint_color": k_colors["c_mantle"],
                     "internal_globals": {"paint_color": "c_mantle"},
                     "internal_formulas": {"shape_width": card_w_formula},
                     "internal_toggles": {"shape_width": 10}
@@ -309,7 +318,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                     "shape_corners": 16.0,
                     "paint_style": "STROKE",
                     "stroke_width": 1.0,
-                    "paint_color": "#FF313244",
+                    "paint_color": k_colors["c_surface0"],
                     "internal_globals": {"paint_color": "c_surface0"},
                     "internal_formulas": {"shape_width": card_w_formula},
                     "internal_toggles": {"shape_width": 10}
@@ -346,7 +355,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                     "style_width": 360.0,
                                     "color_mode": "FLAT",
                                     "color_fgcolor": fg_hex,
-                                    "color_bgcolor": "#FF313244",
+                                    "color_bgcolor": k_colors["c_surface0"],
                                     "internal_globals": {
                                         "color_fgcolor": color_global,
                                         "color_bgcolor": "c_surface0"
@@ -363,7 +372,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                     "text_expression": "0%",
                                     "text_family": font_path,
                                     "text_size": 17.5,
-                                    "paint_color": "#FFCDD6F4",
+                                    "paint_color": k_colors["c_text"],
                                     "internal_globals": {"paint_color": "c_text"},
                                     "internal_formulas": {
                                         "text_expression": pct_formula
@@ -402,7 +411,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                     "shape_width": 160.0,
                     "shape_height": 120.0,
                     "shape_corners": 16.0,
-                    "paint_color": "#B3181825",
+                    "paint_color": k_colors["c_mantle"],
                     "internal_globals": {"paint_color": "c_mantle"},
                     "internal_formulas": {"shape_width": card_w_formula},
                     "internal_toggles": {"shape_width": 10}
@@ -417,7 +426,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                     "shape_corners": 16.0,
                     "paint_style": "STROKE",
                     "stroke_width": 1.0,
-                    "paint_color": "#FF313244",
+                    "paint_color": k_colors["c_surface0"],
                     "internal_globals": {"paint_color": "c_surface0"},
                     "internal_formulas": {"shape_width": card_w_formula},
                     "internal_toggles": {"shape_width": 10}
@@ -442,7 +451,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                     "text_expression": "󰀂 Network",
                                     "text_family": font_path,
                                     "text_size": 19.0,
-                                    "paint_color": "#FF74C7EC",
+                                    "paint_color": k_colors["c_net"],
                                     "internal_globals": {"paint_color": "c_net"}
                                 },
                                 {
@@ -451,7 +460,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                     "text_expression": "▲ 0 KB/s",
                                     "text_family": font_path,
                                     "text_size": 15.5,
-                                    "paint_color": "#FFCDD6F4",
+                                    "paint_color": k_colors["c_text"],
                                     "internal_globals": {"paint_color": "c_text"},
                                     "internal_formulas": {
                                         "text_expression": "0 KiB/s"
@@ -475,7 +484,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                             "text_expression": "Realtime Traffic",
                             "text_family": font_path,
                             "text_size": 14.0,
-                            "paint_color": "#FF6C7086",
+                            "paint_color": k_colors["c_muted"],
                             "internal_globals": {"paint_color": "c_muted"}
                         }
                     ]
@@ -501,7 +510,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                     "shape_width": 320.0,
                     "shape_height": 36.0,
                     "shape_corners": 9.0,
-                    "paint_color": "#B3181825",
+                    "paint_color": k_colors["c_mantle"],
                     "internal_globals": {"paint_color": "c_mantle"},
                     "internal_formulas": {"shape_width": "$si(rwidth) - 36$"},
                     "internal_toggles": {"shape_width": 10}
@@ -516,7 +525,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                     "shape_corners": 9.0,
                     "paint_style": "STROKE",
                     "stroke_width": 1.0,
-                    "paint_color": "#FF313244",
+                    "paint_color": k_colors["c_surface0"],
                     "internal_globals": {"paint_color": "c_surface0"},
                     "internal_formulas": {"shape_width": "$si(rwidth) - 36$"},
                     "internal_toggles": {"shape_width": 10}
@@ -536,7 +545,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                             "shape_type": "CIRCLE",
                             "shape_width": 6.5,
                             "shape_height": 6.5,
-                            "paint_color": "#FFA6E3A1",
+                            "paint_color": k_colors["c_ok"],
                             "internal_globals": {"paint_color": "c_ok"}
                         },
                         {
@@ -545,7 +554,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                             "text_expression": f" container-{idx}",
                             "text_family": font_path,
                             "text_size": 15.5,
-                            "paint_color": "#FFCDD6F4",
+                            "paint_color": k_colors["c_text"],
                             "internal_globals": {"paint_color": "c_text"},
                             "internal_formulas": {
                                 "text_expression": f"$if(gv(container_page) = 1, if(tc(json, {cnt_expr}, \".stats[{idx+5}].n\") != \"\", \" \" + tc(ell, tc(json, {cnt_expr}, \".stats[{idx+5}].n\"), 16), \" container-{idx+5}\"), if(tc(json, {cnt_expr}, \".stats[{idx}].n\") != \"\", \" \" + tc(ell, tc(json, {cnt_expr}, \".stats[{idx}].n\"), 16), \" container-{idx}\"))$"
@@ -569,7 +578,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                             "text_expression": "0.0%",
                             "text_family": font_path,
                             "text_size": 14.5,
-                            "paint_color": "#FF89B4FA",
+                            "paint_color": k_colors["c_cpu"],
                             "internal_globals": {"paint_color": "c_cpu"},
                             "internal_formulas": {
                                 "text_expression": f"$if(gv(container_page) = 1, if(tc(json, {cnt_expr}, \".stats[{idx+5}].c\") != \"\", tc(json, {cnt_expr}, \".stats[{idx+5}].c\") + \"%\", \"0.0%\"), if(tc(json, {cnt_expr}, \".stats[{idx}].c\") != \"\", tc(json, {cnt_expr}, \".stats[{idx}].c\") + \"%\", \"0.0%\"))$"
@@ -582,7 +591,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                             "text_expression": "0 MB",
                             "text_family": font_path,
                             "text_size": 14.5,
-                            "paint_color": "#FFCBA6F7",
+                            "paint_color": k_colors["c_ram"],
                             "internal_globals": {"paint_color": "c_ram"},
                             "internal_formulas": {
                                 "text_expression": f"$if(gv(container_page) = 1, if(tc(json, {cnt_expr}, \".stats[{idx+5}].m\") != \"\", mu(round, tc(json, {cnt_expr}, \".stats[{idx+5}].m\") / 1048576) + \" MB\", \"0 MB\"), if(tc(json, {cnt_expr}, \".stats[{idx}].m\") != \"\", mu(round, tc(json, {cnt_expr}, \".stats[{idx}].m\") / 1048576) + \" MB\", \"0 MB\"))$"
@@ -608,7 +617,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                 "shape_width": 640.0,
                 "shape_height": 360.0,
                 "shape_corners": 22.0,
-                "paint_color": "#D91E1E2E",
+                "paint_color": k_colors["c_base"],
                 "internal_globals": {"paint_color": "c_base"},
                 "internal_formulas": {
                     "shape_width": "$si(rwidth)$",
@@ -677,7 +686,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                 "shape_type": "CIRCLE",
                                 "shape_width": 8.0,
                                 "shape_height": 8.0,
-                                "paint_color": "#FFA6E3A1",
+                                "paint_color": k_colors["c_ok"],
                                 "internal_formulas": {
                                     "paint_color": f"$if(gv(stale) = 1, gv(c_warn), if(tc(json, {sys_expr}, \".items[0].status\") = \"up\", gv(c_ok), gv(c_err)))$"
                                 },
@@ -710,7 +719,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "text_expression": srv_name_val,
                                         "text_family": font_path,
                                         "text_size": 20.0,
-                                        "paint_color": "#FFCDD6F4",
+                                        "paint_color": k_colors["c_text"],
                                         "internal_globals": {"paint_color": "c_text"},
                                         "internal_formulas": {
                                             "text_expression": f"$if(gv(server_name) != \"\", gv(server_name), if(tc(json, {sys_expr}, \".items[0].name\") != \"\", tc(json, {sys_expr}, \".items[0].name\"), \"{srv_name_val}\"))$"
@@ -726,7 +735,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                 "text_expression": "·",
                                 "text_family": font_path,
                                 "text_size": 16.0,
-                                "paint_color": "#FF6C7086",
+                                "paint_color": k_colors["c_muted"],
                                 "internal_globals": {"paint_color": "c_muted"}
                             },
                             # Uptime display
@@ -736,7 +745,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                 "text_expression": "up 0d 0h",
                                 "text_family": font_path,
                                 "text_size": 16.0,
-                                "paint_color": "#FFBAC2DE",
+                                "paint_color": k_colors["c_subtext"],
                                 "internal_globals": {"paint_color": "c_subtext"},
                                 "internal_formulas": {
                                     "text_expression": f"$if(tc(json, {sys_expr}, \".items[0].info.u\") != \"\", \"up \" + mu(floor, tc(json, {sys_expr}, \".items[0].info.u\") / 86400) + \"d \" + mu(floor, (tc(json, {sys_expr}, \".items[0].info.u\") % 86400) / 3600) + \"h\", \"online\")$"
@@ -762,7 +771,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "shape_width": 44.0,
                                         "shape_height": 44.0,
                                         "shape_corners": 10.0,
-                                        "paint_color": "#FF313244",
+                                        "paint_color": k_colors["c_surface0"],
                                         "internal_globals": {"paint_color": "c_surface0"}
                                     },
                                     {
@@ -771,7 +780,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "text_expression": "↻",
                                         "text_family": font_path,
                                         "text_size": 16.0,
-                                        "paint_color": "#FFBAC2DE",
+                                        "paint_color": k_colors["c_subtext"],
                                         "internal_globals": {"paint_color": "c_subtext"}
                                     }
                                 ]
@@ -817,7 +826,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                 title="CPU",
                                                 field_key="cpu",
                                                 color_global="c_cpu",
-                                                fg_hex="#FF89B4FA",
+                                                fg_hex=k_colors["c_cpu"],
                                                 subtext_expr=f"$if(tc(json, {sys_expr}, \".items[0].info.dt\") != \"\", \" \" + mu(round, tc(json, {sys_expr}, \".items[0].info.dt\")) + \"°C\", \" —\")$",
                                                 second_subtext_expr=f"$if(tc(json, {sys_expr}, \".items[0].info.la[0]\") != \"\", \"Load Avg: \" + mu(round, tc(json, {sys_expr}, \".items[0].info.la[0]\"), 2), if(tc(json, {sys_expr}, \".items[0].info.la\") != \"\", \"Load Avg: \" + mu(round, tc(json, {sys_expr}, \".items[0].info.la\"), 2), \"Load Avg: 0.00\"))$"
                                             ),
@@ -826,7 +835,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                 title="Memory",
                                                 field_key="mp",
                                                 color_global="c_ram",
-                                                fg_hex="#FFCBA6F7",
+                                                fg_hex=k_colors["c_ram"],
                                                 subtext_expr=f"$if(tc(json, {sys_expr}, \".items[0].info.mp\") != \"\", \"RAM: \" + mu(round, tc(json, {sys_expr}, \".items[0].info.mp\")) + \"%\", \"RAM: 0%\")$",
                                                 second_subtext_expr=f"$if(tc(json, {sys_expr}, \".items[0].info.mp\") != \"\", if(tc(json, {sys_expr}, \".items[0].info.mp\") > 85, \"High Load\", \"Normal\"), \"Normal\")$"
                                             )
@@ -844,7 +853,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                 title="Disk",
                                                 field_key="dp",
                                                 color_global="c_disk",
-                                                fg_hex="#FF94E2D5",
+                                                fg_hex=k_colors["c_disk"],
                                                 subtext_expr=f"$if(tc(json, {sys_expr}, \".items[0].info.dp\") != \"\", \"Storage: \" + mu(round, tc(json, {sys_expr}, \".items[0].info.dp\")) + \"%\", \"Storage: 0%\")$",
                                                 second_subtext_expr=f"$if(tc(json, {sys_expr}, \".items[0].info.dp\") != \"\", if(tc(json, {sys_expr}, \".items[0].info.dp\") > 90, \"Critical\", \"Healthy\"), \"Healthy\")$"
                                             ),
@@ -894,7 +903,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                         "shape_width": 100.0,
                                                         "shape_height": 38.0,
                                                         "shape_corners": 10.0,
-                                                        "paint_color": "#FF313244",
+                                                        "paint_color": k_colors["c_surface0"],
                                                         "internal_globals": {"paint_color": "c_surface0"}
                                                     },
                                                     {
@@ -905,7 +914,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                         "shape_corners": 10.0,
                                                         "paint_style": "STROKE",
                                                         "stroke_width": 1.0,
-                                                        "paint_color": "#FF45475A",
+                                                        "paint_color": k_colors["c_surface1"],
                                                         "internal_globals": {"paint_color": "c_surface1"}
                                                     },
                                                     {
@@ -913,7 +922,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                         "text_expression": "◀ Prev",
                                                         "text_family": font_path,
                                                         "text_size": 16.0,
-                                                        "paint_color": "#FFCDD6F4",
+                                                        "paint_color": k_colors["c_text"],
                                                         "internal_globals": {"paint_color": "c_text"}
                                                     }
                                                 ]
@@ -924,7 +933,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                 "text_expression": "Page 1 / 1",
                                                 "text_family": font_path,
                                                 "text_size": 15.0,
-                                                "paint_color": "#FFBAC2DE",
+                                                "paint_color": k_colors["c_subtext"],
                                                 "internal_globals": {"paint_color": "c_subtext"},
                                                 "internal_formulas": {
                                                     "text_expression": "$if(gv(container_count) > 0, \"Page \" + (gv(container_page) + 1) + \" / \" + (mu(floor, (gv(container_count) - 1) / 5) + 1), \"Page 1 / 1\")$"
@@ -949,7 +958,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                         "shape_width": 100.0,
                                                         "shape_height": 38.0,
                                                         "shape_corners": 10.0,
-                                                        "paint_color": "#FF313244",
+                                                        "paint_color": k_colors["c_surface0"],
                                                         "internal_globals": {"paint_color": "c_surface0"}
                                                     },
                                                     {
@@ -960,7 +969,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                         "shape_corners": 10.0,
                                                         "paint_style": "STROKE",
                                                         "stroke_width": 1.0,
-                                                        "paint_color": "#FF45475A",
+                                                        "paint_color": k_colors["c_surface1"],
                                                         "internal_globals": {"paint_color": "c_surface1"}
                                                     },
                                                     {
@@ -968,7 +977,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                                         "text_expression": "Next ▶",
                                                         "text_family": font_path,
                                                         "text_size": 16.0,
-                                                        "paint_color": "#FFCDD6F4",
+                                                        "paint_color": k_colors["c_text"],
                                                         "internal_globals": {"paint_color": "c_text"}
                                                     }
                                                 ]
@@ -1010,10 +1019,10 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "shape_width": 105.0,
                                         "shape_height": 46.0,
                                         "shape_corners": 12.0,
-                                        "paint_color": "#FF313244",
+                                        "paint_color": k_colors["c_surface0"],
                                         "internal_formulas": {
                                             "shape_width": "$mu(round, (si(rwidth) - 48) / 3)$",
-                                            "paint_color": "$if(gv(view) = \"overview\", gv(c_surface0), #25181825)$"
+                                            "paint_color": f"$if(gv(view) = \"overview\", gv(c_surface0), {resolved_theme.inactive_tab_bg})$"
                                         },
                                         "internal_toggles": {"shape_width": 10, "paint_color": 10}
                                     },
@@ -1025,7 +1034,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "shape_corners": 12.0,
                                         "paint_style": "STROKE",
                                         "stroke_width": 1.2,
-                                        "paint_color": "#FF45475A",
+                                        "paint_color": k_colors["c_surface1"],
                                         "internal_formulas": {
                                             "shape_width": "$mu(round, (si(rwidth) - 48) / 3)$",
                                             "paint_color": "$if(gv(view) = \"overview\", gv(c_surface1), gv(c_surface0))$"
@@ -1038,7 +1047,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "text_expression": "󰍛 Overview",
                                         "text_family": font_path,
                                         "text_size": 17.5,
-                                        "paint_color": "#FFCDD6F4",
+                                        "paint_color": k_colors["c_text"],
                                         "internal_formulas": {"paint_color": "$if(gv(view) = \"overview\", gv(c_text), gv(c_muted))$"},
                                         "internal_toggles": {"paint_color": 10}
                                     }
@@ -1062,10 +1071,10 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "shape_width": 105.0,
                                         "shape_height": 46.0,
                                         "shape_corners": 12.0,
-                                        "paint_color": "#FF313244",
+                                        "paint_color": k_colors["c_surface0"],
                                         "internal_formulas": {
                                             "shape_width": "$mu(round, (si(rwidth) - 48) / 3)$",
-                                            "paint_color": "$if(gv(view) = \"containers\", gv(c_surface0), #25181825)$"
+                                            "paint_color": f"$if(gv(view) = \"containers\", gv(c_surface0), {resolved_theme.inactive_tab_bg})$"
                                         },
                                         "internal_toggles": {"shape_width": 10, "paint_color": 10}
                                     },
@@ -1077,7 +1086,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "shape_corners": 12.0,
                                         "paint_style": "STROKE",
                                         "stroke_width": 1.2,
-                                        "paint_color": "#FF45475A",
+                                        "paint_color": k_colors["c_surface1"],
                                         "internal_formulas": {
                                             "shape_width": "$mu(round, (si(rwidth) - 48) / 3)$",
                                             "paint_color": "$if(gv(view) = \"containers\", gv(c_surface1), gv(c_surface0))$"
@@ -1090,7 +1099,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "text_expression": " Docker",
                                         "text_family": font_path,
                                         "text_size": 17.5,
-                                        "paint_color": "#FF6C7086",
+                                        "paint_color": k_colors["c_muted"],
                                         "internal_formulas": {"paint_color": "$if(gv(view) = \"containers\", gv(c_text), gv(c_muted))$"},
                                         "internal_toggles": {"paint_color": 10}
                                     }
@@ -1114,10 +1123,10 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "shape_width": 105.0,
                                         "shape_height": 46.0,
                                         "shape_corners": 12.0,
-                                        "paint_color": "#FF313244",
+                                        "paint_color": k_colors["c_surface0"],
                                         "internal_formulas": {
                                             "shape_width": "$mu(round, (si(rwidth) - 48) / 3)$",
-                                            "paint_color": "$if(gv(view) = \"info\", gv(c_surface0), #25181825)$"
+                                            "paint_color": f"$if(gv(view) = \"info\", gv(c_surface0), {resolved_theme.inactive_tab_bg})$"
                                         },
                                         "internal_toggles": {"shape_width": 10, "paint_color": 10}
                                     },
@@ -1129,7 +1138,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "shape_corners": 12.0,
                                         "paint_style": "STROKE",
                                         "stroke_width": 1.2,
-                                        "paint_color": "#FF45475A",
+                                        "paint_color": k_colors["c_surface1"],
                                         "internal_formulas": {
                                             "shape_width": "$mu(round, (si(rwidth) - 48) / 3)$",
                                             "paint_color": "$if(gv(view) = \"info\", gv(c_surface1), gv(c_surface0))$"
@@ -1142,7 +1151,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
                                         "text_expression": "󰋼 Info",
                                         "text_family": font_path,
                                         "text_size": 17.5,
-                                        "paint_color": "#FF6C7086",
+                                        "paint_color": k_colors["c_muted"],
                                         "internal_formulas": {"paint_color": "$if(gv(view) = \"info\", gv(c_text), gv(c_muted))$"},
                                         "internal_toggles": {"paint_color": 10}
                                     }
@@ -1165,6 +1174,19 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
     if not write_outputs:
         return komponent
 
+    if output_dir is not None:
+        out_dir = Path(output_dir)
+        out_dir.mkdir(parents=True, exist_ok=True)
+        clip_target = out_dir / "beszel_monitor.clip"
+        loose_target = out_dir / "beszel_monitor_loose.clip"
+        kwgt_target = out_dir / "beszel_monitor.kwgt"
+    else:
+        out_dir = REPO_ROOT / "widget"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        clip_target = CLIP_FILE
+        loose_target = REPO_ROOT / "widget" / "beszel_monitor_loose.clip"
+        kwgt_target = KWGT_FILE
+
     # Top-level Clip structure expected by KWGT clipboard
     clip_data = {
         "clip_version": 1,
@@ -1175,7 +1197,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
     clip_json = json.dumps(clip_data, indent=2, ensure_ascii=False)
     clip_content = f"##KUSTOMCLIP##\n{clip_json}\n##KUSTOMCLIP##\n"
 
-    with open(CLIP_FILE, "w", encoding="utf-8") as f:
+    with open(clip_target, "w", encoding="utf-8") as f:
         f.write(clip_content)
 
     # Also generate loose modules clip
@@ -1186,8 +1208,7 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
     }
     loose_clip_json = json.dumps(loose_clip_data, indent=2, ensure_ascii=False)
     loose_clip_content = f"##KUSTOMCLIP##\n{loose_clip_json}\n##KUSTOMCLIP##\n"
-    loose_file = REPO_ROOT / "widget" / "beszel_monitor_loose.clip"
-    with open(loose_file, "w", encoding="utf-8") as f:
+    with open(loose_target, "w", encoding="utf-8") as f:
         f.write(loose_clip_content)
 
     # Package as standalone .kwgt archive (directly mirroring ghinfo.kwgt)
@@ -1221,25 +1242,47 @@ def build_kustom_clip(hub_url=None, token=None, email=None, password=None, serve
     }
     preset_json_str = json.dumps(preset_wrapper, indent=2, ensure_ascii=False)
 
-    with zipfile.ZipFile(KWGT_FILE, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+    with zipfile.ZipFile(kwgt_target, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         zf.writestr("preset.json", preset_json_str)
         zf.write(REPO_ROOT / "widget/assets/fastfetch/LICENSE.fastfetch", arcname="licenses/fastfetch.txt")
         if FONT_SRC.exists():
             zf.write(FONT_SRC, arcname="fonts/JetBrainsMonoNerdFont.ttf")
 
-    # Mirror outputs to dist/
-    dist_dir = REPO_ROOT / "dist"
-    dist_dir.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(CLIP_FILE, dist_dir / "beszel_monitor.clip")
-    shutil.copy2(loose_file, dist_dir / "beszel_monitor_loose.clip")
-    shutil.copy2(KWGT_FILE, dist_dir / "beszel_monitor.kwgt")
+    if output_dir is None:
+        # Mirror outputs to dist/
+        dist_dir = REPO_ROOT / "dist"
+        dist_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(clip_target, dist_dir / "beszel_monitor.clip")
+        shutil.copy2(loose_target, dist_dir / "beszel_monitor_loose.clip")
+        shutil.copy2(kwgt_target, dist_dir / "beszel_monitor.kwgt")
 
-    print(f"✓ Kustom Clip successfully generated at: {CLIP_FILE}")
-    print(f"✓ Loose Modules Clip generated at: {loose_file}")
-    print(f"✓ Standalone KWGT package generated at: {KWGT_FILE}")
-    print(f"✓ Mirrored to dist/ directory.")
+    print(f"✓ Kustom Clip successfully generated at: {clip_target}")
+    print(f"✓ Loose Modules Clip generated at: {loose_target}")
+    print(f"✓ Standalone KWGT package generated at: {kwgt_target}")
+    if output_dir is None:
+        print(f"✓ Mirrored to dist/ directory.")
     return komponent
 
 
 if __name__ == "__main__":
-    build_kustom_clip()
+    import argparse
+    import sys
+    if __package__:
+        from .theme_catalog import list_themes
+    else:
+        from theme_catalog import list_themes
+
+    parser = argparse.ArgumentParser(description="Generate Beszel KWGT clip and package.")
+    parser.add_argument("--theme", default=DEFAULT_THEME_ID, help="Theme ID (default: catppuccin-mocha)")
+    parser.add_argument("--output-dir", help="Output directory for generated files (default: widget/ and dist/)")
+    parser.add_argument("--list-themes", action="store_true", help="List all available themes and exit")
+    args = parser.parse_args()
+
+    if args.list_themes:
+        themes = list_themes()
+        print(f"Available themes ({len(themes)}):")
+        for t in themes:
+            print(f"  - {t['id']:<26} [{t['mode']:<5}] {t['name']}")
+        sys.exit(0)
+
+    build_kustom_clip(theme=args.theme, output_dir=args.output_dir)

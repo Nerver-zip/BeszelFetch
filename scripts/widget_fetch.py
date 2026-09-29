@@ -96,7 +96,7 @@ def build_fetch(root):
         if name in ("debian", "rhel", "freebsd", "openbsd"): color = "c_err"
         elif name in ("ubuntu", "linux", "raspbian"): color = "c_peach"
         elif name in ("linuxmint", "manjaro", "opensuse", "void", "android"): color = "c_ok"
-        elif name in ("gentoo", "nixos"): color = "c_ram"
+        elif name in ("gentoo", "nixos"): color = "c_accent"
         catalog[name] = {"art": art, "cols": max(map(len, art.splitlines())),
                          "color": globals_[color]["value"]}
     globals_["ascii_data"] = {"index": len(globals_), "type": "TEXT",
@@ -117,7 +117,7 @@ def build_fetch(root):
     cb = frame("FetchDetailsBounds", "$si(rwidth) * 0.7 - 36$", 224)
     formula(cb, "shape_height", "$gv(frameh) - 152$")
     content["viewgroup_items"].append(cb)
-    heading = text("FetchHeading", '$if(gv(info_ready) = 1, tc(ell, gv(fetch_host), 24) + "@beszel", "~/homelab")$', 18, "c_ram")
+    heading = text("FetchHeading", '$if(gv(info_ready) = 1, tc(ell, gv(fetch_host), 24) + "@beszel", "~/homelab")$', 18, "c_accent")
     anchor(heading, "TOPLEFT")
     content["viewgroup_items"].append(heading)
     specs = [("OS", "fetch_os_line", "c_cpu"), ("Kernel", "fetch_kernel", "c_net"),
