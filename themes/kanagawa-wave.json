@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "id": "kanagawa-wave",
+  "name": "Kanagawa Wave",
+  "mode": "dark",
+  "source": {
+    "project": "Kanagawa",
+    "repository": "rebelot/kanagawa.nvim",
+    "revision": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3",
+    "path": "lua/kanagawa/colors.lua",
+    "license": "MIT"
+  },
+  "colors": {
+    "sumiInk0": "#16161D",
+    "sumiInk1": "#1F1F28",
+    "sumiInk2": "#22222E",
+    "sumiInk3": "#2A2A37",
+    "sumiInk4": "#363646",
+    "fujiWhite": "#DCD7BA",
+    "fujiGray": "#727169",
+    "springViolet1": "#938AA9",
+    "springBlue": "#7FB4CA",
+    "waveAqua2": "#6A9589",
+    "waveRed": "#E46876",
+    "autumnGreen": "#76946A",
+    "autumnYellow": "#DCA561",
+    "roninYellow": "#FF9E3B",
+    "carpYellow": "#E6C384",
+    "oniViolet": "#957FB8"
+  },
+  "semantic": {
+    "background": "sumiInk1",
+    "background_alt": "sumiInk0",
+    "surface": "sumiInk3",
+    "border": "sumiInk4",
+    "text_primary": "fujiWhite",
+    "text_secondary": "springViolet1",
+    "text_muted": "fujiGray",
+    "accent": "springBlue",
+    "cpu": "springBlue",
+    "memory": "oniViolet",
+    "disk": "waveAqua2",
+    "network": "carpYellow",
+    "success": "autumnGreen",
+    "warning": "autumnYellow",
+    "high": "roninYellow",
+    "error": "waveRed"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "gruvbox-light",
+  "name": "Gruvbox Light",
+  "mode": "light",
+  "source": {
+    "project": "Gruvbox",
+    "repository": "morhetz/gruvbox",
+    "revision": "ef8864bb42bf244f0295d1c5a403b27e3d139695",
+    "path": "colors/gruvbox.vim",
+    "license": "MIT"
+  },
+  "colors": {
+    "light0_hard": "#F9F5D7",
+    "light0": "#FBF1C7",
+    "light0_soft": "#F2E5BC",
+    "light1": "#EBDBB2",
+    "light2": "#D5C4A1",
+    "light3": "#BDAE93",
+    "light4": "#A89984",
+    "dark0": "#282828",
+    "dark1": "#3C3836",
+    "dark2": "#504945",
+    "dark3": "#665C54",
+    "dark4": "#7C6F64",
+    "faded_red": "#CC241D",
+    "faded_green": "#98971A",
+    "faded_yellow": "#D79921",
+    "faded_blue": "#458588",
+    "faded_purple": "#B16286",
+    "faded_aqua": "#689D6A",
+    "faded_orange": "#D65D0E"
+  },
+  "semantic": {
+    "background": "light0",
+    "background_alt": "light0_soft",
+    "surface": "light1",
+    "border": "light2",
+    "text_primary": "dark1",
+    "text_secondary": "dark2",
+    "text_muted": "dark4",
+    "accent": "faded_orange",
+    "cpu": "faded_blue",
+    "memory": "faded_purple",
+    "disk": "faded_aqua",
+    "network": "faded_yellow",
+    "success": "faded_green",
+    "warning": "faded_yellow",
+    "high": "faded_orange",
+    "error": "faded_red"
+  }
+}

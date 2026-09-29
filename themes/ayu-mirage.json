@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "ayu-mirage",
+  "name": "Ayu Mirage",
+  "mode": "dark",
+  "source": {
+    "project": "Ayu",
+    "repository": "ayu-theme/ayu-colors",
+    "revision": "07450008dece1e36e37ab573272761403f043f9f",
+    "path": "src/mirage.json",
+    "license": "MIT"
+  },
+  "colors": {
+    "bg": "#212733",
+    "bg_alt": "#1D222E",
+    "surface": "#272D3B",
+    "border": "#343D4E",
+    "fg": "#D9D7CE",
+    "fg_sub": "#CCCAC2",
+    "muted": "#5C6773",
+    "accent": "#FFCC66",
+    "blue": "#73B8FF",
+    "cyan": "#95E6CB",
+    "green": "#BAE67E",
+    "orange": "#FFA759",
+    "yellow": "#FFD580",
+    "red": "#FF3333",
+    "purple": "#D4BFFF"
+  },
+  "semantic": {
+    "background": "bg",
+    "background_alt": "bg_alt",
+    "surface": "surface",
+    "border": "border",
+    "text_primary": "fg",
+    "text_secondary": "fg_sub",
+    "text_muted": "muted",
+    "accent": "accent",
+    "cpu": "blue",
+    "memory": "purple",
+    "disk": "cyan",
+    "network": "orange",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

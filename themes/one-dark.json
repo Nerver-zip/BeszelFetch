@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "one-dark",
+  "name": "One Dark",
+  "mode": "dark",
+  "source": {
+    "project": "One Dark",
+    "repository": "tinted-theming/schemes",
+    "revision": "d70255b752ac8328ee3d549c72a1a55ce5fc794f",
+    "path": "base16/one-dark.yaml",
+    "license": "MIT"
+  },
+  "colors": {
+    "bg": "#282C34",
+    "bg_alt": "#21252B",
+    "surface": "#353B45",
+    "border": "#3E4451",
+    "fg": "#ABB2BF",
+    "fg_sub": "#9DA5B4",
+    "muted": "#5C6370",
+    "blue": "#61AFEF",
+    "cyan": "#56B6C2",
+    "purple": "#C678DD",
+    "green": "#98C379",
+    "yellow": "#E5C07B",
+    "orange": "#D19A66",
+    "red": "#E06C75"
+  },
+  "semantic": {
+    "background": "bg",
+    "background_alt": "bg_alt",
+    "surface": "surface",
+    "border": "border",
+    "text_primary": "fg",
+    "text_secondary": "fg_sub",
+    "text_muted": "muted",
+    "accent": "blue",
+    "cpu": "blue",
+    "memory": "purple",
+    "disk": "cyan",
+    "network": "yellow",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

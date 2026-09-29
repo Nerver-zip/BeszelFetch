@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "solarized-light",
+  "name": "Solarized Light",
+  "mode": "light",
+  "source": {
+    "project": "Solarized",
+    "repository": "altercation/solarized",
+    "revision": "62f656a02f93c5190a8753159e34b385588d5ff3",
+    "path": "solarized.el",
+    "license": "MIT"
+  },
+  "colors": {
+    "base03": "#002B36",
+    "base02": "#073642",
+    "base01": "#586E75",
+    "base00": "#657B83",
+    "base0": "#839496",
+    "base1": "#93A1A1",
+    "base2": "#EEE8D5",
+    "base3": "#FDF6E3",
+    "surface_light": "#E4DECD",
+    "yellow": "#B58900",
+    "orange": "#CB4B16",
+    "red": "#DC322F",
+    "magenta": "#D33682",
+    "violet": "#6C71C4",
+    "blue": "#268BD2",
+    "cyan": "#2AA198",
+    "green": "#859900"
+  },
+  "semantic": {
+    "background": "base3",
+    "background_alt": "base2",
+    "surface": "surface_light",
+    "border": "base1",
+    "text_primary": "base02",
+    "text_secondary": "base01",
+    "text_muted": "base00",
+    "accent": "blue",
+    "cpu": "blue",
+    "memory": "violet",
+    "disk": "cyan",
+    "network": "magenta",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "monokai",
+  "name": "Monokai",
+  "mode": "dark",
+  "source": {
+    "project": "Monokai",
+    "repository": "tinted-theming/schemes",
+    "revision": "001af361427c220f8175f9804ebf74e4568a1c15",
+    "path": "base16/monokai.yaml",
+    "license": "MIT"
+  },
+  "colors": {
+    "bg": "#272822",
+    "bg_alt": "#1E1F1C",
+    "surface": "#3E3D32",
+    "border": "#49483E",
+    "fg": "#F8F8F2",
+    "fg_sub": "#CFCECA",
+    "muted": "#75715E",
+    "blue": "#66D9EF",
+    "cyan": "#A1EFE4",
+    "green": "#A6E22E",
+    "yellow": "#E6DB74",
+    "orange": "#FD971F",
+    "red": "#F92672",
+    "purple": "#AE81FF"
+  },
+  "semantic": {
+    "background": "bg",
+    "background_alt": "bg_alt",
+    "surface": "surface",
+    "border": "border",
+    "text_primary": "fg",
+    "text_secondary": "fg_sub",
+    "text_muted": "muted",
+    "accent": "orange",
+    "cpu": "blue",
+    "memory": "purple",
+    "disk": "cyan",
+    "network": "yellow",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

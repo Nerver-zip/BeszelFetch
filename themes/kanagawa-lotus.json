@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "id": "kanagawa-lotus",
+  "name": "Kanagawa Lotus",
+  "mode": "light",
+  "source": {
+    "project": "Kanagawa",
+    "repository": "rebelot/kanagawa.nvim",
+    "revision": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3",
+    "path": "lua/kanagawa/colors.lua",
+    "license": "MIT"
+  },
+  "colors": {
+    "lotusWhite0": "#F2ECDE",
+    "lotusWhite1": "#E7E3D4",
+    "lotusWhite2": "#E5DDCB",
+    "lotusWhite3": "#D5CEA3",
+    "lotusWhite4": "#DCD5AC",
+    "lotusInk1": "#545464",
+    "lotusInk2": "#43436C",
+    "lotusGray": "#8A8980",
+    "lotusGray2": "#716E61",
+    "lotusBlue4": "#4D699B",
+    "lotusTeal2": "#4E8CA2",
+    "lotusRed2": "#D7474B",
+    "lotusGreen": "#6E915F",
+    "lotusYellow2": "#DE9567",
+    "lotusOrange2": "#E98A00",
+    "lotusViolet2": "#A09CAC"
+  },
+  "semantic": {
+    "background": "lotusWhite0",
+    "background_alt": "lotusWhite1",
+    "surface": "lotusWhite2",
+    "border": "lotusWhite3",
+    "text_primary": "lotusInk1",
+    "text_secondary": "lotusInk2",
+    "text_muted": "lotusGray",
+    "accent": "lotusBlue4",
+    "cpu": "lotusBlue4",
+    "memory": "lotusViolet2",
+    "disk": "lotusTeal2",
+    "network": "lotusYellow2",
+    "success": "lotusGreen",
+    "warning": "lotusYellow2",
+    "high": "lotusOrange2",
+    "error": "lotusRed2"
+  }
+}

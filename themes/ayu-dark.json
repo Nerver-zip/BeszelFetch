@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "ayu-dark",
+  "name": "Ayu Dark",
+  "mode": "dark",
+  "source": {
+    "project": "Ayu",
+    "repository": "ayu-theme/ayu-colors",
+    "revision": "07450008dece1e36e37ab573272761403f043f9f",
+    "path": "src/dark.json",
+    "license": "MIT"
+  },
+  "colors": {
+    "bg": "#0F1419",
+    "bg_alt": "#0B0E14",
+    "surface": "#191F26",
+    "border": "#252D38",
+    "fg": "#E6E1CF",
+    "fg_sub": "#BFBDB6",
+    "muted": "#5C6773",
+    "accent": "#FFB454",
+    "blue": "#39BAE6",
+    "cyan": "#59C2C6",
+    "green": "#C2D94C",
+    "orange": "#FF8F40",
+    "yellow": "#E6B450",
+    "red": "#FF3333",
+    "purple": "#D4BFFF"
+  },
+  "semantic": {
+    "background": "bg",
+    "background_alt": "bg_alt",
+    "surface": "surface",
+    "border": "border",
+    "text_primary": "fg",
+    "text_secondary": "fg_sub",
+    "text_muted": "muted",
+    "accent": "accent",
+    "cpu": "blue",
+    "memory": "purple",
+    "disk": "cyan",
+    "network": "orange",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

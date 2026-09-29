@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "tomorrow-night",
+  "name": "Tomorrow Night",
+  "mode": "dark",
+  "source": {
+    "project": "Tomorrow Night",
+    "repository": "chriskempson/tomorrow-theme",
+    "revision": "ccf6666d888198d341b26b3a99d0bc96500ad503",
+    "path": "Tomorrow-Night.vim",
+    "license": "MIT"
+  },
+  "colors": {
+    "bg": "#1D1F21",
+    "bg_alt": "#161719",
+    "surface": "#282A2E",
+    "border": "#373B41",
+    "fg": "#C5C8C6",
+    "fg_sub": "#969896",
+    "muted": "#707880",
+    "blue": "#81A2BE",
+    "cyan": "#8ABEB7",
+    "green": "#B5BD68",
+    "yellow": "#F0C674",
+    "orange": "#DE935F",
+    "red": "#CC6666",
+    "purple": "#B294BB"
+  },
+  "semantic": {
+    "background": "bg",
+    "background_alt": "bg_alt",
+    "surface": "surface",
+    "border": "border",
+    "text_primary": "fg",
+    "text_secondary": "fg_sub",
+    "text_muted": "muted",
+    "accent": "blue",
+    "cpu": "blue",
+    "memory": "purple",
+    "disk": "cyan",
+    "network": "orange",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

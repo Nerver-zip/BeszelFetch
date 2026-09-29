@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "id": "tokyo-night-moon",
+  "name": "Tokyo Night Moon",
+  "mode": "dark",
+  "source": {
+    "project": "Tokyo Night",
+    "repository": "folke/tokyonight.nvim",
+    "revision": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
+    "path": "lua/tokyonight/colors/moon.lua",
+    "license": "Apache-2.0"
+  },
+  "colors": {
+    "bg": "#222436",
+    "bg_dark": "#1E2030",
+    "bg_highlight": "#2F334D",
+    "terminal_black": "#444A73",
+    "fg": "#C8D3F5",
+    "fg_dark": "#828BB8",
+    "comment": "#636DA6",
+    "cyan": "#86E1FC",
+    "blue": "#82AAFF",
+    "purple": "#FCA7EA",
+    "magenta": "#C099FF",
+    "red": "#FF757F",
+    "orange": "#FF966C",
+    "yellow": "#FFC777",
+    "green": "#C3E88D",
+    "teal": "#4FD6BE"
+  },
+  "semantic": {
+    "background": "bg",
+    "background_alt": "bg_dark",
+    "surface": "bg_highlight",
+    "border": "terminal_black",
+    "text_primary": "fg",
+    "text_secondary": "fg_dark",
+    "text_muted": "comment",
+    "accent": "blue",
+    "cpu": "cyan",
+    "memory": "magenta",
+    "disk": "teal",
+    "network": "purple",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

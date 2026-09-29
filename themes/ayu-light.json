@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "ayu-light",
+  "name": "Ayu Light",
+  "mode": "light",
+  "source": {
+    "project": "Ayu",
+    "repository": "ayu-theme/ayu-colors",
+    "revision": "07450008dece1e36e37ab573272761403f043f9f",
+    "path": "src/light.json",
+    "license": "MIT"
+  },
+  "colors": {
+    "bg": "#FAFAFA",
+    "bg_alt": "#F3F3F3",
+    "surface": "#ECEBEC",
+    "border": "#D5D5D5",
+    "fg": "#5C6166",
+    "fg_sub": "#6C7380",
+    "muted": "#8A9199",
+    "accent": "#FF9940",
+    "blue": "#36A3D9",
+    "cyan": "#4CBF99",
+    "green": "#86B300",
+    "orange": "#FA8D3E",
+    "yellow": "#F29718",
+    "red": "#F05664",
+    "purple": "#A37ACC"
+  },
+  "semantic": {
+    "background": "bg",
+    "background_alt": "bg_alt",
+    "surface": "surface",
+    "border": "border",
+    "text_primary": "fg",
+    "text_secondary": "fg_sub",
+    "text_muted": "muted",
+    "accent": "accent",
+    "cpu": "blue",
+    "memory": "purple",
+    "disk": "cyan",
+    "network": "orange",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

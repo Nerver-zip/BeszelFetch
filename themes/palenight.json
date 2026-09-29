@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "palenight",
+  "name": "Material Palenight",
+  "mode": "dark",
+  "source": {
+    "project": "Material Palenight",
+    "repository": "tinted-theming/schemes",
+    "revision": "d70255b752ac8328ee3d549c72a1a55ce5fc794f",
+    "path": "base16/material-palenight.yaml",
+    "license": "MIT"
+  },
+  "colors": {
+    "bg": "#292D3E",
+    "bg_alt": "#232635",
+    "surface": "#33384D",
+    "border": "#444A63",
+    "fg": "#A6ACCD",
+    "fg_sub": "#BFC7D5",
+    "muted": "#676E95",
+    "accent": "#C792EA",
+    "blue": "#82AAFF",
+    "cyan": "#89DDFF",
+    "green": "#C3E88D",
+    "yellow": "#FFCB6B",
+    "orange": "#F78C6C",
+    "red": "#FF5370",
+    "purple": "#C792EA"
+  },
+  "semantic": {
+    "background": "bg",
+    "background_alt": "bg_alt",
+    "surface": "surface",
+    "border": "border",
+    "text_primary": "fg_sub",
+    "text_secondary": "fg",
+    "text_muted": "muted",
+    "accent": "accent",
+    "cpu": "blue",
+    "memory": "purple",
+    "disk": "cyan",
+    "network": "yellow",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

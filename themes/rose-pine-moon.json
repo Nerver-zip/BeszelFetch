@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "rose-pine-moon",
+  "name": "Rosé Pine Moon",
+  "mode": "dark",
+  "source": {
+    "project": "Rosé Pine",
+    "repository": "rose-pine/palette",
+    "revision": "e2e7b5e4088a8731ffae821360ba981ee85e1ea1",
+    "path": "palette.json",
+    "license": "MIT"
+  },
+  "colors": {
+    "base": "#232136",
+    "surface": "#2A273F",
+    "overlay": "#393552",
+    "muted": "#6E6A86",
+    "subtle": "#908CAA",
+    "text": "#E0DEF4",
+    "love": "#EB6F92",
+    "gold": "#F6C177",
+    "rose": "#EA9A97",
+    "pine": "#3E8FB0",
+    "foam": "#9CCFD8",
+    "iris": "#C4A7E7",
+    "highlight_low": "#2A283E",
+    "highlight_med": "#44415A",
+    "highlight_high": "#56526E"
+  },
+  "semantic": {
+    "background": "base",
+    "background_alt": "highlight_low",
+    "surface": "surface",
+    "border": "highlight_med",
+    "text_primary": "text",
+    "text_secondary": "subtle",
+    "text_muted": "muted",
+    "accent": "rose",
+    "cpu": "foam",
+    "memory": "iris",
+    "disk": "pine",
+    "network": "gold",
+    "success": "foam",
+    "warning": "gold",
+    "high": "rose",
+    "error": "love"
+  }
+}

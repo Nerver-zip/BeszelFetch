@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "rose-pine-dawn",
+  "name": "Rosé Pine Dawn",
+  "mode": "light",
+  "source": {
+    "project": "Rosé Pine",
+    "repository": "rose-pine/palette",
+    "revision": "e2e7b5e4088a8731ffae821360ba981ee85e1ea1",
+    "path": "palette.json",
+    "license": "MIT"
+  },
+  "colors": {
+    "base": "#FAF4ED",
+    "surface": "#FFFDFB",
+    "overlay": "#F2E9E1",
+    "muted": "#9893A5",
+    "subtle": "#797593",
+    "text": "#575279",
+    "love": "#B4637A",
+    "gold": "#EA9D34",
+    "rose": "#D7827E",
+    "pine": "#286983",
+    "foam": "#56949F",
+    "iris": "#907AA9",
+    "highlight_low": "#F4EDE8",
+    "highlight_med": "#DFDAD9",
+    "highlight_high": "#CECACD"
+  },
+  "semantic": {
+    "background": "base",
+    "background_alt": "highlight_low",
+    "surface": "surface",
+    "border": "highlight_med",
+    "text_primary": "text",
+    "text_secondary": "subtle",
+    "text_muted": "muted",
+    "accent": "rose",
+    "cpu": "pine",
+    "memory": "iris",
+    "disk": "foam",
+    "network": "gold",
+    "success": "pine",
+    "warning": "gold",
+    "high": "rose",
+    "error": "love"
+  }
+}

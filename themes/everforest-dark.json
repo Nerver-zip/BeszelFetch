@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "id": "everforest-dark",
+  "name": "Everforest Dark",
+  "mode": "dark",
+  "source": {
+    "project": "Everforest",
+    "repository": "sainnhe/everforest",
+    "revision": "85a86eb62409e3ec88713bff3d1b9d7374e112e4",
+    "path": "autoload/everforest.vim",
+    "license": "MIT"
+  },
+  "colors": {
+    "bg_dim": "#232A2E",
+    "bg0": "#2D353B",
+    "bg1": "#343F44",
+    "bg2": "#3D484D",
+    "bg3": "#475258",
+    "bg4": "#4F585E",
+    "bg5": "#56635F",
+    "fg": "#D3C6AA",
+    "grey0": "#7A8478",
+    "grey1": "#859289",
+    "grey2": "#9DA9A0",
+    "red": "#E67E80",
+    "orange": "#E69875",
+    "yellow": "#DBBC7F",
+    "green": "#A7C080",
+    "aqua": "#83C092",
+    "blue": "#7FBBB3",
+    "purple": "#D699B6"
+  },
+  "semantic": {
+    "background": "bg0",
+    "background_alt": "bg_dim",
+    "surface": "bg1",
+    "border": "bg2",
+    "text_primary": "fg",
+    "text_secondary": "grey2",
+    "text_muted": "grey0",
+    "accent": "green",
+    "cpu": "blue",
+    "memory": "purple",
+    "disk": "aqua",
+    "network": "yellow",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

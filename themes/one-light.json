@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "one-light",
+  "name": "One Light",
+  "mode": "light",
+  "source": {
+    "project": "One Light",
+    "repository": "tinted-theming/schemes",
+    "revision": "d70255b752ac8328ee3d549c72a1a55ce5fc794f",
+    "path": "base16/one-light.yaml",
+    "license": "MIT"
+  },
+  "colors": {
+    "bg": "#FAFAFA",
+    "bg_alt": "#F0F0F0",
+    "surface": "#E5E5E6",
+    "border": "#D0D0D0",
+    "fg": "#383A42",
+    "fg_sub": "#4F525E",
+    "muted": "#A0A1A7",
+    "blue": "#4078F2",
+    "cyan": "#0184BC",
+    "purple": "#A626A4",
+    "green": "#50A14F",
+    "yellow": "#C18401",
+    "orange": "#986801",
+    "red": "#E45649"
+  },
+  "semantic": {
+    "background": "bg",
+    "background_alt": "bg_alt",
+    "surface": "surface",
+    "border": "border",
+    "text_primary": "fg",
+    "text_secondary": "fg_sub",
+    "text_muted": "muted",
+    "accent": "blue",
+    "cpu": "blue",
+    "memory": "purple",
+    "disk": "cyan",
+    "network": "yellow",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

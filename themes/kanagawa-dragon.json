@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "kanagawa-dragon",
+  "name": "Kanagawa Dragon",
+  "mode": "dark",
+  "source": {
+    "project": "Kanagawa",
+    "repository": "rebelot/kanagawa.nvim",
+    "revision": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3",
+    "path": "lua/kanagawa/colors.lua",
+    "license": "MIT"
+  },
+  "colors": {
+    "dragonBlack0": "#0D0C0C",
+    "dragonBlack1": "#12120F",
+    "dragonBlack2": "#1D1C19",
+    "dragonBlack3": "#181616",
+    "dragonBlack4": "#282727",
+    "dragonWhite": "#C5C9C5",
+    "dragonGray": "#8A9A86",
+    "dragonGray2": "#7A8382",
+    "dragonBlue2": "#8BA4B0",
+    "dragonAqua": "#8EA4A2",
+    "dragonRed": "#C4746E",
+    "dragonGreen2": "#87A987",
+    "dragonYellow": "#C4B28A",
+    "dragonOrange": "#B6927B",
+    "dragonPink": "#A292A3"
+  },
+  "semantic": {
+    "background": "dragonBlack1",
+    "background_alt": "dragonBlack0",
+    "surface": "dragonBlack3",
+    "border": "dragonBlack4",
+    "text_primary": "dragonWhite",
+    "text_secondary": "dragonGray",
+    "text_muted": "dragonGray2",
+    "accent": "dragonAqua",
+    "cpu": "dragonBlue2",
+    "memory": "dragonPink",
+    "disk": "dragonAqua",
+    "network": "dragonYellow",
+    "success": "dragonGreen2",
+    "warning": "dragonYellow",
+    "high": "dragonOrange",
+    "error": "dragonRed"
+  }
+}

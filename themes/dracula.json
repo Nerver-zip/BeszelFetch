@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "dracula",
+  "name": "Dracula",
+  "mode": "dark",
+  "source": {
+    "project": "Dracula",
+    "repository": "dracula/dracula-theme",
+    "revision": "1e04a4b768302fa2de37d09cc7b8087eabcd3ed8",
+    "path": "dracula.css",
+    "license": "MIT"
+  },
+  "colors": {
+    "background": "#282A36",
+    "background_dark": "#1E1F29",
+    "current_line": "#44475A",
+    "selection": "#44475A",
+    "foreground": "#F8F8F2",
+    "foreground_alt": "#E2E2DC",
+    "comment": "#6272A4",
+    "cyan": "#8BE9FD",
+    "green": "#50FA7B",
+    "orange": "#FFB86C",
+    "pink": "#FF79C6",
+    "purple": "#BD93F9",
+    "red": "#FF5555",
+    "yellow": "#F1FA8C"
+  },
+  "semantic": {
+    "background": "background",
+    "background_alt": "background_dark",
+    "surface": "current_line",
+    "border": "comment",
+    "text_primary": "foreground",
+    "text_secondary": "foreground_alt",
+    "text_muted": "comment",
+    "accent": "purple",
+    "cpu": "cyan",
+    "memory": "purple",
+    "disk": "green",
+    "network": "pink",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

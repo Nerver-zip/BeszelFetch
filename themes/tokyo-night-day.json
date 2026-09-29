@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "tokyo-night-day",
+  "name": "Tokyo Night Day",
+  "mode": "light",
+  "source": {
+    "project": "Tokyo Night",
+    "repository": "folke/tokyonight.nvim",
+    "revision": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
+    "path": "lua/tokyonight/colors/day.lua",
+    "license": "Apache-2.0"
+  },
+  "colors": {
+    "bg": "#E1E2E7",
+    "bg_dark": "#D0D5E3",
+    "bg_highlight": "#C4C8DA",
+    "terminal_black": "#A1A6C5",
+    "fg": "#3760BF",
+    "fg_dark": "#6172B0",
+    "dark3": "#343B58",
+    "comment": "#848CB5",
+    "cyan": "#007197",
+    "blue": "#2E7DE9",
+    "purple": "#7847BD",
+    "magenta": "#9854F1",
+    "red": "#F52A65",
+    "orange": "#B15C00",
+    "yellow": "#8C6C3E",
+    "green": "#587539",
+    "teal": "#118C74"
+  },
+  "semantic": {
+    "background": "bg",
+    "background_alt": "bg_dark",
+    "surface": "bg_highlight",
+    "border": "terminal_black",
+    "text_primary": "dark3",
+    "text_secondary": "fg",
+    "text_muted": "fg_dark",
+    "accent": "blue",
+    "cpu": "cyan",
+    "memory": "purple",
+    "disk": "teal",
+    "network": "magenta",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

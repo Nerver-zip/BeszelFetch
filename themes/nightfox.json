@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "nightfox",
+  "name": "Nightfox",
+  "mode": "dark",
+  "source": {
+    "project": "Nightfox",
+    "repository": "EdenEast/nightfox.nvim",
+    "revision": "4dacd3f0185a2227bdf3b6c0975a8f0bf87cac9a",
+    "path": "lua/nightfox/palette/nightfox.lua",
+    "license": "MIT"
+  },
+  "colors": {
+    "bg": "#192330",
+    "bg_alt": "#131A24",
+    "surface": "#212E3F",
+    "border": "#29394F",
+    "fg": "#CDCECF",
+    "fg_sub": "#AEAFB0",
+    "muted": "#71839B",
+    "blue": "#719CD6",
+    "cyan": "#63CDCF",
+    "green": "#81B29A",
+    "yellow": "#DBC074",
+    "orange": "#F4A261",
+    "red": "#C94F6D",
+    "magenta": "#9D79D6"
+  },
+  "semantic": {
+    "background": "bg",
+    "background_alt": "bg_alt",
+    "surface": "surface",
+    "border": "border",
+    "text_primary": "fg",
+    "text_secondary": "fg_sub",
+    "text_muted": "muted",
+    "accent": "blue",
+    "cpu": "blue",
+    "memory": "magenta",
+    "disk": "cyan",
+    "network": "yellow",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}
