@@ -719,6 +719,22 @@ class TestAccessibilityAndContrast(unittest.TestCase):
             ratio_mantle = AccessibilityValidator.contrast_ratio(color, mantle_bg)
             self.assertGreaterEqual(ratio_mantle, 4.0, f"Accent '{name}' contrast too low against mantle: {ratio_mantle:.2f}")
 
+    def test_all_catalog_themes_wcag_contrast(self):
+        try:
+            from scripts.theme_catalog import list_themes, resolve_theme, DARK_OPACITY, LIGHT_OPACITY, composite_color
+        except ModuleNotFoundError:
+            from theme_catalog import list_themes, resolve_theme, DARK_OPACITY, LIGHT_OPACITY, composite_color
+        for t_info in list_themes():
+            t = resolve_theme(t_info["id"])
+            opacity = DARK_OPACITY if t.is_dark else LIGHT_OPACITY
+            bg_raw = t.semantic["background"]
+            text_pri = t.semantic["text_primary"]
+            backdrops = [("#000000", "black")] if t.is_dark else [("#000000", "black"), ("#FFFFFF", "white")]
+            for backdrop, bd_name in backdrops:
+                eff_bg = composite_color(bg_raw, backdrop, opacity["base"])
+                cr = AccessibilityValidator.contrast_ratio(text_pri, eff_bg)
+                self.assertGreaterEqual(cr, 4.5, f"Theme '{t.id}' primary text contrast too low ({cr:.2f}:1) over {bd_name}")
+
     def test_touch_targets_standard(self):
         # Minimum touch target recommended by Material / Android is 48dp (min 44dp)
         min_target_dp = 44
