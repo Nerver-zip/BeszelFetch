@@ -22,6 +22,19 @@ REPO_ROOT = Path(__file__).resolve().parent
 DIST_DIR = REPO_ROOT / "dist"
 PALETTE_FILE = REPO_ROOT / "examples" / "palette.json"
 
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.theme_catalog import (
+    DEFAULT_THEME_ID,
+    hex_to_rgb,
+    list_themes,
+    load_theme,
+    resolve_theme,
+)
+from scripts.generate_clip import build_kustom_clip
+
+
 
 def print_banner():
     banner = r"""
@@ -168,6 +181,150 @@ def copy_to_clipboard(text):
     return None
 
 
+class ThemeSelector:
+    """Terminal theme selector state machine with scrolling viewport and ANSI swatches."""
+
+    def __init__(self, themes: List[Dict[str, Any]], default_id: str = DEFAULT_THEME_ID, viewport_size: int = 8):
+        self.themes = themes
+        self.viewport_size = min(viewport_size, len(themes))
+        self.default_id = default_id
+
+        # Find default index
+        default_idx = 0
+        for i, t in enumerate(themes):
+            if t["id"] == default_id:
+                default_idx = i
+                break
+        self.selected_index = default_idx
+        self.scroll_offset = max(0, min(self.selected_index - self.viewport_size // 2, len(themes) - self.viewport_size))
+
+    def move_up(self):
+        if self.selected_index > 0:
+            self.selected_index -= 1
+            if self.selected_index < self.scroll_offset:
+                self.scroll_offset = self.selected_index
+
+    def move_down(self):
+        if self.selected_index < len(self.themes) - 1:
+            self.selected_index += 1
+            if self.selected_index >= self.scroll_offset + self.viewport_size:
+                self.scroll_offset = self.selected_index - self.viewport_size + 1
+
+    def get_selected(self) -> Dict[str, Any]:
+        return self.themes[self.selected_index]
+
+    def render(self) -> List[str]:
+        lines = []
+        lines.append(f"\033[1;32m? Theme Selection\033[0m (\033[36m↑/↓\033[0m navigate, \033[36mEnter\033[0m choose, \033[36mEsc\033[0m default):")
+
+        end_idx = min(self.scroll_offset + self.viewport_size, len(self.themes))
+        if self.scroll_offset > 0:
+            lines.append(f"  \033[90m▲ ({self.scroll_offset} more above)\033[0m")
+        else:
+            lines.append("  \033[90m────────────────────────────────────────────────────────\033[0m")
+
+        for idx in range(self.scroll_offset, end_idx):
+            t = self.themes[idx]
+            is_active = (idx == self.selected_index)
+            prefix = "\033[1;36m ❯ " if is_active else "   "
+            name_fmt = f"\033[1;37m{t['name']:<22}\033[0m" if is_active else f"{t['name']:<22}"
+            mode_badge = f"\033[34m[dark ]\033[0m" if t["mode"] == "dark" else f"\033[33m[light]\033[0m"
+
+            # Swatches from loaded theme semantic colors
+            swatches = ""
+            try:
+                data = load_theme(t["id"])
+                colors = data.get("colors", {})
+                semantic = data.get("semantic", {})
+                for role in ("cpu", "memory", "disk", "network", "accent", "success"):
+                    ref = semantic.get(role, "")
+                    hex_code = colors.get(ref, ref if ref.startswith("#") else "")
+                    if hex_code:
+                        r, g, b = hex_to_rgb(hex_code)
+                        swatches += f"\033[48;2;{r};{g};{b}m  \033[0m"
+            except Exception:
+                pass
+
+            line = f"{prefix}{name_fmt} {mode_badge}  {swatches}"
+            lines.append(line)
+
+        more_below = len(self.themes) - end_idx
+        if more_below > 0:
+            lines.append(f"  \033[90m▼ ({more_below} more below)\033[0m")
+        else:
+            lines.append("  \033[90m────────────────────────────────────────────────────────\033[0m")
+
+        return lines
+
+
+def interactive_theme_select(themes: List[Dict[str, Any]], default_id: str = DEFAULT_THEME_ID) -> str:
+    """Prompt user to select a theme interactively using terminal raw mode and arrow keys."""
+    if not sys.stdin.isatty():
+        print(f"ℹ Non-interactive shell detected; using default theme: \033[36m{default_id}\033[0m")
+        return default_id
+
+    try:
+        import termios
+        import tty
+    except ImportError:
+        # Fallback for systems without termios
+        print(f"\n? Choose theme [default: {default_id}]:")
+        for i, t in enumerate(themes[:10]):
+            print(f"  [{i+1}] {t['name']} ({t['id']})")
+        val = input(f"Select theme (1-{len(themes[:10])}) or ID: ").strip()
+        if not val:
+            return default_id
+        if val.isdigit() and 1 <= int(val) <= len(themes[:10]):
+            return themes[int(val) - 1]["id"]
+        return val if any(t["id"] == val for t in themes) else default_id
+
+    selector = ThemeSelector(themes, default_id=default_id)
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+
+    rendered = selector.render()
+    for line in rendered:
+        sys.stdout.write(line + "\n")
+    sys.stdout.flush()
+    line_count = len(rendered)
+
+    try:
+        tty.setraw(fd)
+        while True:
+            ch1 = sys.stdin.read(1)
+            if ch1 in ('\r', '\n'):
+                break
+            elif ch1 == '\x03':  # Ctrl+C
+                raise KeyboardInterrupt
+            elif ch1 == '\x1b':  # Escape sequence
+                ch2 = sys.stdin.read(1)
+                if ch2 == '[':
+                    ch3 = sys.stdin.read(1)
+                    if ch3 == 'A':  # Up
+                        selector.move_up()
+                    elif ch3 == 'B':  # Down
+                        selector.move_down()
+                else:
+                    # Bare Esc -> keep default
+                    break
+            elif ch1 == 'k':
+                selector.move_up()
+            elif ch1 == 'j':
+                selector.move_down()
+
+            rendered = selector.render()
+            sys.stdout.write(f"\033[{line_count}A\r\033[J")
+            for line in rendered:
+                sys.stdout.write(line + "\r\n")
+            sys.stdout.flush()
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+
+    selected = selector.get_selected()
+    print(f"\n\033[1;32m✓ Selected theme:\033[0m \033[1;36m{selected['name']}\033[0m (`{selected['id']}`)\n")
+    return selected["id"]
+
+
 def main():
     print_banner()
 
@@ -176,8 +333,17 @@ def main():
     parser.add_argument("--name", help="Server display name (default: localhost or auto-detected)")
     parser.add_argument("--identity", help="Beszel/PocketBase user email or username")
     parser.add_argument("--password", help="Password for authentication")
+    parser.add_argument("--theme", help=f"Theme ID for widget styling (default: {DEFAULT_THEME_ID})")
+    parser.add_argument("--list-themes", action="store_true", help="List all available themes and exit")
     parser.add_argument("--output-dir", default=str(DIST_DIR), help="Output directory for generated widget files")
     args = parser.parse_args()
+
+    themes_catalog = list_themes()
+    if args.list_themes:
+        print(f"\033[1;36mAvailable themes ({len(themes_catalog)}):\033[0m")
+        for t in themes_catalog:
+            print(f"  • {t['id']:<26} [{t['mode']:<5}] {t['name']}")
+        sys.exit(0)
 
     # 1. Prompt for Hub URL
     default_url = os.environ.get("BESZEL_HUB_URL", "http://localhost:8090")
@@ -316,11 +482,23 @@ def main():
         val_name = input(prompt_name).strip()
         server_name = val_name if val_name else default_name
 
-    # 6. Compile Widget
-    print(f"\n⏳ Compiling widget with server name: \033[1;36m{server_name}\033[0m...")
-    if str(REPO_ROOT) not in sys.path:
-        sys.path.insert(0, str(REPO_ROOT))
-    from scripts.generate_clip import build_kustom_clip
+    # 6. Theme Selection
+    if args.theme:
+        available_ids = {t["id"] for t in themes_catalog}
+        if args.theme not in available_ids:
+            print(f"\033[1;31m✖ Error:\033[0m Unknown theme '{args.theme}'.")
+            print(f"  Available themes: {', '.join(sorted(available_ids))}")
+            sys.exit(1)
+        selected_theme = args.theme
+        theme_meta = next(t for t in themes_catalog if t["id"] == selected_theme)
+        print(f"\n✓ Using theme: \033[1;36m{theme_meta['name']}\033[0m (`{selected_theme}`)")
+    else:
+        selected_theme = interactive_theme_select(themes_catalog, default_id=DEFAULT_THEME_ID)
+
+    # 7. Compile Widget
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    print(f"⏳ Compiling widget with server name \033[1;36m{server_name}\033[0m and theme \033[1;36m{selected_theme}\033[0m...")
 
     build_kustom_clip(
         hub_url=hub_url,
@@ -331,11 +509,13 @@ def main():
         systems_data=systems_data,
         containers_data=containers_data if containers_data is not None else {"stats": []},
         history_data=history_data if history_data is not None else {"items": []},
-        latest_data=latest_data if latest_data is not None else {"items": []}
+        latest_data=latest_data if latest_data is not None else {"items": []},
+        theme=selected_theme,
+        output_dir=output_dir,
     )
 
-    kwgt_file = REPO_ROOT / "widget" / "beszel_monitor.kwgt"
-    clip_file = REPO_ROOT / "widget" / "beszel_monitor.clip"
+    kwgt_file = output_dir / "beszel_monitor.kwgt"
+    clip_file = output_dir / "beszel_monitor.clip"
 
     print(f"\n\033[1;32m✓ Widget generated successfully!\033[0m")
     print(f"  📁 Standalone KWGT package: \033[36m{kwgt_file}\033[0m")
