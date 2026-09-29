@@ -24,15 +24,15 @@ No ADB, phone connection or native debugging was used.
 ```sh
 python3 scripts/generate_clip.py
 python3 scripts/generate_preset.py
-python3 scripts/test_contracts.py
-python3 -m unittest discover -s scripts -p 'test*.py' -q
+python3 scripts/validate_themes.py
+python3 scripts/theme_preview.py
+python3 -m unittest discover -s scripts -p 'test_*.py' -v
 python3 scripts/test_widget_runtime.py --render
 git diff --check
 ```
 
-Rendering requires `rsvg-convert` and creates `dist/info-local-480.png` and
-`dist/info-local-640.png`. These previews evaluate emitted ASCII/text and row
-positions; they do not emulate native Kustom layout, typography or Flow timing.
+The theme preview generator creates `dist/theme-preview.html`, an offline self-contained specimen of all 32 curated themes showing palette swatches and simulated widget components.
+Rendering with `--render` requires `rsvg-convert` and creates `dist/info-local-480.png` and `dist/info-local-640.png`. These previews evaluate emitted ASCII/text and row positions; they do not emulate native Kustom layout, typography or Flow timing.
 
 ## Handoff and limits
 

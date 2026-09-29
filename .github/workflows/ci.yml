@@ -36,6 +36,14 @@ jobs:
         run: |
           python scripts/generate_clip.py
 
+      - name: Validate Theme Catalog & Contrast
+        run: |
+          python scripts/validate_themes.py
+
+      - name: Generate Theme Preview Specimens
+        run: |
+          python scripts/theme_preview.py
+
       - name: Run Test Suite
         run: |
           python -m unittest discover -s scripts -p "test_*.py" -v

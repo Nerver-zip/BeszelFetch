@@ -22,26 +22,28 @@ Target design baseline:
 
 A `4x3` grid allocation provides optimal vertical space for the Containers list and Chart sparklines.
 
-## 3. Color Palette (Catppuccin Mocha)
+## 3. Color Palette & Semantic Roles
 
-| Token | Hex Value | Usage |
-|---|---|---|
-| `crust` | `#11111B` | Outermost frame / backdrop |
-| `mantle` | `#181825` | Sub-surface / nested container background |
-| `base` | `#1E1E2E` | Main widget card background |
-| `surface0` | `#313244` | Progress bar tracks / button fills |
-| `surface1` | `#45475A` | Card borders / dividers |
-| `overlay0` | `#6C7086` | Inactive icons / tertiary text |
-| `subtext1` | `#BAC2DE` | Secondary labels / units |
-| `text` | `#CDD6F4` | Primary high-contrast text |
-| `blue` | `#89B4FA` | CPU accent color |
-| `mauve` | `#CBA6F7` | Memory / RAM accent color |
-| `teal` | `#94E2D5` | Disk / Storage accent color |
-| `sapphire` | `#74C7EC` | Network I/O accent color |
-| `green` | `#A6E3A1` | Online status / healthy indicator |
-| `yellow` | `#F9E2AF` | Warning / stale cache badge |
-| `peach` | `#FAB387` | High resource utilization warning |
-| `red` | `#F38BA8` | Critical load / offline / auth failure |
+BeszelFetch uses a decoupled semantic role system supporting 32 curated Linux/Unix ricing palettes (see [docs/THEMES.md](THEMES.md)), with **Catppuccin Mocha** serving as the reference specification and default palette.
+
+| Semantic Role | Global Variable | Catppuccin Mocha Token | Default Hex Value | Usage |
+|---|---|---|---|---|
+| `background` | `c_base` | `base` | `#D91E1E2E` (85%) | Main widget card background |
+| `background_alt` | `c_mantle` | `mantle` | `#B3181825` (70%) | Sub-surface / nested container background |
+| `surface` | `c_surface0` | `surface0` | `#FF313244` | Progress bar tracks / button fills / active tab |
+| `border` | `c_surface1` | `surface1` | `#FF45475A` | Card borders / dividers |
+| `text_primary` | `c_text` | `text` | `#FFCDD6F4` | Primary high-contrast text |
+| `text_secondary` | `c_subtext` | `subtext1` | `#FFBAC2DE` | Secondary labels / units / sensors |
+| `text_muted` | `c_muted` | `overlay0` | `#FF6C7086` | Inactive icons / tertiary text / tab labels |
+| `accent` | `c_accent` | `mauve` | `#FFCBA6F7` | Heading, ASCII distro art highlight, general accent |
+| `cpu` | `c_cpu` | `blue` | `#FF89B4FA` | CPU accent color |
+| `memory` | `c_ram` | `mauve` | `#FFCBA6F7` | Memory / RAM accent color |
+| `disk` | `c_disk` | `teal` | `#FF94E2D5` | Disk / Storage accent color |
+| `network` | `c_net` | `sapphire` | `#FF74C7EC` | Network I/O accent color |
+| `success` | `c_ok` | `green` | `#FFA6E3A1` | Online status / healthy indicator |
+| `warning` | `c_warn` | `yellow` | `#FFF9E2AF` | Warning / stale cache badge |
+| `high` | `c_peach` | `peach` | `#FFFAB387` | High resource utilization warning (>85%) |
+| `error` | `c_err` | `red` | `#FFF38BA8` | Critical load / offline / auth failure |
 
 ## 4. Typography
 

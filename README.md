@@ -9,8 +9,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Style-Catppuccin%20Mocha-cba6f7?style=flat-square" alt="Catppuccin Mocha"/>
-  <img src="https://img.shields.io/badge/Client-KWGT%20%2F%20Kustom-89b4fa?style=flat-square" alt="KWGT"/>
+  <img src="https://img.shields.io/badge/Themes-32%20Curated%20Palettes-cba6f7?style=flat-square" alt="32 Themes"/>
+  <img src="https://img.shields.io/badge/Default-Catppuccin%20Mocha-89b4fa?style=flat-square" alt="Catppuccin Mocha"/>
+  <img src="https://img.shields.io/badge/Client-KWGT%20%2F%20Kustom-74c7ec?style=flat-square" alt="KWGT"/>
   <img src="https://img.shields.io/badge/Backend-Beszel%20Hub-a6e3a1?style=flat-square" alt="Beszel"/>
   <img src="https://img.shields.io/badge/Security-Gitleaks-brightgreen?style=flat-square" alt="Gitleaks"/>
   <img src="https://img.shields.io/badge/CI-GitHub%20Actions-blue?style=flat-square" alt="CI"/>
@@ -22,7 +23,9 @@
 ## ✨ Highlights & Features
 
 - **Direct Hub-to-Client**: Your Android phone communicates directly with your Beszel Hub (PocketBase REST API). No third-party servers, cloud bridges, or proxy microservices.
-- **Catppuccin Mocha Palette**: High-contrast, OLED-friendly colors with deep translucent cards and frosted-glass depth.
+- **32 Curated Unix Ricing Themes**: Choose from 32 distinct dark and light colorways ([Catppuccin](docs/THEMES.md), Dracula, Nord, Gruvbox, Tokyo Night, Rosé Pine, Kanagawa, Everforest, One Dark/Light, Ayu, Monokai, Solarized, and more) at build time with automated WCAG AA contrast compliance.
+- **Catppuccin Mocha Default**: Preserves the signature high-contrast, OLED-friendly aesthetic with deep translucent cards when no theme is specified.
+- **Interactive Setup Wizard**: Terminal wizard with arrow-key theme selection, live TrueColor ANSI swatches, and zero runtime overhead.
 - **Three Interactive Tabbed Views**:
   - **Overview**: Circular gauges for CPU, RAM, Disk, Load Average, Temperature, and Network I/O rates + 24-hour total traffic.
   - **Docker Containers**: Live container list with real-time status dots (🟢 running / 🔴 stopped or unhealthy), CPU %, RAM usage, and ◀ Prev / Next ▶ pagination.
@@ -113,11 +116,30 @@ To achieve a true **"Set & Forget"** setup without compromising security (avoidi
 
 ## ⚡ Setup Wizard (`setup.py`)
 
-Run the interactive setup wizard on your machine. It connects to your Beszel Hub using your login credentials, discovers all registered servers, and compiles customized widget presets (`dist/beszel_monitor.clip` and `dist/beszel_monitor.kwgt`) with your settings pre-filled:
+Run the interactive setup wizard on your machine. It connects to your Beszel Hub using your login credentials, discovers registered servers, prompts for your desired theme with interactive arrow navigation and live ANSI swatches, and compiles customized widget presets (`dist/beszel_monitor.clip` and `dist/beszel_monitor.kwgt`) with your settings pre-filled:
 
 ```bash
 python3 setup.py
 ```
+
+### Direct Theme Selection
+
+You can specify a theme directly via `--theme`, list all 32 curated themes, or specify a custom output directory:
+
+```bash
+# List all 32 available themes
+python3 setup.py --list-themes
+
+# Build with a specific theme (e.g. Dracula, Nord, Tokyo Night)
+python3 setup.py --theme dracula
+python3 setup.py --theme tokyo-night-storm
+python3 setup.py --theme gruvbox-dark
+
+# Output to a custom directory
+python3 setup.py --theme nord --output-dir ~/Desktop/my-widget/
+```
+
+See [docs/THEMES.md](docs/THEMES.md) for full theme documentation, screenshots, and upstream sources.
 
 ```text
 ╔══════════════════════════════════════════════════════════════════╗
@@ -133,11 +155,24 @@ Enter password:
   [2] storage-nas (up)
 Select server to monitor by default [1]: 1
 
+? Theme Selection (↑/↓ navigate, Enter choose, Esc default):
+  ▲ (3 more above)
+   Catppuccin Frappé      [dark ]
+   Catppuccin Latte       [light]
+   Catppuccin Macchiato   [dark ]
+   Catppuccin Mocha       [dark ]
+ ❯ Dracula                [dark ]
+   Everforest Dark        [dark ]
+   Everforest Light       [light]
+   Gruvbox Dark           [dark ]
+  ▼ (21 more below)
+
+✓ Selected theme: Dracula (`dracula`)
 ✓ Built dist/beszel_monitor.kwgt
 ✓ Built dist/beszel_monitor.clip
 ```
 
-The script automatically generates ready-to-import bundles inside the `dist/` directory.
+The script automatically generates ready-to-import bundles inside the `dist/` directory without dirtying tracked repository files.
 
 ---
 
