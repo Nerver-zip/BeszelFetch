@@ -65,6 +65,35 @@
 
 ---
 
+## 🎨 Theme Previews
+
+The Mocha views above are real device screenshots. These three themes use the offline widget mock with synthetic data. Each row shows all three widget views; the PNGs keep the widget's rounded corners transparent. [Browse the remaining themes](docs/THEMES.md#static-theme-previews).
+
+<table align="center">
+  <thead>
+    <tr><th align="left">Theme</th><th align="center">Overview</th><th align="center">Docker</th><th align="center">Host info</th></tr>
+  </thead>
+  <tbody>
+    <tr><th align="left">Dracula</th>
+      <td align="center"><img src="docs/screenshots/theme-previews/dracula-overview.png" alt="Dracula Overview preview" width="220"/></td>
+      <td align="center"><img src="docs/screenshots/theme-previews/dracula-containers.png" alt="Dracula Docker preview" width="220"/></td>
+      <td align="center"><img src="docs/screenshots/theme-previews/dracula-info.png" alt="Dracula Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Gruvbox Dark</th>
+      <td align="center"><img src="docs/screenshots/theme-previews/gruvbox-dark-overview.png" alt="Gruvbox Dark Overview preview" width="220"/></td>
+      <td align="center"><img src="docs/screenshots/theme-previews/gruvbox-dark-containers.png" alt="Gruvbox Dark Docker preview" width="220"/></td>
+      <td align="center"><img src="docs/screenshots/theme-previews/gruvbox-dark-info.png" alt="Gruvbox Dark Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Tokyo Night Day</th>
+      <td align="center"><img src="docs/screenshots/theme-previews/tokyo-night-day-overview.png" alt="Tokyo Night Day Overview preview" width="220"/></td>
+      <td align="center"><img src="docs/screenshots/theme-previews/tokyo-night-day-containers.png" alt="Tokyo Night Day Docker preview" width="220"/></td>
+      <td align="center"><img src="docs/screenshots/theme-previews/tokyo-night-day-info.png" alt="Tokyo Night Day Host info preview" width="220"/></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
 ## 📋 Prerequisites & Quick Setup
 
 This widget connects directly to your [Beszel](https://github.com/henrygd/beszel) Hub.

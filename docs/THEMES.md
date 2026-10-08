@@ -249,3 +249,153 @@ This is an offline rendering of the supported generated module subset, not a
 KWGT emulator. Native text baselines, launcher scaling, wallpaper effects,
 animation, Flows and touch actions still require device confirmation. Gallery
 controls simulate navigation only; they never execute HTTP or native Flows.
+
+## Static Theme Previews
+
+The README features the native Mocha screenshots plus mock previews for Dracula, Gruvbox Dark and Tokyo Night Day. This gallery shows all other themes: 28 palettes × three views. Every image is rendered from the generated widget tree with synthetic fixture data, then clipped to the 22-unit rounded widget frame (no gallery page, browser controls or stage padding). The PNGs keep the outer corners transparent. Translucent colors inside the widget are composited over black for dark palettes and white for light palettes so GitHub shows the theme surfaces as intended.
+
+<table>
+  <thead><tr><th align="left">Theme</th><th align="center">Overview</th><th align="center">Docker</th><th align="center">Host info</th></tr></thead>
+  <tbody>
+    <tr><th align="left">Ayu Dark</th>
+      <td align="center"><img src="screenshots/theme-previews/ayu-dark-overview.png" alt="Ayu Dark Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/ayu-dark-containers.png" alt="Ayu Dark Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/ayu-dark-info.png" alt="Ayu Dark Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Ayu Light</th>
+      <td align="center"><img src="screenshots/theme-previews/ayu-light-overview.png" alt="Ayu Light Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/ayu-light-containers.png" alt="Ayu Light Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/ayu-light-info.png" alt="Ayu Light Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Ayu Mirage</th>
+      <td align="center"><img src="screenshots/theme-previews/ayu-mirage-overview.png" alt="Ayu Mirage Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/ayu-mirage-containers.png" alt="Ayu Mirage Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/ayu-mirage-info.png" alt="Ayu Mirage Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Catppuccin Frappé</th>
+      <td align="center"><img src="screenshots/theme-previews/catppuccin-frappe-overview.png" alt="Catppuccin Frappé Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/catppuccin-frappe-containers.png" alt="Catppuccin Frappé Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/catppuccin-frappe-info.png" alt="Catppuccin Frappé Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Catppuccin Latte</th>
+      <td align="center"><img src="screenshots/theme-previews/catppuccin-latte-overview.png" alt="Catppuccin Latte Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/catppuccin-latte-containers.png" alt="Catppuccin Latte Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/catppuccin-latte-info.png" alt="Catppuccin Latte Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Catppuccin Macchiato</th>
+      <td align="center"><img src="screenshots/theme-previews/catppuccin-macchiato-overview.png" alt="Catppuccin Macchiato Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/catppuccin-macchiato-containers.png" alt="Catppuccin Macchiato Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/catppuccin-macchiato-info.png" alt="Catppuccin Macchiato Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Everforest Dark</th>
+      <td align="center"><img src="screenshots/theme-previews/everforest-dark-overview.png" alt="Everforest Dark Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/everforest-dark-containers.png" alt="Everforest Dark Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/everforest-dark-info.png" alt="Everforest Dark Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Everforest Light</th>
+      <td align="center"><img src="screenshots/theme-previews/everforest-light-overview.png" alt="Everforest Light Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/everforest-light-containers.png" alt="Everforest Light Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/everforest-light-info.png" alt="Everforest Light Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Gruvbox Light</th>
+      <td align="center"><img src="screenshots/theme-previews/gruvbox-light-overview.png" alt="Gruvbox Light Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/gruvbox-light-containers.png" alt="Gruvbox Light Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/gruvbox-light-info.png" alt="Gruvbox Light Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Kanagawa Dragon</th>
+      <td align="center"><img src="screenshots/theme-previews/kanagawa-dragon-overview.png" alt="Kanagawa Dragon Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/kanagawa-dragon-containers.png" alt="Kanagawa Dragon Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/kanagawa-dragon-info.png" alt="Kanagawa Dragon Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Kanagawa Lotus</th>
+      <td align="center"><img src="screenshots/theme-previews/kanagawa-lotus-overview.png" alt="Kanagawa Lotus Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/kanagawa-lotus-containers.png" alt="Kanagawa Lotus Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/kanagawa-lotus-info.png" alt="Kanagawa Lotus Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Kanagawa Wave</th>
+      <td align="center"><img src="screenshots/theme-previews/kanagawa-wave-overview.png" alt="Kanagawa Wave Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/kanagawa-wave-containers.png" alt="Kanagawa Wave Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/kanagawa-wave-info.png" alt="Kanagawa Wave Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Monokai</th>
+      <td align="center"><img src="screenshots/theme-previews/monokai-overview.png" alt="Monokai Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/monokai-containers.png" alt="Monokai Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/monokai-info.png" alt="Monokai Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Nightfox</th>
+      <td align="center"><img src="screenshots/theme-previews/nightfox-overview.png" alt="Nightfox Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/nightfox-containers.png" alt="Nightfox Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/nightfox-info.png" alt="Nightfox Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Nord</th>
+      <td align="center"><img src="screenshots/theme-previews/nord-overview.png" alt="Nord Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/nord-containers.png" alt="Nord Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/nord-info.png" alt="Nord Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">One Dark</th>
+      <td align="center"><img src="screenshots/theme-previews/one-dark-overview.png" alt="One Dark Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/one-dark-containers.png" alt="One Dark Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/one-dark-info.png" alt="One Dark Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">One Light</th>
+      <td align="center"><img src="screenshots/theme-previews/one-light-overview.png" alt="One Light Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/one-light-containers.png" alt="One Light Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/one-light-info.png" alt="One Light Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Oxocarbon Dark</th>
+      <td align="center"><img src="screenshots/theme-previews/oxocarbon-dark-overview.png" alt="Oxocarbon Dark Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/oxocarbon-dark-containers.png" alt="Oxocarbon Dark Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/oxocarbon-dark-info.png" alt="Oxocarbon Dark Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Material Palenight</th>
+      <td align="center"><img src="screenshots/theme-previews/palenight-overview.png" alt="Material Palenight Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/palenight-containers.png" alt="Material Palenight Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/palenight-info.png" alt="Material Palenight Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Rosé Pine Dawn</th>
+      <td align="center"><img src="screenshots/theme-previews/rose-pine-dawn-overview.png" alt="Rosé Pine Dawn Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/rose-pine-dawn-containers.png" alt="Rosé Pine Dawn Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/rose-pine-dawn-info.png" alt="Rosé Pine Dawn Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Rosé Pine Moon</th>
+      <td align="center"><img src="screenshots/theme-previews/rose-pine-moon-overview.png" alt="Rosé Pine Moon Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/rose-pine-moon-containers.png" alt="Rosé Pine Moon Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/rose-pine-moon-info.png" alt="Rosé Pine Moon Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Rosé Pine</th>
+      <td align="center"><img src="screenshots/theme-previews/rose-pine-overview.png" alt="Rosé Pine Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/rose-pine-containers.png" alt="Rosé Pine Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/rose-pine-info.png" alt="Rosé Pine Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Solarized Dark</th>
+      <td align="center"><img src="screenshots/theme-previews/solarized-dark-overview.png" alt="Solarized Dark Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/solarized-dark-containers.png" alt="Solarized Dark Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/solarized-dark-info.png" alt="Solarized Dark Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Solarized Light</th>
+      <td align="center"><img src="screenshots/theme-previews/solarized-light-overview.png" alt="Solarized Light Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/solarized-light-containers.png" alt="Solarized Light Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/solarized-light-info.png" alt="Solarized Light Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Tokyo Night Moon</th>
+      <td align="center"><img src="screenshots/theme-previews/tokyo-night-moon-overview.png" alt="Tokyo Night Moon Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/tokyo-night-moon-containers.png" alt="Tokyo Night Moon Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/tokyo-night-moon-info.png" alt="Tokyo Night Moon Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Tokyo Night Storm</th>
+      <td align="center"><img src="screenshots/theme-previews/tokyo-night-storm-overview.png" alt="Tokyo Night Storm Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/tokyo-night-storm-containers.png" alt="Tokyo Night Storm Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/tokyo-night-storm-info.png" alt="Tokyo Night Storm Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Tokyo Night</th>
+      <td align="center"><img src="screenshots/theme-previews/tokyo-night-overview.png" alt="Tokyo Night Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/tokyo-night-containers.png" alt="Tokyo Night Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/tokyo-night-info.png" alt="Tokyo Night Host info preview" width="220"/></td>
+    </tr>
+    <tr><th align="left">Tomorrow Night</th>
+      <td align="center"><img src="screenshots/theme-previews/tomorrow-night-overview.png" alt="Tomorrow Night Overview preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/tomorrow-night-containers.png" alt="Tomorrow Night Docker preview" width="220"/></td>
+      <td align="center"><img src="screenshots/theme-previews/tomorrow-night-info.png" alt="Tomorrow Night Host info preview" width="220"/></td>
+    </tr>
+  </tbody>
+</table>
