@@ -29,11 +29,13 @@ if __package__:
     from .widget_info import build_info
     from .widget_transport import build_flows
     from .theme_catalog import resolve_theme, DEFAULT_THEME_ID, ResolvedTheme
+    from .widget_theme import apply_theme
 else:
     from widget_layout import fix_layout
     from widget_info import build_info
     from widget_transport import build_flows
     from theme_catalog import resolve_theme, DEFAULT_THEME_ID, ResolvedTheme
+    from widget_theme import apply_theme
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PALETTE_FILE = REPO_ROOT / "examples" / "palette.json"
@@ -234,6 +236,10 @@ def build_kustom_clip(
         "c_err": {"index": 32, "type": "COLOR", "title": "Error / Offline", "value": k_colors["c_err"]},
         "c_accent": {"index": 33, "type": "COLOR", "title": "Semantic UI Accent", "value": k_colors["c_accent"]},
     }
+
+    for name, value in {**k_colors, "c_tab_inactive": resolved_theme.inactive_tab_bg}.items():
+        if name not in globals_list:
+            globals_list[name] = {"index": len(globals_list), "type": "COLOR", "title": name, "value": value}
 
     # Direct cache globals expression according to AGENTS.md decoupled architecture
     sys_expr = "gv(sys_json)"
@@ -1166,6 +1172,7 @@ def build_kustom_clip(
 
     fix_layout(komponent)
     build_info(komponent)
+    apply_theme(komponent)
 
     # Embed flow in Komponent
     flows = build_flows(globals_list, latest_data=latest_data)

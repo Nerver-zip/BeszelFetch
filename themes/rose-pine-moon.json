@@ -6,9 +6,12 @@
   "source": {
     "project": "Rosé Pine",
     "repository": "rose-pine/palette",
-    "revision": "e2e7b5e4088a8731ffae821360ba981ee85e1ea1",
+    "revision": "92af52b465ab6e47437aca223c9b8d3009a2023b",
     "path": "palette.json",
-    "license": "MIT"
+    "license": "MIT",
+    "snapshot": "rose-pine.txt",
+    "sha256": "8b71546357c65ee23715e77f144d914e5f415f44f3ef3b0179bbe1f17d69211d",
+    "variant": "moon"
   },
   "colors": {
     "base": "#232136",
@@ -22,25 +25,22 @@
     "rose": "#EA9A97",
     "pine": "#3E8FB0",
     "foam": "#9CCFD8",
-    "iris": "#C4A7E7",
-    "highlight_low": "#2A283E",
-    "highlight_med": "#44415A",
-    "highlight_high": "#56526E"
+    "iris": "#C4A7E7"
   },
   "semantic": {
     "background": "base",
-    "background_alt": "highlight_low",
-    "surface": "surface",
-    "border": "highlight_med",
+    "background_alt": "surface",
+    "surface": "overlay",
+    "border": "overlay",
     "text_primary": "text",
     "text_secondary": "subtle",
     "text_muted": "muted",
     "accent": "rose",
-    "cpu": "foam",
+    "cpu": "rose",
     "memory": "iris",
     "disk": "pine",
     "network": "gold",
-    "success": "foam",
+    "success": "pine",
     "warning": "gold",
     "high": "rose",
     "error": "love"

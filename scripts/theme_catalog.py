@@ -7,6 +7,8 @@ and color conversion utilities for Linux/Unix ricing themes.
 """
 
 from dataclasses import dataclass
+import colorsys
+from functools import lru_cache
 import json
 from pathlib import Path
 import re
@@ -68,6 +70,64 @@ LIGHT_OPACITY = {
     "mantle": 0xE6,
     "tab_inactive": 0x25,
 }
+
+TEXT_CONTRAST = 4.6  # Headroom above 4.5 for rounded/composited channels.
+GRAPHIC_CONTRAST = 3.1
+ACCENT_ROLES = ("accent", "cpu", "memory", "disk", "network", "success", "warning", "high", "error")
+
+
+def derived_palette(data):
+    """Documented app extensions, kept separate from canonical upstream colors."""
+    result = {}
+    for name, recipe in data.get("derived_colors", {}).items():
+        if set(recipe) != {"from", "hue"} or recipe["from"] not in data["colors"]:
+            raise ValueError(f"Invalid derived color recipe: {name}")
+        hue = recipe["hue"]
+        if not isinstance(hue, (int, float)) or not 0 <= hue < 360:
+            raise ValueError(f"Invalid derived hue: {name}")
+        rgb = hex_to_rgb(data["colors"][recipe["from"]])
+        _, saturation, value = colorsys.rgb_to_hsv(*(v/255 for v in rgb))
+        result[name] = rgb_to_hex(*(v*255 for v in colorsys.hsv_to_rgb(hue/360, saturation, value)))
+    return result
+
+
+def blend_rgb(base, tint, amount):
+    return rgb_to_hex(*(a*(1-amount)+b*amount for a,b in zip(hex_to_rgb(base), hex_to_rgb(tint))))
+
+
+@lru_cache(maxsize=4096)
+def accessible_color(original, backgrounds, target, mode):
+    """Keep the original if possible; otherwise minimally mix toward white/black.
+
+    The transformation preserves hue, is deterministic, and never rewrites the
+    canonical palette. Quantized candidates are checked after RGB rounding.
+    """
+    pole = "#FFFFFF" if mode == "dark" else "#000000"
+    def passes(candidate):
+        return min(contrast_ratio(candidate, bg) for bg in backgrounds) >= target
+    if passes(original):
+        return original
+    if not passes(pole):
+        raise ValueError(f"No {target}:1 color possible against {backgrounds}")
+    low, high = 1, 1000
+    while low < high:
+        middle = (low + high) // 2
+        if passes(blend_rgb(original, pole, middle/1000)):
+            high = middle
+        else:
+            low = middle + 1
+    return blend_rgb(original, pole, low/1000)
+
+
+def color_contexts(semantic, mode, selected, track):
+    opacity = DARK_OPACITY if mode == "dark" else LIGHT_OPACITY
+    contexts = [semantic["surface"], selected]
+    for backdrop in ("#000000", "#FFFFFF"):
+        base = composite_color(semantic["background"], backdrop, opacity["base"])
+        contexts.extend((base,
+                         composite_color(semantic["background_alt"], base, opacity["mantle"]),
+                         composite_color(semantic["background_alt"], base, opacity["tab_inactive"])))
+    return tuple(dict.fromkeys(contexts)), tuple(dict.fromkeys([*contexts, track]))
 
 
 def hex_to_rgb(hex_str: str) -> Tuple[int, int, int]:
@@ -165,6 +225,10 @@ class ResolvedTheme:
     semantic: Dict[str, str]  # role -> #RRGGBB
     kustom_colors: Dict[str, str]  # global_name -> #AARRGGBB
     inactive_tab_bg: str  # #AARRGGBB for inactive nav tabs
+    text_colors: Dict[str, str]
+    text_backgrounds: Tuple[str, ...]
+    graphic_backgrounds: Tuple[str, ...]
+    adjustments: Dict[str, Dict[str, str]]
 
     @property
     def is_dark(self) -> bool:
@@ -232,7 +296,7 @@ def validate_theme(data: Dict[str, Any], file_path: Optional[Path] = None) -> No
         ref = semantic[role]
         if not isinstance(ref, str):
             raise ValueError(f"Semantic role '{role}' in theme '{theme_id}' must be a string{origin}")
-        if ref not in colors and not (ref.startswith("#") and len(ref) in (4, 7, 9)):
+        if ref not in colors and ref not in derived_palette(data) and not (ref.startswith("#") and len(ref) in (4, 7, 9)):
             raise ValueError(f"Semantic role '{role}' in theme '{theme_id}' references unknown color '{ref}'{origin}")
 
 
@@ -274,12 +338,13 @@ def resolve_theme(theme_id_or_data: Union[str, Dict[str, Any], ResolvedTheme]) -
     source = dict(data["source"])
 
     raw_colors = {k: normalize_hex(v) for k, v in data["colors"].items()}
+    available_colors = {**raw_colors, **derived_palette(data)}
 
     semantic: Dict[str, str] = {}
     for role in REQUIRED_SEMANTIC_ROLES:
         ref = data["semantic"][role]
-        if ref in raw_colors:
-            semantic[role] = raw_colors[ref]
+        if ref in available_colors:
+            semantic[role] = available_colors[ref]
         elif ref.startswith("#"):
             semantic[role] = normalize_hex(ref)
         else:
@@ -287,15 +352,35 @@ def resolve_theme(theme_id_or_data: Union[str, Dict[str, Any], ResolvedTheme]) -
 
     opacity = DARK_OPACITY if mode == "dark" else LIGHT_OPACITY
 
+    selected = blend_rgb(semantic["background_alt"], semantic["accent"], .20 if mode == "dark" else .12)
+    track = blend_rgb(semantic["background_alt"], semantic["text_primary"], .16)
+    text_backgrounds, graphic_backgrounds = color_contexts(semantic, mode, selected, track)
+    text_colors = {role: accessible_color(semantic[role], text_backgrounds, TEXT_CONTRAST, mode)
+                   for role in (*ACCENT_ROLES, "text_primary", "text_secondary", "text_muted")}
+    adjustments = {}
+
     kustom_colors: Dict[str, str] = {}
     for role, global_name in SEMANTIC_TO_GLOBAL.items():
         color_hex = semantic[role]
+        if role in ("text_primary", "text_secondary", "text_muted"):
+            color_hex = text_colors[role]
+        elif role in ACCENT_ROLES:
+            color_hex = accessible_color(color_hex, graphic_backgrounds, GRAPHIC_CONTRAST, mode)
         if role == "background":
             kustom_colors[global_name] = to_kustom_argb(color_hex, alpha=opacity["base"])
         elif role == "background_alt":
             kustom_colors[global_name] = to_kustom_argb(color_hex, alpha=opacity["mantle"])
         else:
             kustom_colors[global_name] = to_kustom_argb(color_hex, alpha=0xFF)
+        if color_hex != semantic[role]:
+            adjustments[global_name] = {"source": semantic[role], "rendered": color_hex}
+
+    for role in ACCENT_ROLES:
+        global_name = SEMANTIC_TO_GLOBAL[role] + "_text"
+        kustom_colors[global_name] = to_kustom_argb(text_colors[role])
+        if text_colors[role] != semantic[role]:
+            adjustments[global_name] = {"source": semantic[role], "rendered": text_colors[role]}
+    kustom_colors.update(c_selected=to_kustom_argb(selected), c_track=to_kustom_argb(track))
 
     inactive_tab_bg = to_kustom_argb(semantic["background_alt"], alpha=opacity["tab_inactive"])
 
@@ -308,6 +393,10 @@ def resolve_theme(theme_id_or_data: Union[str, Dict[str, Any], ResolvedTheme]) -
         semantic=semantic,
         kustom_colors=kustom_colors,
         inactive_tab_bg=inactive_tab_bg,
+        text_colors=text_colors,
+        text_backgrounds=text_backgrounds,
+        graphic_backgrounds=graphic_backgrounds,
+        adjustments=adjustments,
     )
 
 

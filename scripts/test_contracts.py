@@ -728,8 +728,8 @@ class TestAccessibilityAndContrast(unittest.TestCase):
             t = resolve_theme(t_info["id"])
             opacity = DARK_OPACITY if t.is_dark else LIGHT_OPACITY
             bg_raw = t.semantic["background"]
-            text_pri = t.semantic["text_primary"]
-            backdrops = [("#000000", "black")] if t.is_dark else [("#000000", "black"), ("#FFFFFF", "white")]
+            text_pri = t.kustom_colors["c_text"]
+            backdrops = [("#000000", "black"), ("#FFFFFF", "white")]
             for backdrop, bd_name in backdrops:
                 eff_bg = composite_color(bg_raw, backdrop, opacity["base"])
                 cr = AccessibilityValidator.contrast_ratio(text_pri, eff_bg)

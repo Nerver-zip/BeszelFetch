@@ -16,11 +16,13 @@
       },
       "internal_formulas": {
         "shape_width": "$si(rwidth)$",
-        "shape_height": "$gv(frameh)$"
+        "shape_height": "$gv(frameh)$",
+        "paint_color": "$gv(c_base)$"
       },
       "internal_toggles": {
         "shape_width": 10,
-        "shape_height": 10
+        "shape_height": 10,
+        "paint_color": 10
       }
     },
     {
@@ -143,15 +145,17 @@
                   "text_expression": "localhost",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                   "text_size": 17.0,
-                  "paint_color": "#FFCDD6F4",
+                  "paint_color": "#FFCBA6F7",
                   "internal_globals": {
-                    "paint_color": "c_text"
+                    "paint_color": "c_accent_text"
                   },
                   "internal_formulas": {
-                    "text_expression": "$tc(ell, if(gv(server_name) != \"\", gv(server_name), if(tc(json, gv(sys_json), \".items[0].name\") != \"\", tc(json, gv(sys_json), \".items[0].name\"), \"localhost\")), 12)$"
+                    "text_expression": "$tc(ell, if(gv(server_name) != \"\", gv(server_name), if(tc(json, gv(sys_json), \".items[0].name\") != \"\", tc(json, gv(sys_json), \".items[0].name\"), \"localhost\")), 12)$",
+                    "paint_color": "$gv(c_accent_text)$"
                   },
                   "internal_toggles": {
-                    "text_expression": 10
+                    "text_expression": 10,
+                    "paint_color": 10
                   }
                 }
               ],
@@ -169,7 +173,7 @@
               "text_expression": "·",
               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
               "text_size": 16.0,
-              "paint_color": "#FF6C7086",
+              "paint_color": "#FFABAEBA",
               "internal_globals": {
                 "paint_color": "c_muted"
               },
@@ -181,10 +185,12 @@
               "position_offset_x": 136.0,
               "position_offset_y": 0.0,
               "internal_formulas": {
-                "config_visible": "$if(gv(view) = \"overview\", ALWAYS, REMOVE)$"
+                "config_visible": "$if(gv(view) = \"overview\", ALWAYS, REMOVE)$",
+                "paint_color": "$gv(c_muted)$"
               },
               "internal_toggles": {
-                "config_visible": 10
+                "config_visible": 10,
+                "paint_color": 10
               }
             },
             {
@@ -199,11 +205,13 @@
               },
               "internal_formulas": {
                 "text_expression": "$if(tc(json, gv(sys_json), \".items[0].info.u\") != \"\", \"up \" + mu(floor, tc(json, gv(sys_json), \".items[0].info.u\") / 86400) + \"d \" + mu(floor, (tc(json, gv(sys_json), \".items[0].info.u\") % 86400) / 3600) + \"h\", \"online\")$",
-                "config_visible": "$if(gv(view) = \"overview\", ALWAYS, REMOVE)$"
+                "config_visible": "$if(gv(view) = \"overview\", ALWAYS, REMOVE)$",
+                "paint_color": "$gv(c_subtext)$"
               },
               "internal_toggles": {
                 "text_expression": 10,
-                "config_visible": 10
+                "config_visible": 10,
+                "paint_color": 10
               },
               "position_padding_left": 148.0,
               "position_padding_right": 0.0,
@@ -231,9 +239,15 @@
                   "shape_width": 44.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
-                  "paint_color": "#FF313244",
+                  "paint_color": "#FF3C344F",
                   "internal_globals": {
-                    "paint_color": "c_surface0"
+                    "paint_color": "c_selected"
+                  },
+                  "internal_formulas": {
+                    "paint_color": "$gv(c_selected)$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
                   }
                 },
                 {
@@ -243,12 +257,18 @@
                   "shape_width": 44.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
-                  "paint_color": "#FF45475A",
+                  "paint_color": "#FFCBA6F7",
                   "internal_globals": {
-                    "paint_color": "c_surface1"
+                    "paint_color": "c_accent"
                   },
                   "paint_style": "STROKE",
-                  "stroke_width": 1.0
+                  "stroke_width": 1.0,
+                  "internal_formulas": {
+                    "paint_color": "$gv(c_accent)$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
+                  }
                 },
                 {
                   "internal_type": "TextModule",
@@ -256,9 +276,15 @@
                   "text_expression": "󰑐",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                   "text_size": 30.0,
-                  "paint_color": "#FFBAC2DE",
+                  "paint_color": "#FFCBA6F7",
                   "internal_globals": {
-                    "paint_color": "c_subtext"
+                    "paint_color": "c_accent_text"
+                  },
+                  "internal_formulas": {
+                    "paint_color": "$gv(c_accent_text)$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
                   }
                 }
               ],
@@ -294,9 +320,15 @@
                   "shape_width": 84.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
-                  "paint_color": "#FF313244",
+                  "paint_color": "#FF3C344F",
                   "internal_globals": {
-                    "paint_color": "c_surface0"
+                    "paint_color": "c_selected"
+                  },
+                  "internal_formulas": {
+                    "paint_color": "$gv(c_selected)$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
                   }
                 },
                 {
@@ -307,9 +339,15 @@
                   "shape_corners": 10.0,
                   "paint_style": "STROKE",
                   "stroke_width": 1.0,
-                  "paint_color": "#FF45475A",
+                  "paint_color": "#FFCBA6F7",
                   "internal_globals": {
-                    "paint_color": "c_surface1"
+                    "paint_color": "c_accent"
+                  },
+                  "internal_formulas": {
+                    "paint_color": "$gv(c_accent)$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
                   }
                 },
                 {
@@ -317,9 +355,15 @@
                   "text_expression": "◀ Prev",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                   "text_size": 16.5,
-                  "paint_color": "#FFCDD6F4",
+                  "paint_color": "#FFCBA6F7",
                   "internal_globals": {
-                    "paint_color": "c_text"
+                    "paint_color": "c_accent_text"
+                  },
+                  "internal_formulas": {
+                    "paint_color": "$gv(c_accent_text)$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
                   }
                 }
               ],
@@ -355,9 +399,15 @@
                   "shape_width": 84.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
-                  "paint_color": "#FF313244",
+                  "paint_color": "#FF3C344F",
                   "internal_globals": {
-                    "paint_color": "c_surface0"
+                    "paint_color": "c_selected"
+                  },
+                  "internal_formulas": {
+                    "paint_color": "$gv(c_selected)$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
                   }
                 },
                 {
@@ -368,9 +418,15 @@
                   "shape_corners": 10.0,
                   "paint_style": "STROKE",
                   "stroke_width": 1.0,
-                  "paint_color": "#FF45475A",
+                  "paint_color": "#FFCBA6F7",
                   "internal_globals": {
-                    "paint_color": "c_surface1"
+                    "paint_color": "c_accent"
+                  },
+                  "internal_formulas": {
+                    "paint_color": "$gv(c_accent)$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
                   }
                 },
                 {
@@ -378,9 +434,15 @@
                   "text_expression": "Next ▶",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                   "text_size": 16.5,
-                  "paint_color": "#FFCDD6F4",
+                  "paint_color": "#FFCBA6F7",
                   "internal_globals": {
-                    "paint_color": "c_text"
+                    "paint_color": "c_accent_text"
+                  },
+                  "internal_formulas": {
+                    "paint_color": "$gv(c_accent_text)$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
                   }
                 }
               ],
@@ -416,9 +478,15 @@
                   "shape_width": 44.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
-                  "paint_color": "#FF313244",
+                  "paint_color": "#FF3C344F",
                   "internal_globals": {
-                    "paint_color": "c_surface0"
+                    "paint_color": "c_selected"
+                  },
+                  "internal_formulas": {
+                    "paint_color": "$gv(c_selected)$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
                   }
                 },
                 {
@@ -428,12 +496,18 @@
                   "shape_width": 44.0,
                   "shape_height": 44.0,
                   "shape_corners": 10.0,
-                  "paint_color": "#FF45475A",
+                  "paint_color": "#FFCBA6F7",
                   "internal_globals": {
-                    "paint_color": "c_surface1"
+                    "paint_color": "c_accent"
                   },
                   "paint_style": "STROKE",
-                  "stroke_width": 1.0
+                  "stroke_width": 1.0,
+                  "internal_formulas": {
+                    "paint_color": "$gv(c_accent)$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
+                  }
                 },
                 {
                   "internal_type": "TextModule",
@@ -441,9 +515,15 @@
                   "text_expression": "󰑐",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                   "text_size": 30.0,
-                  "paint_color": "#FFBAC2DE",
+                  "paint_color": "#FFCBA6F7",
                   "internal_globals": {
-                    "paint_color": "c_subtext"
+                    "paint_color": "c_accent_text"
+                  },
+                  "internal_formulas": {
+                    "paint_color": "$gv(c_accent_text)$"
+                  },
+                  "internal_toggles": {
+                    "paint_color": 10
                   }
                 }
               ],
@@ -525,11 +605,13 @@
                           },
                           "internal_formulas": {
                             "shape_width": "$mu(max, 150, mu(round, (si(rwidth) - 36) / 2))$",
-                            "shape_height": "$(gv(frameh) - 136) / 2$"
+                            "shape_height": "$(gv(frameh) - 136) / 2$",
+                            "paint_color": "$gv(c_mantle)$"
                           },
                           "internal_toggles": {
                             "shape_width": 10,
-                            "shape_height": 10
+                            "shape_height": 10,
+                            "paint_color": 10
                           }
                         },
                         {
@@ -547,11 +629,13 @@
                           },
                           "internal_formulas": {
                             "shape_width": "$mu(max, 150, mu(round, (si(rwidth) - 36) / 2))$",
-                            "shape_height": "$(gv(frameh) - 136) / 2$"
+                            "shape_height": "$(gv(frameh) - 136) / 2$",
+                            "paint_color": "$gv(c_surface0)$"
                           },
                           "internal_toggles": {
                             "shape_width": 10,
-                            "shape_height": 10
+                            "shape_height": 10,
+                            "paint_color": 10
                           }
                         },
                         {
@@ -590,17 +674,21 @@
                                   "style_width": 360.0,
                                   "color_mode": "FLAT",
                                   "color_fgcolor": "#FF89B4FA",
-                                  "color_bgcolor": "#FF313244",
+                                  "color_bgcolor": "#FF353646",
                                   "internal_globals": {
                                     "color_fgcolor": "c_cpu",
-                                    "color_bgcolor": "c_surface0"
+                                    "color_bgcolor": "c_track"
                                   },
                                   "progress_level": 50.0,
                                   "internal_formulas": {
-                                    "progress_level": "$if(gv(sys_idx) = 1, if(tc(json, gv(sys_json), \".items[1].info.cpu\") != \"\", mu(min, 100, mu(max, 0, mu(round, tc(json, gv(sys_json), \".items[1].info.cpu\")))), 0), if(tc(json, gv(sys_json), \".items[0].info.cpu\") != \"\", mu(min, 100, mu(max, 0, mu(round, tc(json, gv(sys_json), \".items[0].info.cpu\")))), 0))$"
+                                    "progress_level": "$if(gv(sys_idx) = 1, if(tc(json, gv(sys_json), \".items[1].info.cpu\") != \"\", mu(min, 100, mu(max, 0, mu(round, tc(json, gv(sys_json), \".items[1].info.cpu\")))), 0), if(tc(json, gv(sys_json), \".items[0].info.cpu\") != \"\", mu(min, 100, mu(max, 0, mu(round, tc(json, gv(sys_json), \".items[0].info.cpu\")))), 0))$",
+                                    "color_fgcolor": "$gv(c_cpu)$",
+                                    "color_bgcolor": "$gv(c_track)$"
                                   },
                                   "internal_toggles": {
-                                    "progress_level": 10
+                                    "progress_level": 10,
+                                    "color_fgcolor": 10,
+                                    "color_bgcolor": 10
                                   }
                                 },
                                 {
@@ -614,10 +702,12 @@
                                     "paint_color": "c_text"
                                   },
                                   "internal_formulas": {
-                                    "text_expression": "$if(gv(sys_idx) = 1, if(tc(json, gv(sys_json), \".items[1].info.cpu\") != \"\", mu(round, tc(json, gv(sys_json), \".items[1].info.cpu\")), 0), if(tc(json, gv(sys_json), \".items[0].info.cpu\") != \"\", mu(round, tc(json, gv(sys_json), \".items[0].info.cpu\")), 0))$%"
+                                    "text_expression": "$if(gv(sys_idx) = 1, if(tc(json, gv(sys_json), \".items[1].info.cpu\") != \"\", mu(round, tc(json, gv(sys_json), \".items[1].info.cpu\")), 0), if(tc(json, gv(sys_json), \".items[0].info.cpu\") != \"\", mu(round, tc(json, gv(sys_json), \".items[0].info.cpu\")), 0))$%",
+                                    "paint_color": "$gv(c_text)$"
                                   },
                                   "internal_toggles": {
-                                    "text_expression": 10
+                                    "text_expression": 10,
+                                    "paint_color": 10
                                   }
                                 }
                               ]
@@ -639,7 +729,13 @@
                                   "text_size": 19.0,
                                   "paint_color": "#FF89B4FA",
                                   "internal_globals": {
-                                    "paint_color": "c_cpu"
+                                    "paint_color": "c_cpu_text"
+                                  },
+                                  "internal_formulas": {
+                                    "paint_color": "$gv(c_cpu_text)$"
+                                  },
+                                  "internal_toggles": {
+                                    "paint_color": 10
                                   }
                                 },
                                 {
@@ -653,10 +749,12 @@
                                     "paint_color": "c_subtext"
                                   },
                                   "internal_formulas": {
-                                    "text_expression": "$\" \" + gv(temp_fmt)$"
+                                    "text_expression": "$\" \" + gv(temp_fmt)$",
+                                    "paint_color": "$gv(c_subtext)$"
                                   },
                                   "internal_toggles": {
-                                    "text_expression": 10
+                                    "text_expression": 10,
+                                    "paint_color": 10
                                   }
                                 },
                                 {
@@ -665,15 +763,17 @@
                                   "text_expression": "—",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                                   "text_size": 15.5,
-                                  "paint_color": "#FF6C7086",
+                                  "paint_color": "#FFABAEBA",
                                   "internal_globals": {
                                     "paint_color": "c_muted"
                                   },
                                   "internal_formulas": {
-                                    "text_expression": "$\"Load Avg: \" + if(gv(load_best) != \"\", gv(load_best), \"N/A\")$"
+                                    "text_expression": "$\"Load Avg: \" + if(gv(load_best) != \"\", gv(load_best), \"N/A\")$",
+                                    "paint_color": "$gv(c_muted)$"
                                   },
                                   "internal_toggles": {
-                                    "text_expression": 10
+                                    "text_expression": 10,
+                                    "paint_color": 10
                                   }
                                 }
                               ]
@@ -699,11 +799,13 @@
                           },
                           "internal_formulas": {
                             "shape_width": "$mu(max, 150, mu(round, (si(rwidth) - 36) / 2))$",
-                            "shape_height": "$(gv(frameh) - 136) / 2$"
+                            "shape_height": "$(gv(frameh) - 136) / 2$",
+                            "paint_color": "$gv(c_mantle)$"
                           },
                           "internal_toggles": {
                             "shape_width": 10,
-                            "shape_height": 10
+                            "shape_height": 10,
+                            "paint_color": 10
                           }
                         },
                         {
@@ -721,11 +823,13 @@
                           },
                           "internal_formulas": {
                             "shape_width": "$mu(max, 150, mu(round, (si(rwidth) - 36) / 2))$",
-                            "shape_height": "$(gv(frameh) - 136) / 2$"
+                            "shape_height": "$(gv(frameh) - 136) / 2$",
+                            "paint_color": "$gv(c_surface0)$"
                           },
                           "internal_toggles": {
                             "shape_width": 10,
-                            "shape_height": 10
+                            "shape_height": 10,
+                            "paint_color": 10
                           }
                         },
                         {
@@ -764,17 +868,21 @@
                                   "style_width": 360.0,
                                   "color_mode": "FLAT",
                                   "color_fgcolor": "#FFCBA6F7",
-                                  "color_bgcolor": "#FF313244",
+                                  "color_bgcolor": "#FF353646",
                                   "internal_globals": {
                                     "color_fgcolor": "c_ram",
-                                    "color_bgcolor": "c_surface0"
+                                    "color_bgcolor": "c_track"
                                   },
                                   "progress_level": 50.0,
                                   "internal_formulas": {
-                                    "progress_level": "$if(gv(sys_idx) = 1, if(tc(json, gv(sys_json), \".items[1].info.mp\") != \"\", mu(min, 100, mu(max, 0, mu(round, tc(json, gv(sys_json), \".items[1].info.mp\")))), 0), if(tc(json, gv(sys_json), \".items[0].info.mp\") != \"\", mu(min, 100, mu(max, 0, mu(round, tc(json, gv(sys_json), \".items[0].info.mp\")))), 0))$"
+                                    "progress_level": "$if(gv(sys_idx) = 1, if(tc(json, gv(sys_json), \".items[1].info.mp\") != \"\", mu(min, 100, mu(max, 0, mu(round, tc(json, gv(sys_json), \".items[1].info.mp\")))), 0), if(tc(json, gv(sys_json), \".items[0].info.mp\") != \"\", mu(min, 100, mu(max, 0, mu(round, tc(json, gv(sys_json), \".items[0].info.mp\")))), 0))$",
+                                    "color_fgcolor": "$gv(c_ram)$",
+                                    "color_bgcolor": "$gv(c_track)$"
                                   },
                                   "internal_toggles": {
-                                    "progress_level": 10
+                                    "progress_level": 10,
+                                    "color_fgcolor": 10,
+                                    "color_bgcolor": 10
                                   }
                                 },
                                 {
@@ -788,10 +896,12 @@
                                     "paint_color": "c_text"
                                   },
                                   "internal_formulas": {
-                                    "text_expression": "$if(gv(sys_idx) = 1, if(tc(json, gv(sys_json), \".items[1].info.mp\") != \"\", mu(round, tc(json, gv(sys_json), \".items[1].info.mp\")), 0), if(tc(json, gv(sys_json), \".items[0].info.mp\") != \"\", mu(round, tc(json, gv(sys_json), \".items[0].info.mp\")), 0))$%"
+                                    "text_expression": "$if(gv(sys_idx) = 1, if(tc(json, gv(sys_json), \".items[1].info.mp\") != \"\", mu(round, tc(json, gv(sys_json), \".items[1].info.mp\")), 0), if(tc(json, gv(sys_json), \".items[0].info.mp\") != \"\", mu(round, tc(json, gv(sys_json), \".items[0].info.mp\")), 0))$%",
+                                    "paint_color": "$gv(c_text)$"
                                   },
                                   "internal_toggles": {
-                                    "text_expression": 10
+                                    "text_expression": 10,
+                                    "paint_color": 10
                                   }
                                 }
                               ]
@@ -813,7 +923,13 @@
                                   "text_size": 19.0,
                                   "paint_color": "#FFCBA6F7",
                                   "internal_globals": {
-                                    "paint_color": "c_ram"
+                                    "paint_color": "c_ram_text"
+                                  },
+                                  "internal_formulas": {
+                                    "paint_color": "$gv(c_ram_text)$"
+                                  },
+                                  "internal_toggles": {
+                                    "paint_color": 10
                                   }
                                 },
                                 {
@@ -827,10 +943,12 @@
                                     "paint_color": "c_subtext"
                                   },
                                   "internal_formulas": {
-                                    "text_expression": "$gv(ram_fmt)$"
+                                    "text_expression": "$gv(ram_fmt)$",
+                                    "paint_color": "$gv(c_subtext)$"
                                   },
                                   "internal_toggles": {
-                                    "text_expression": 10
+                                    "text_expression": 10,
+                                    "paint_color": 10
                                   }
                                 },
                                 {
@@ -839,15 +957,17 @@
                                   "text_expression": "—",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                                   "text_size": 15.5,
-                                  "paint_color": "#FF6C7086",
+                                  "paint_color": "#FFABAEBA",
                                   "internal_globals": {
                                     "paint_color": "c_muted"
                                   },
                                   "internal_formulas": {
-                                    "text_expression": "$if(tc(json, gv(sys_json), \".items[0].info.mp\") != \"\", if(tc(json, gv(sys_json), \".items[0].info.mp\") > 85, \"High Load\", \"Normal\"), \"Normal\")$"
+                                    "text_expression": "$if(tc(json, gv(sys_json), \".items[0].info.mp\") != \"\", if(tc(json, gv(sys_json), \".items[0].info.mp\") > 85, \"High Load\", \"Normal\"), \"Normal\")$",
+                                    "paint_color": "$gv(c_muted)$"
                                   },
                                   "internal_toggles": {
-                                    "text_expression": 10
+                                    "text_expression": 10,
+                                    "paint_color": 10
                                   }
                                 }
                               ]
@@ -881,11 +1001,13 @@
                           },
                           "internal_formulas": {
                             "shape_width": "$mu(max, 150, mu(round, (si(rwidth) - 36) / 2))$",
-                            "shape_height": "$(gv(frameh) - 136) / 2$"
+                            "shape_height": "$(gv(frameh) - 136) / 2$",
+                            "paint_color": "$gv(c_mantle)$"
                           },
                           "internal_toggles": {
                             "shape_width": 10,
-                            "shape_height": 10
+                            "shape_height": 10,
+                            "paint_color": 10
                           }
                         },
                         {
@@ -903,11 +1025,13 @@
                           },
                           "internal_formulas": {
                             "shape_width": "$mu(max, 150, mu(round, (si(rwidth) - 36) / 2))$",
-                            "shape_height": "$(gv(frameh) - 136) / 2$"
+                            "shape_height": "$(gv(frameh) - 136) / 2$",
+                            "paint_color": "$gv(c_surface0)$"
                           },
                           "internal_toggles": {
                             "shape_width": 10,
-                            "shape_height": 10
+                            "shape_height": 10,
+                            "paint_color": 10
                           }
                         },
                         {
@@ -946,17 +1070,21 @@
                                   "style_width": 360.0,
                                   "color_mode": "FLAT",
                                   "color_fgcolor": "#FF94E2D5",
-                                  "color_bgcolor": "#FF313244",
+                                  "color_bgcolor": "#FF353646",
                                   "internal_globals": {
                                     "color_fgcolor": "c_disk",
-                                    "color_bgcolor": "c_surface0"
+                                    "color_bgcolor": "c_track"
                                   },
                                   "progress_level": 50.0,
                                   "internal_formulas": {
-                                    "progress_level": "$if(gv(sys_idx) = 1, if(tc(json, gv(sys_json), \".items[1].info.dp\") != \"\", mu(min, 100, mu(max, 0, mu(round, tc(json, gv(sys_json), \".items[1].info.dp\")))), 0), if(tc(json, gv(sys_json), \".items[0].info.dp\") != \"\", mu(min, 100, mu(max, 0, mu(round, tc(json, gv(sys_json), \".items[0].info.dp\")))), 0))$"
+                                    "progress_level": "$if(gv(sys_idx) = 1, if(tc(json, gv(sys_json), \".items[1].info.dp\") != \"\", mu(min, 100, mu(max, 0, mu(round, tc(json, gv(sys_json), \".items[1].info.dp\")))), 0), if(tc(json, gv(sys_json), \".items[0].info.dp\") != \"\", mu(min, 100, mu(max, 0, mu(round, tc(json, gv(sys_json), \".items[0].info.dp\")))), 0))$",
+                                    "color_fgcolor": "$gv(c_disk)$",
+                                    "color_bgcolor": "$gv(c_track)$"
                                   },
                                   "internal_toggles": {
-                                    "progress_level": 10
+                                    "progress_level": 10,
+                                    "color_fgcolor": 10,
+                                    "color_bgcolor": 10
                                   }
                                 },
                                 {
@@ -970,10 +1098,12 @@
                                     "paint_color": "c_text"
                                   },
                                   "internal_formulas": {
-                                    "text_expression": "$if(gv(sys_idx) = 1, if(tc(json, gv(sys_json), \".items[1].info.dp\") != \"\", mu(round, tc(json, gv(sys_json), \".items[1].info.dp\")), 0), if(tc(json, gv(sys_json), \".items[0].info.dp\") != \"\", mu(round, tc(json, gv(sys_json), \".items[0].info.dp\")), 0))$%"
+                                    "text_expression": "$if(gv(sys_idx) = 1, if(tc(json, gv(sys_json), \".items[1].info.dp\") != \"\", mu(round, tc(json, gv(sys_json), \".items[1].info.dp\")), 0), if(tc(json, gv(sys_json), \".items[0].info.dp\") != \"\", mu(round, tc(json, gv(sys_json), \".items[0].info.dp\")), 0))$%",
+                                    "paint_color": "$gv(c_text)$"
                                   },
                                   "internal_toggles": {
-                                    "text_expression": 10
+                                    "text_expression": 10,
+                                    "paint_color": 10
                                   }
                                 }
                               ]
@@ -995,7 +1125,13 @@
                                   "text_size": 19.0,
                                   "paint_color": "#FF94E2D5",
                                   "internal_globals": {
-                                    "paint_color": "c_disk"
+                                    "paint_color": "c_disk_text"
+                                  },
+                                  "internal_formulas": {
+                                    "paint_color": "$gv(c_disk_text)$"
+                                  },
+                                  "internal_toggles": {
+                                    "paint_color": 10
                                   }
                                 },
                                 {
@@ -1009,10 +1145,12 @@
                                     "paint_color": "c_subtext"
                                   },
                                   "internal_formulas": {
-                                    "text_expression": "$gv(disk_fmt)$"
+                                    "text_expression": "$gv(disk_fmt)$",
+                                    "paint_color": "$gv(c_subtext)$"
                                   },
                                   "internal_toggles": {
-                                    "text_expression": 10
+                                    "text_expression": 10,
+                                    "paint_color": 10
                                   }
                                 },
                                 {
@@ -1021,15 +1159,17 @@
                                   "text_expression": "—",
                                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                                   "text_size": 15.5,
-                                  "paint_color": "#FF6C7086",
+                                  "paint_color": "#FFABAEBA",
                                   "internal_globals": {
                                     "paint_color": "c_muted"
                                   },
                                   "internal_formulas": {
-                                    "text_expression": "$if(tc(json, gv(sys_json), \".items[0].info.dp\") != \"\", if(tc(json, gv(sys_json), \".items[0].info.dp\") > 90, \"Critical\", \"Healthy\"), \"Healthy\")$"
+                                    "text_expression": "$if(tc(json, gv(sys_json), \".items[0].info.dp\") != \"\", if(tc(json, gv(sys_json), \".items[0].info.dp\") > 90, \"Critical\", \"Healthy\"), \"Healthy\")$",
+                                    "paint_color": "$gv(c_muted)$"
                                   },
                                   "internal_toggles": {
-                                    "text_expression": 10
+                                    "text_expression": 10,
+                                    "paint_color": 10
                                   }
                                 }
                               ]
@@ -1055,11 +1195,13 @@
                           },
                           "internal_formulas": {
                             "shape_width": "$mu(max, 150, mu(round, (si(rwidth) - 36) / 2))$",
-                            "shape_height": "$(gv(frameh) - 136) / 2$"
+                            "shape_height": "$(gv(frameh) - 136) / 2$",
+                            "paint_color": "$gv(c_mantle)$"
                           },
                           "internal_toggles": {
                             "shape_width": 10,
-                            "shape_height": 10
+                            "shape_height": 10,
+                            "paint_color": 10
                           }
                         },
                         {
@@ -1077,11 +1219,13 @@
                           },
                           "internal_formulas": {
                             "shape_width": "$mu(max, 150, mu(round, (si(rwidth) - 36) / 2))$",
-                            "shape_height": "$(gv(frameh) - 136) / 2$"
+                            "shape_height": "$(gv(frameh) - 136) / 2$",
+                            "paint_color": "$gv(c_surface0)$"
                           },
                           "internal_toggles": {
                             "shape_width": 10,
-                            "shape_height": 10
+                            "shape_height": 10,
+                            "paint_color": 10
                           }
                         },
                         {
@@ -1112,7 +1256,7 @@
                               "text_size": 19.0,
                               "paint_color": "#FF74C7EC",
                               "internal_globals": {
-                                "paint_color": "c_net"
+                                "paint_color": "c_net_text"
                               },
                               "position_padding_left": 14.0,
                               "position_padding_right": 0.0,
@@ -1120,7 +1264,13 @@
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPLEFT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 10.0
+                              "position_offset_y": 10.0,
+                              "internal_formulas": {
+                                "paint_color": "$gv(c_net_text)$"
+                              },
+                              "internal_toggles": {
+                                "paint_color": 10
+                              }
                             },
                             {
                               "internal_type": "TextModule",
@@ -1132,10 +1282,12 @@
                                 "paint_color": "c_subtext"
                               },
                               "internal_formulas": {
-                                "text_expression": "↓ Download"
+                                "text_expression": "↓ Download",
+                                "paint_color": "$gv(c_subtext)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 14.0,
                               "position_padding_right": 0.0,
@@ -1143,7 +1295,8 @@
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPLEFT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 38.0
+                              "position_offset_y": 38.0,
+                              "paint_color": "#FFBAC2DE"
                             },
                             {
                               "internal_type": "TextModule",
@@ -1155,10 +1308,12 @@
                                 "paint_color": "c_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$gv(rate_rx)$"
+                                "text_expression": "$gv(rate_rx)$",
+                                "paint_color": "$gv(c_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 14.0,
@@ -1166,7 +1321,8 @@
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPRIGHT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 38.0
+                              "position_offset_y": 38.0,
+                              "paint_color": "#FFCDD6F4"
                             },
                             {
                               "internal_type": "TextModule",
@@ -1178,10 +1334,12 @@
                                 "paint_color": "c_subtext"
                               },
                               "internal_formulas": {
-                                "text_expression": "↑ Upload"
+                                "text_expression": "↑ Upload",
+                                "paint_color": "$gv(c_subtext)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 14.0,
                               "position_padding_right": 0.0,
@@ -1189,7 +1347,8 @@
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPLEFT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 58.0
+                              "position_offset_y": 58.0,
+                              "paint_color": "#FFBAC2DE"
                             },
                             {
                               "internal_type": "TextModule",
@@ -1201,10 +1360,12 @@
                                 "paint_color": "c_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$gv(rate_tx)$"
+                                "text_expression": "$gv(rate_tx)$",
+                                "paint_color": "$gv(c_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 14.0,
@@ -1212,7 +1373,8 @@
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPRIGHT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 58.0
+                              "position_offset_y": 58.0,
+                              "paint_color": "#FFCDD6F4"
                             },
                             {
                               "internal_type": "TextModule",
@@ -1224,10 +1386,12 @@
                                 "paint_color": "c_muted"
                               },
                               "internal_formulas": {
-                                "text_expression": "↓ 24h Total"
+                                "text_expression": "↓ 24h Total",
+                                "paint_color": "$gv(c_muted)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 14.0,
                               "position_padding_right": 0.0,
@@ -1235,7 +1399,8 @@
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPLEFT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 78.0
+                              "position_offset_y": 78.0,
+                              "paint_color": "#FFABAEBA"
                             },
                             {
                               "internal_type": "TextModule",
@@ -1244,13 +1409,15 @@
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                               "text_size": 13.5,
                               "internal_globals": {
-                                "paint_color": "c_net"
+                                "paint_color": "c_net_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$gv(day_rx)$"
+                                "text_expression": "$gv(day_rx)$",
+                                "paint_color": "$gv(c_net_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 14.0,
@@ -1258,7 +1425,8 @@
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPRIGHT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 78.0
+                              "position_offset_y": 78.0,
+                              "paint_color": "#FF74C7EC"
                             },
                             {
                               "internal_type": "TextModule",
@@ -1270,10 +1438,12 @@
                                 "paint_color": "c_muted"
                               },
                               "internal_formulas": {
-                                "text_expression": "↑ 24h Total"
+                                "text_expression": "↑ 24h Total",
+                                "paint_color": "$gv(c_muted)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 14.0,
                               "position_padding_right": 0.0,
@@ -1281,7 +1451,8 @@
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPLEFT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 98.0
+                              "position_offset_y": 98.0,
+                              "paint_color": "#FFABAEBA"
                             },
                             {
                               "internal_type": "TextModule",
@@ -1290,13 +1461,15 @@
                               "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                               "text_size": 13.5,
                               "internal_globals": {
-                                "paint_color": "c_net"
+                                "paint_color": "c_net_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$gv(day_tx)$"
+                                "text_expression": "$gv(day_tx)$",
+                                "paint_color": "$gv(c_net_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 14.0,
@@ -1304,7 +1477,8 @@
                               "position_padding_bottom": 0.0,
                               "position_anchor": "TOPRIGHT",
                               "position_offset_x": 14.0,
-                              "position_offset_y": 98.0
+                              "position_offset_y": 98.0,
+                              "paint_color": "#FF74C7EC"
                             }
                           ]
                         }
@@ -1375,10 +1549,12 @@
                         "paint_color": "c_muted"
                       },
                       "internal_formulas": {
-                        "text_expression": "NAME"
+                        "text_expression": "NAME",
+                        "paint_color": "$gv(c_muted)$"
                       },
                       "internal_toggles": {
-                        "text_expression": 10
+                        "text_expression": 10,
+                        "paint_color": 10
                       },
                       "position_padding_left": 36.0,
                       "position_padding_right": 0.0,
@@ -1386,7 +1562,8 @@
                       "position_padding_bottom": 0.0,
                       "position_anchor": "CENTERLEFT",
                       "position_offset_x": 36.0,
-                      "position_offset_y": 0.0
+                      "position_offset_y": 0.0,
+                      "paint_color": "#FFABAEBA"
                     },
                     {
                       "internal_type": "OverlapLayerModule",
@@ -1416,10 +1593,12 @@
                             "paint_color": "c_muted"
                           },
                           "internal_formulas": {
-                            "text_expression": "CPU"
+                            "text_expression": "CPU",
+                            "paint_color": "$gv(c_muted)$"
                           },
                           "internal_toggles": {
-                            "text_expression": 10
+                            "text_expression": 10,
+                            "paint_color": 10
                           },
                           "position_padding_left": 0.0,
                           "position_padding_right": 0.0,
@@ -1427,7 +1606,8 @@
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTER",
                           "position_offset_x": 0.0,
-                          "position_offset_y": 0.0
+                          "position_offset_y": 0.0,
+                          "paint_color": "#FFABAEBA"
                         }
                       ],
                       "position_padding_left": 0.0,
@@ -1466,10 +1646,12 @@
                             "paint_color": "c_muted"
                           },
                           "internal_formulas": {
-                            "text_expression": "RAM"
+                            "text_expression": "RAM",
+                            "paint_color": "$gv(c_muted)$"
                           },
                           "internal_toggles": {
-                            "text_expression": 10
+                            "text_expression": 10,
+                            "paint_color": 10
                           },
                           "position_padding_left": 0.0,
                           "position_padding_right": 0.0,
@@ -1477,7 +1659,8 @@
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTER",
                           "position_offset_x": 0.0,
-                          "position_offset_y": 0.0
+                          "position_offset_y": 0.0,
+                          "paint_color": "#FFABAEBA"
                         }
                       ],
                       "position_padding_left": 0.0,
@@ -1523,10 +1706,12 @@
                         "paint_color": "c_mantle"
                       },
                       "internal_formulas": {
-                        "shape_width": "$si(rwidth) - 36$"
+                        "shape_width": "$si(rwidth) - 36$",
+                        "paint_color": "$gv(c_mantle)$"
                       },
                       "internal_toggles": {
-                        "shape_width": 10
+                        "shape_width": 10,
+                        "paint_color": 10
                       }
                     },
                     {
@@ -1543,10 +1728,12 @@
                         "paint_color": "c_surface0"
                       },
                       "internal_formulas": {
-                        "shape_width": "$si(rwidth) - 36$"
+                        "shape_width": "$si(rwidth) - 36$",
+                        "paint_color": "$gv(c_surface0)$"
                       },
                       "internal_toggles": {
-                        "shape_width": 10
+                        "shape_width": 10,
+                        "paint_color": 10
                       }
                     },
                     {
@@ -1600,7 +1787,7 @@
                           "text_size": 15.5,
                           "paint_color": "#FF89B4FA",
                           "internal_globals": {
-                            "paint_color": "c_cpu"
+                            "paint_color": "c_cpu_text"
                           },
                           "position_padding_left": 14.0,
                           "position_padding_right": 0.0,
@@ -1608,7 +1795,13 @@
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
                           "position_offset_x": 14.0,
-                          "position_offset_y": 0.0
+                          "position_offset_y": 0.0,
+                          "internal_formulas": {
+                            "paint_color": "$gv(c_cpu_text)$"
+                          },
+                          "internal_toggles": {
+                            "paint_color": 10
+                          }
                         },
                         {
                           "internal_type": "TextModule",
@@ -1621,10 +1814,12 @@
                             "paint_color": "c_text"
                           },
                           "internal_formulas": {
-                            "text_expression": "$tc(ell, gv(row0_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$"
+                            "text_expression": "$tc(ell, gv(row0_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$",
+                            "paint_color": "$gv(c_text)$"
                           },
                           "internal_toggles": {
-                            "text_expression": 10
+                            "text_expression": 10,
+                            "paint_color": 10
                           },
                           "position_padding_left": 34.0,
                           "position_padding_right": 0.0,
@@ -1670,10 +1865,12 @@
                               "shape_height": 28.0,
                               "paint_color": "#FF313244",
                               "internal_formulas": {
-                                "shape_width": "$70$"
+                                "shape_width": "$70$",
+                                "paint_color": "$gv(c_surface0)$"
                               },
                               "internal_toggles": {
-                                "shape_width": 10
+                                "shape_width": 10,
+                                "paint_color": 10
                               },
                               "shape_corners": 6.0,
                               "fx_mask": "CLIP_ALL",
@@ -1689,13 +1886,15 @@
                               "text_size": 14.5,
                               "paint_color": "#FF89B4FA",
                               "internal_globals": {
-                                "paint_color": "c_cpu"
+                                "paint_color": "c_cpu_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$if(gv(row0_cpu) != \"\", mu(round, gv(row0_cpu), 1) + \"%\", \"—\")$"
+                                "text_expression": "$if(gv(row0_cpu) != \"\", mu(round, gv(row0_cpu), 1) + \"%\", \"—\")$",
+                                "paint_color": "$gv(c_cpu_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 0.0,
@@ -1726,10 +1925,12 @@
                               "shape_height": 28.0,
                               "paint_color": "#FF313244",
                               "internal_formulas": {
-                                "shape_width": "$86$"
+                                "shape_width": "$86$",
+                                "paint_color": "$gv(c_surface0)$"
                               },
                               "internal_toggles": {
-                                "shape_width": 10
+                                "shape_width": 10,
+                                "paint_color": 10
                               },
                               "shape_corners": 6.0,
                               "fx_mask": "CLIP_ALL",
@@ -1745,13 +1946,15 @@
                               "text_size": 14.5,
                               "paint_color": "#FFCBA6F7",
                               "internal_globals": {
-                                "paint_color": "c_ram"
+                                "paint_color": "c_ram_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$if(gv(row0_mem) != \"\", mu(round, gv(row0_mem), 1) + \" MiB\", \"—\")$"
+                                "text_expression": "$if(gv(row0_mem) != \"\", mu(round, gv(row0_mem), 1) + \" MiB\", \"—\")$",
+                                "paint_color": "$gv(c_ram_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 0.0,
@@ -1809,10 +2012,12 @@
                         "paint_color": "c_mantle"
                       },
                       "internal_formulas": {
-                        "shape_width": "$si(rwidth) - 36$"
+                        "shape_width": "$si(rwidth) - 36$",
+                        "paint_color": "$gv(c_mantle)$"
                       },
                       "internal_toggles": {
-                        "shape_width": 10
+                        "shape_width": 10,
+                        "paint_color": 10
                       }
                     },
                     {
@@ -1829,10 +2034,12 @@
                         "paint_color": "c_surface0"
                       },
                       "internal_formulas": {
-                        "shape_width": "$si(rwidth) - 36$"
+                        "shape_width": "$si(rwidth) - 36$",
+                        "paint_color": "$gv(c_surface0)$"
                       },
                       "internal_toggles": {
-                        "shape_width": 10
+                        "shape_width": 10,
+                        "paint_color": 10
                       }
                     },
                     {
@@ -1886,7 +2093,7 @@
                           "text_size": 15.5,
                           "paint_color": "#FF89B4FA",
                           "internal_globals": {
-                            "paint_color": "c_cpu"
+                            "paint_color": "c_cpu_text"
                           },
                           "position_padding_left": 14.0,
                           "position_padding_right": 0.0,
@@ -1894,7 +2101,13 @@
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
                           "position_offset_x": 14.0,
-                          "position_offset_y": 0.0
+                          "position_offset_y": 0.0,
+                          "internal_formulas": {
+                            "paint_color": "$gv(c_cpu_text)$"
+                          },
+                          "internal_toggles": {
+                            "paint_color": 10
+                          }
                         },
                         {
                           "internal_type": "TextModule",
@@ -1907,10 +2120,12 @@
                             "paint_color": "c_text"
                           },
                           "internal_formulas": {
-                            "text_expression": "$tc(ell, gv(row1_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$"
+                            "text_expression": "$tc(ell, gv(row1_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$",
+                            "paint_color": "$gv(c_text)$"
                           },
                           "internal_toggles": {
-                            "text_expression": 10
+                            "text_expression": 10,
+                            "paint_color": 10
                           },
                           "position_padding_left": 34.0,
                           "position_padding_right": 0.0,
@@ -1956,10 +2171,12 @@
                               "shape_height": 28.0,
                               "paint_color": "#FF313244",
                               "internal_formulas": {
-                                "shape_width": "$70$"
+                                "shape_width": "$70$",
+                                "paint_color": "$gv(c_surface0)$"
                               },
                               "internal_toggles": {
-                                "shape_width": 10
+                                "shape_width": 10,
+                                "paint_color": 10
                               },
                               "shape_corners": 6.0,
                               "fx_mask": "CLIP_ALL",
@@ -1975,13 +2192,15 @@
                               "text_size": 14.5,
                               "paint_color": "#FF89B4FA",
                               "internal_globals": {
-                                "paint_color": "c_cpu"
+                                "paint_color": "c_cpu_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$if(gv(row1_cpu) != \"\", mu(round, gv(row1_cpu), 1) + \"%\", \"—\")$"
+                                "text_expression": "$if(gv(row1_cpu) != \"\", mu(round, gv(row1_cpu), 1) + \"%\", \"—\")$",
+                                "paint_color": "$gv(c_cpu_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 0.0,
@@ -2012,10 +2231,12 @@
                               "shape_height": 28.0,
                               "paint_color": "#FF313244",
                               "internal_formulas": {
-                                "shape_width": "$86$"
+                                "shape_width": "$86$",
+                                "paint_color": "$gv(c_surface0)$"
                               },
                               "internal_toggles": {
-                                "shape_width": 10
+                                "shape_width": 10,
+                                "paint_color": 10
                               },
                               "shape_corners": 6.0,
                               "fx_mask": "CLIP_ALL",
@@ -2031,13 +2252,15 @@
                               "text_size": 14.5,
                               "paint_color": "#FFCBA6F7",
                               "internal_globals": {
-                                "paint_color": "c_ram"
+                                "paint_color": "c_ram_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$if(gv(row1_mem) != \"\", mu(round, gv(row1_mem), 1) + \" MiB\", \"—\")$"
+                                "text_expression": "$if(gv(row1_mem) != \"\", mu(round, gv(row1_mem), 1) + \" MiB\", \"—\")$",
+                                "paint_color": "$gv(c_ram_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 0.0,
@@ -2095,10 +2318,12 @@
                         "paint_color": "c_mantle"
                       },
                       "internal_formulas": {
-                        "shape_width": "$si(rwidth) - 36$"
+                        "shape_width": "$si(rwidth) - 36$",
+                        "paint_color": "$gv(c_mantle)$"
                       },
                       "internal_toggles": {
-                        "shape_width": 10
+                        "shape_width": 10,
+                        "paint_color": 10
                       }
                     },
                     {
@@ -2115,10 +2340,12 @@
                         "paint_color": "c_surface0"
                       },
                       "internal_formulas": {
-                        "shape_width": "$si(rwidth) - 36$"
+                        "shape_width": "$si(rwidth) - 36$",
+                        "paint_color": "$gv(c_surface0)$"
                       },
                       "internal_toggles": {
-                        "shape_width": 10
+                        "shape_width": 10,
+                        "paint_color": 10
                       }
                     },
                     {
@@ -2172,7 +2399,7 @@
                           "text_size": 15.5,
                           "paint_color": "#FF89B4FA",
                           "internal_globals": {
-                            "paint_color": "c_cpu"
+                            "paint_color": "c_cpu_text"
                           },
                           "position_padding_left": 14.0,
                           "position_padding_right": 0.0,
@@ -2180,7 +2407,13 @@
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
                           "position_offset_x": 14.0,
-                          "position_offset_y": 0.0
+                          "position_offset_y": 0.0,
+                          "internal_formulas": {
+                            "paint_color": "$gv(c_cpu_text)$"
+                          },
+                          "internal_toggles": {
+                            "paint_color": 10
+                          }
                         },
                         {
                           "internal_type": "TextModule",
@@ -2193,10 +2426,12 @@
                             "paint_color": "c_text"
                           },
                           "internal_formulas": {
-                            "text_expression": "$tc(ell, gv(row2_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$"
+                            "text_expression": "$tc(ell, gv(row2_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$",
+                            "paint_color": "$gv(c_text)$"
                           },
                           "internal_toggles": {
-                            "text_expression": 10
+                            "text_expression": 10,
+                            "paint_color": 10
                           },
                           "position_padding_left": 34.0,
                           "position_padding_right": 0.0,
@@ -2242,10 +2477,12 @@
                               "shape_height": 28.0,
                               "paint_color": "#FF313244",
                               "internal_formulas": {
-                                "shape_width": "$70$"
+                                "shape_width": "$70$",
+                                "paint_color": "$gv(c_surface0)$"
                               },
                               "internal_toggles": {
-                                "shape_width": 10
+                                "shape_width": 10,
+                                "paint_color": 10
                               },
                               "shape_corners": 6.0,
                               "fx_mask": "CLIP_ALL",
@@ -2261,13 +2498,15 @@
                               "text_size": 14.5,
                               "paint_color": "#FF89B4FA",
                               "internal_globals": {
-                                "paint_color": "c_cpu"
+                                "paint_color": "c_cpu_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$if(gv(row2_cpu) != \"\", mu(round, gv(row2_cpu), 1) + \"%\", \"—\")$"
+                                "text_expression": "$if(gv(row2_cpu) != \"\", mu(round, gv(row2_cpu), 1) + \"%\", \"—\")$",
+                                "paint_color": "$gv(c_cpu_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 0.0,
@@ -2298,10 +2537,12 @@
                               "shape_height": 28.0,
                               "paint_color": "#FF313244",
                               "internal_formulas": {
-                                "shape_width": "$86$"
+                                "shape_width": "$86$",
+                                "paint_color": "$gv(c_surface0)$"
                               },
                               "internal_toggles": {
-                                "shape_width": 10
+                                "shape_width": 10,
+                                "paint_color": 10
                               },
                               "shape_corners": 6.0,
                               "fx_mask": "CLIP_ALL",
@@ -2317,13 +2558,15 @@
                               "text_size": 14.5,
                               "paint_color": "#FFCBA6F7",
                               "internal_globals": {
-                                "paint_color": "c_ram"
+                                "paint_color": "c_ram_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$if(gv(row2_mem) != \"\", mu(round, gv(row2_mem), 1) + \" MiB\", \"—\")$"
+                                "text_expression": "$if(gv(row2_mem) != \"\", mu(round, gv(row2_mem), 1) + \" MiB\", \"—\")$",
+                                "paint_color": "$gv(c_ram_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 0.0,
@@ -2381,10 +2624,12 @@
                         "paint_color": "c_mantle"
                       },
                       "internal_formulas": {
-                        "shape_width": "$si(rwidth) - 36$"
+                        "shape_width": "$si(rwidth) - 36$",
+                        "paint_color": "$gv(c_mantle)$"
                       },
                       "internal_toggles": {
-                        "shape_width": 10
+                        "shape_width": 10,
+                        "paint_color": 10
                       }
                     },
                     {
@@ -2401,10 +2646,12 @@
                         "paint_color": "c_surface0"
                       },
                       "internal_formulas": {
-                        "shape_width": "$si(rwidth) - 36$"
+                        "shape_width": "$si(rwidth) - 36$",
+                        "paint_color": "$gv(c_surface0)$"
                       },
                       "internal_toggles": {
-                        "shape_width": 10
+                        "shape_width": 10,
+                        "paint_color": 10
                       }
                     },
                     {
@@ -2458,7 +2705,7 @@
                           "text_size": 15.5,
                           "paint_color": "#FF89B4FA",
                           "internal_globals": {
-                            "paint_color": "c_cpu"
+                            "paint_color": "c_cpu_text"
                           },
                           "position_padding_left": 14.0,
                           "position_padding_right": 0.0,
@@ -2466,7 +2713,13 @@
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
                           "position_offset_x": 14.0,
-                          "position_offset_y": 0.0
+                          "position_offset_y": 0.0,
+                          "internal_formulas": {
+                            "paint_color": "$gv(c_cpu_text)$"
+                          },
+                          "internal_toggles": {
+                            "paint_color": 10
+                          }
                         },
                         {
                           "internal_type": "TextModule",
@@ -2479,10 +2732,12 @@
                             "paint_color": "c_text"
                           },
                           "internal_formulas": {
-                            "text_expression": "$tc(ell, gv(row3_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$"
+                            "text_expression": "$tc(ell, gv(row3_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$",
+                            "paint_color": "$gv(c_text)$"
                           },
                           "internal_toggles": {
-                            "text_expression": 10
+                            "text_expression": 10,
+                            "paint_color": 10
                           },
                           "position_padding_left": 34.0,
                           "position_padding_right": 0.0,
@@ -2528,10 +2783,12 @@
                               "shape_height": 28.0,
                               "paint_color": "#FF313244",
                               "internal_formulas": {
-                                "shape_width": "$70$"
+                                "shape_width": "$70$",
+                                "paint_color": "$gv(c_surface0)$"
                               },
                               "internal_toggles": {
-                                "shape_width": 10
+                                "shape_width": 10,
+                                "paint_color": 10
                               },
                               "shape_corners": 6.0,
                               "fx_mask": "CLIP_ALL",
@@ -2547,13 +2804,15 @@
                               "text_size": 14.5,
                               "paint_color": "#FF89B4FA",
                               "internal_globals": {
-                                "paint_color": "c_cpu"
+                                "paint_color": "c_cpu_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$if(gv(row3_cpu) != \"\", mu(round, gv(row3_cpu), 1) + \"%\", \"—\")$"
+                                "text_expression": "$if(gv(row3_cpu) != \"\", mu(round, gv(row3_cpu), 1) + \"%\", \"—\")$",
+                                "paint_color": "$gv(c_cpu_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 0.0,
@@ -2584,10 +2843,12 @@
                               "shape_height": 28.0,
                               "paint_color": "#FF313244",
                               "internal_formulas": {
-                                "shape_width": "$86$"
+                                "shape_width": "$86$",
+                                "paint_color": "$gv(c_surface0)$"
                               },
                               "internal_toggles": {
-                                "shape_width": 10
+                                "shape_width": 10,
+                                "paint_color": 10
                               },
                               "shape_corners": 6.0,
                               "fx_mask": "CLIP_ALL",
@@ -2603,13 +2864,15 @@
                               "text_size": 14.5,
                               "paint_color": "#FFCBA6F7",
                               "internal_globals": {
-                                "paint_color": "c_ram"
+                                "paint_color": "c_ram_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$if(gv(row3_mem) != \"\", mu(round, gv(row3_mem), 1) + \" MiB\", \"—\")$"
+                                "text_expression": "$if(gv(row3_mem) != \"\", mu(round, gv(row3_mem), 1) + \" MiB\", \"—\")$",
+                                "paint_color": "$gv(c_ram_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 0.0,
@@ -2667,10 +2930,12 @@
                         "paint_color": "c_mantle"
                       },
                       "internal_formulas": {
-                        "shape_width": "$si(rwidth) - 36$"
+                        "shape_width": "$si(rwidth) - 36$",
+                        "paint_color": "$gv(c_mantle)$"
                       },
                       "internal_toggles": {
-                        "shape_width": 10
+                        "shape_width": 10,
+                        "paint_color": 10
                       }
                     },
                     {
@@ -2687,10 +2952,12 @@
                         "paint_color": "c_surface0"
                       },
                       "internal_formulas": {
-                        "shape_width": "$si(rwidth) - 36$"
+                        "shape_width": "$si(rwidth) - 36$",
+                        "paint_color": "$gv(c_surface0)$"
                       },
                       "internal_toggles": {
-                        "shape_width": 10
+                        "shape_width": 10,
+                        "paint_color": 10
                       }
                     },
                     {
@@ -2744,7 +3011,7 @@
                           "text_size": 15.5,
                           "paint_color": "#FF89B4FA",
                           "internal_globals": {
-                            "paint_color": "c_cpu"
+                            "paint_color": "c_cpu_text"
                           },
                           "position_padding_left": 14.0,
                           "position_padding_right": 0.0,
@@ -2752,7 +3019,13 @@
                           "position_padding_bottom": 0.0,
                           "position_anchor": "CENTERLEFT",
                           "position_offset_x": 14.0,
-                          "position_offset_y": 0.0
+                          "position_offset_y": 0.0,
+                          "internal_formulas": {
+                            "paint_color": "$gv(c_cpu_text)$"
+                          },
+                          "internal_toggles": {
+                            "paint_color": 10
+                          }
                         },
                         {
                           "internal_type": "TextModule",
@@ -2765,10 +3038,12 @@
                             "paint_color": "c_text"
                           },
                           "internal_formulas": {
-                            "text_expression": "$tc(ell, gv(row4_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$"
+                            "text_expression": "$tc(ell, gv(row4_name), mu(max, 8, mu(floor, (si(rwidth) - 274) / 8.6)))$",
+                            "paint_color": "$gv(c_text)$"
                           },
                           "internal_toggles": {
-                            "text_expression": 10
+                            "text_expression": 10,
+                            "paint_color": 10
                           },
                           "position_padding_left": 34.0,
                           "position_padding_right": 0.0,
@@ -2814,10 +3089,12 @@
                               "shape_height": 28.0,
                               "paint_color": "#FF313244",
                               "internal_formulas": {
-                                "shape_width": "$70$"
+                                "shape_width": "$70$",
+                                "paint_color": "$gv(c_surface0)$"
                               },
                               "internal_toggles": {
-                                "shape_width": 10
+                                "shape_width": 10,
+                                "paint_color": 10
                               },
                               "shape_corners": 6.0,
                               "fx_mask": "CLIP_ALL",
@@ -2833,13 +3110,15 @@
                               "text_size": 14.5,
                               "paint_color": "#FF89B4FA",
                               "internal_globals": {
-                                "paint_color": "c_cpu"
+                                "paint_color": "c_cpu_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$if(gv(row4_cpu) != \"\", mu(round, gv(row4_cpu), 1) + \"%\", \"—\")$"
+                                "text_expression": "$if(gv(row4_cpu) != \"\", mu(round, gv(row4_cpu), 1) + \"%\", \"—\")$",
+                                "paint_color": "$gv(c_cpu_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 0.0,
@@ -2870,10 +3149,12 @@
                               "shape_height": 28.0,
                               "paint_color": "#FF313244",
                               "internal_formulas": {
-                                "shape_width": "$86$"
+                                "shape_width": "$86$",
+                                "paint_color": "$gv(c_surface0)$"
                               },
                               "internal_toggles": {
-                                "shape_width": 10
+                                "shape_width": 10,
+                                "paint_color": 10
                               },
                               "shape_corners": 6.0,
                               "fx_mask": "CLIP_ALL",
@@ -2889,13 +3170,15 @@
                               "text_size": 14.5,
                               "paint_color": "#FFCBA6F7",
                               "internal_globals": {
-                                "paint_color": "c_ram"
+                                "paint_color": "c_ram_text"
                               },
                               "internal_formulas": {
-                                "text_expression": "$if(gv(row4_mem) != \"\", mu(round, gv(row4_mem), 1) + \" MiB\", \"—\")$"
+                                "text_expression": "$if(gv(row4_mem) != \"\", mu(round, gv(row4_mem), 1) + \" MiB\", \"—\")$",
+                                "paint_color": "$gv(c_ram_text)$"
                               },
                               "internal_toggles": {
-                                "text_expression": 10
+                                "text_expression": 10,
+                                "paint_color": 10
                               },
                               "position_padding_left": 0.0,
                               "position_padding_right": 0.0,
@@ -2938,10 +3221,12 @@
                     "paint_color": "c_subtext"
                   },
                   "internal_formulas": {
-                    "text_expression": "$if(gv(container_count) > 0, \"Page \" + (gv(cpage) + 1) + \" / \" + (mu(floor, (gv(container_count) - 1) / 5) + 1), \"Page 1 / 1\")$"
+                    "text_expression": "$if(gv(container_count) > 0, \"Page \" + (gv(cpage) + 1) + \" / \" + (mu(floor, (gv(container_count) - 1) / 5) + 1), \"Page 1 / 1\")$",
+                    "paint_color": "$gv(c_subtext)$"
                   },
                   "internal_toggles": {
-                    "text_expression": 10
+                    "text_expression": 10,
+                    "paint_color": 10
                   },
                   "position_padding_left": 0.0,
                   "position_padding_right": 0.0,
@@ -2962,10 +3247,12 @@
                     "paint_color": "c_subtext"
                   },
                   "internal_formulas": {
-                    "text_expression": "$if(gv(row0_name) = \"\" & gv(cpage) = 0, \"No containers\", \"\")$"
+                    "text_expression": "$if(gv(row0_name) = \"\" & gv(cpage) = 0, \"No containers\", \"\")$",
+                    "paint_color": "$gv(c_subtext)$"
                   },
                   "internal_toggles": {
-                    "text_expression": 10
+                    "text_expression": 10,
+                    "paint_color": 10
                   },
                   "position_padding_left": 0.0,
                   "position_padding_right": 0.0,
@@ -3061,10 +3348,10 @@
                       "text_size": 18.0,
                       "paint_color": "#FFCBA6F7",
                       "internal_globals": {
-                        "paint_color": "c_accent"
+                        "paint_color": "c_accent_text"
                       },
                       "internal_formulas": {
-                        "paint_color": "$gv(c_accent)$",
+                        "paint_color": "$gv(c_accent_text)$",
                         "text_expression": "$if(gv(info_ready) = 1, tc(ell, gv(fetch_host), 24) + \"@beszel\", \"~/homelab\")$"
                       },
                       "internal_toggles": {
@@ -3105,10 +3392,10 @@
                           "text_size": 14.0,
                           "paint_color": "#FF89B4FA",
                           "internal_globals": {
-                            "paint_color": "c_cpu"
+                            "paint_color": "c_cpu_text"
                           },
                           "internal_formulas": {
-                            "paint_color": "$gv(c_cpu)$"
+                            "paint_color": "$gv(c_cpu_text)$"
                           },
                           "internal_toggles": {
                             "paint_color": 10
@@ -3214,10 +3501,10 @@
                           "text_size": 14.0,
                           "paint_color": "#FF74C7EC",
                           "internal_globals": {
-                            "paint_color": "c_net"
+                            "paint_color": "c_net_text"
                           },
                           "internal_formulas": {
-                            "paint_color": "$gv(c_net)$"
+                            "paint_color": "$gv(c_net_text)$"
                           },
                           "internal_toggles": {
                             "paint_color": 10
@@ -3323,10 +3610,10 @@
                           "text_size": 14.0,
                           "paint_color": "#FFFAB387",
                           "internal_globals": {
-                            "paint_color": "c_peach"
+                            "paint_color": "c_peach_text"
                           },
                           "internal_formulas": {
-                            "paint_color": "$gv(c_peach)$"
+                            "paint_color": "$gv(c_peach_text)$"
                           },
                           "internal_toggles": {
                             "paint_color": 10
@@ -3432,10 +3719,10 @@
                           "text_size": 14.0,
                           "paint_color": "#FFA6E3A1",
                           "internal_globals": {
-                            "paint_color": "c_ok"
+                            "paint_color": "c_ok_text"
                           },
                           "internal_formulas": {
-                            "paint_color": "$gv(c_ok)$"
+                            "paint_color": "$gv(c_ok_text)$"
                           },
                           "internal_toggles": {
                             "paint_color": 10
@@ -3541,10 +3828,10 @@
                           "text_size": 14.0,
                           "paint_color": "#FFF9E2AF",
                           "internal_globals": {
-                            "paint_color": "c_warn"
+                            "paint_color": "c_warn_text"
                           },
                           "internal_formulas": {
-                            "paint_color": "$gv(c_warn)$"
+                            "paint_color": "$gv(c_warn_text)$"
                           },
                           "internal_toggles": {
                             "paint_color": 10
@@ -3650,10 +3937,10 @@
                           "text_size": 14.0,
                           "paint_color": "#FF94E2D5",
                           "internal_globals": {
-                            "paint_color": "c_disk"
+                            "paint_color": "c_disk_text"
                           },
                           "internal_formulas": {
-                            "paint_color": "$gv(c_disk)$"
+                            "paint_color": "$gv(c_disk_text)$"
                           },
                           "internal_toggles": {
                             "paint_color": 10
@@ -3759,10 +4046,10 @@
                           "text_size": 14.0,
                           "paint_color": "#FFCBA6F7",
                           "internal_globals": {
-                            "paint_color": "c_ram"
+                            "paint_color": "c_ram_text"
                           },
                           "internal_formulas": {
-                            "paint_color": "$gv(c_ram)$"
+                            "paint_color": "$gv(c_ram_text)$"
                           },
                           "internal_toggles": {
                             "paint_color": 10
@@ -3866,12 +4153,12 @@
                           "text_expression": "├ Temp",
                           "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                           "text_size": 14.0,
-                          "paint_color": "#FFF38BA8",
+                          "paint_color": "#FFF491AC",
                           "internal_globals": {
-                            "paint_color": "c_err"
+                            "paint_color": "c_err_text"
                           },
                           "internal_formulas": {
-                            "paint_color": "$gv(c_err)$"
+                            "paint_color": "$gv(c_err_text)$"
                           },
                           "internal_toggles": {
                             "paint_color": 10
@@ -4201,14 +4488,17 @@
                   "shape_width": 105.0,
                   "shape_height": 46.0,
                   "shape_corners": 12.0,
-                  "paint_color": "#FF313244",
+                  "paint_color": "#FF3C344F",
                   "internal_formulas": {
                     "shape_width": "$mu(round, (si(rwidth) - 48) / 3)$",
-                    "paint_color": "$if(gv(view) = \"overview\", gv(c_surface0), #25181825)$"
+                    "paint_color": "$if(gv(view) = \"overview\", gv(c_selected), gv(c_tab_inactive))$"
                   },
                   "internal_toggles": {
                     "shape_width": 10,
                     "paint_color": 10
+                  },
+                  "internal_globals": {
+                    "paint_color": "c_selected"
                   }
                 },
                 {
@@ -4219,14 +4509,17 @@
                   "shape_corners": 12.0,
                   "paint_style": "STROKE",
                   "stroke_width": 1.2,
-                  "paint_color": "#FF45475A",
+                  "paint_color": "#FFCBA6F7",
                   "internal_formulas": {
                     "shape_width": "$mu(round, (si(rwidth) - 48) / 3)$",
-                    "paint_color": "$if(gv(view) = \"overview\", gv(c_surface1), gv(c_surface0))$"
+                    "paint_color": "$if(gv(view) = \"overview\", gv(c_accent), gv(c_surface0))$"
                   },
                   "internal_toggles": {
                     "shape_width": 10,
                     "paint_color": 10
+                  },
+                  "internal_globals": {
+                    "paint_color": "c_accent"
                   }
                 },
                 {
@@ -4235,12 +4528,15 @@
                   "text_expression": "󰍛 Overview",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                   "text_size": 17.5,
-                  "paint_color": "#FFCDD6F4",
+                  "paint_color": "#FFCBA6F7",
                   "internal_formulas": {
-                    "paint_color": "$if(gv(view) = \"overview\", gv(c_text), gv(c_muted))$"
+                    "paint_color": "$if(gv(view) = \"overview\", gv(c_accent_text), gv(c_muted))$"
                   },
                   "internal_toggles": {
                     "paint_color": 10
+                  },
+                  "internal_globals": {
+                    "paint_color": "c_accent_text"
                   }
                 }
               ]
@@ -4263,14 +4559,17 @@
                   "shape_width": 105.0,
                   "shape_height": 46.0,
                   "shape_corners": 12.0,
-                  "paint_color": "#FF313244",
+                  "paint_color": "#FF3C344F",
                   "internal_formulas": {
                     "shape_width": "$mu(round, (si(rwidth) - 48) / 3)$",
-                    "paint_color": "$if(gv(view) = \"containers\", gv(c_surface0), #25181825)$"
+                    "paint_color": "$if(gv(view) = \"containers\", gv(c_selected), gv(c_tab_inactive))$"
                   },
                   "internal_toggles": {
                     "shape_width": 10,
                     "paint_color": 10
+                  },
+                  "internal_globals": {
+                    "paint_color": "c_selected"
                   }
                 },
                 {
@@ -4281,14 +4580,17 @@
                   "shape_corners": 12.0,
                   "paint_style": "STROKE",
                   "stroke_width": 1.2,
-                  "paint_color": "#FF45475A",
+                  "paint_color": "#FFCBA6F7",
                   "internal_formulas": {
                     "shape_width": "$mu(round, (si(rwidth) - 48) / 3)$",
-                    "paint_color": "$if(gv(view) = \"containers\", gv(c_surface1), gv(c_surface0))$"
+                    "paint_color": "$if(gv(view) = \"containers\", gv(c_accent), gv(c_surface0))$"
                   },
                   "internal_toggles": {
                     "shape_width": 10,
                     "paint_color": 10
+                  },
+                  "internal_globals": {
+                    "paint_color": "c_accent"
                   }
                 },
                 {
@@ -4297,12 +4599,15 @@
                   "text_expression": " Docker",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                   "text_size": 17.5,
-                  "paint_color": "#FF6C7086",
+                  "paint_color": "#FFCBA6F7",
                   "internal_formulas": {
-                    "paint_color": "$if(gv(view) = \"containers\", gv(c_text), gv(c_muted))$"
+                    "paint_color": "$if(gv(view) = \"containers\", gv(c_accent_text), gv(c_muted))$"
                   },
                   "internal_toggles": {
                     "paint_color": 10
+                  },
+                  "internal_globals": {
+                    "paint_color": "c_accent_text"
                   }
                 }
               ]
@@ -4330,14 +4635,17 @@
                   "shape_width": 105.0,
                   "shape_height": 46.0,
                   "shape_corners": 12.0,
-                  "paint_color": "#FF313244",
+                  "paint_color": "#FF3C344F",
                   "internal_formulas": {
                     "shape_width": "$mu(round, (si(rwidth) - 48) / 3)$",
-                    "paint_color": "$if(gv(view) = \"info\", gv(c_surface0), #25181825)$"
+                    "paint_color": "$if(gv(view) = \"info\", gv(c_selected), gv(c_tab_inactive))$"
                   },
                   "internal_toggles": {
                     "shape_width": 10,
                     "paint_color": 10
+                  },
+                  "internal_globals": {
+                    "paint_color": "c_selected"
                   }
                 },
                 {
@@ -4348,14 +4656,17 @@
                   "shape_corners": 12.0,
                   "paint_style": "STROKE",
                   "stroke_width": 1.2,
-                  "paint_color": "#FF45475A",
+                  "paint_color": "#FFCBA6F7",
                   "internal_formulas": {
                     "shape_width": "$mu(round, (si(rwidth) - 48) / 3)$",
-                    "paint_color": "$if(gv(view) = \"info\", gv(c_surface1), gv(c_surface0))$"
+                    "paint_color": "$if(gv(view) = \"info\", gv(c_accent), gv(c_surface0))$"
                   },
                   "internal_toggles": {
                     "shape_width": 10,
                     "paint_color": 10
+                  },
+                  "internal_globals": {
+                    "paint_color": "c_accent"
                   }
                 },
                 {
@@ -4364,12 +4675,15 @@
                   "text_expression": "󰋼 Info",
                   "text_family": "kfile://org.kustom.provider/fonts/JetBrainsMonoNerdFont.ttf",
                   "text_size": 17.5,
-                  "paint_color": "#FF6C7086",
+                  "paint_color": "#FFCBA6F7",
                   "internal_formulas": {
-                    "paint_color": "$if(gv(view) = \"info\", gv(c_text), gv(c_muted))$"
+                    "paint_color": "$if(gv(view) = \"info\", gv(c_accent_text), gv(c_muted))$"
                   },
                   "internal_toggles": {
                     "paint_color": 10
+                  },
+                  "internal_globals": {
+                    "paint_color": "c_accent_text"
                   }
                 }
               ]

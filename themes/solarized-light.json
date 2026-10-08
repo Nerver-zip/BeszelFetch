@@ -7,8 +7,11 @@
     "project": "Solarized",
     "repository": "altercation/solarized",
     "revision": "62f656a02f93c5190a8753159e34b385588d5ff3",
-    "path": "solarized.el",
-    "license": "MIT"
+    "path": "README.md",
+    "license": "MIT",
+    "snapshot": "solarized.txt",
+    "sha256": "f10571c994648365faab9c4f83bdd7699aa2cd056f111af5e29099c2673c5bc1",
+    "variant": "light"
   },
   "colors": {
     "base03": "#002B36",
@@ -19,7 +22,6 @@
     "base1": "#93A1A1",
     "base2": "#EEE8D5",
     "base3": "#FDF6E3",
-    "surface_light": "#E4DECD",
     "yellow": "#B58900",
     "orange": "#CB4B16",
     "red": "#DC322F",
@@ -32,11 +34,11 @@
   "semantic": {
     "background": "base3",
     "background_alt": "base2",
-    "surface": "surface_light",
+    "surface": "base2",
     "border": "base1",
-    "text_primary": "base02",
+    "text_primary": "base00",
     "text_secondary": "base01",
-    "text_muted": "base00",
+    "text_muted": "base1",
     "accent": "blue",
     "cpu": "blue",
     "memory": "violet",

@@ -135,6 +135,7 @@ class TestThemeCatalog(unittest.TestCase):
             resolved = resolve_theme(t_id)
             self.assertIsInstance(resolved, ResolvedTheme)
             self.assertEqual(resolved.id, t_id)
+            self.assertEqual(resolved.name, load_theme(t_id)["name"])
             self.assertIn(resolved.mode, ("dark", "light"))
             for role in REQUIRED_SEMANTIC_ROLES:
                 self.assertIn(role, resolved.semantic, f"Missing role '{role}' in {t_id}")
@@ -153,7 +154,7 @@ class TestThemeCatalog(unittest.TestCase):
             self.assertTrue(source.get("license"), f"Missing license for {t_id}")
             rev = source.get("revision", "")
             self.assertTrue(
-                re.match(r"^[0-9a-fA-F]{7,40}$", rev) or rev == "HEAD",
+                re.fullmatch(r"[0-9a-fA-F]{40}", rev),
                 f"Theme '{t_id}' revision '{rev}' must be a pinned git commit hash",
             )
 
@@ -243,9 +244,9 @@ class TestThemeContrastCompliance(unittest.TestCase):
             t = resolve_theme(t_id)
             opacity = DARK_OPACITY if t.is_dark else LIGHT_OPACITY
             bg_raw = t.semantic["background"]
-            text_pri = t.semantic["text_primary"]
+            text_pri = t.kustom_colors["c_text"]
 
-            backdrops = [("#000000", "black")] if t.is_dark else [("#000000", "black"), ("#FFFFFF", "white")]
+            backdrops = [("#000000", "black"), ("#FFFFFF", "white")]
             for backdrop, bd_name in backdrops:
                 eff_bg = composite_color(bg_raw, backdrop, opacity["base"])
                 cr = contrast_ratio(text_pri, eff_bg)
@@ -265,19 +266,21 @@ class TestSyntheticPreview(unittest.TestCase):
         themes_to_check = ["dracula", "nord", "gruvbox-dark", "solarized-dark", "tokyo-night"]
         for t_id in themes_to_check:
             t = resolve_theme(t_id)
-            svg = render_widget_svg(t)
-            self.assertTrue(svg.startswith("<svg"))
-            self.assertTrue(svg.endswith("</svg>"))
-            self.assertIn("atlas", svg)
-            self.assertIn("CPU", svg)
-            self.assertIn("RAM", svg)
+            for view in ("overview", "containers", "info"):
+                svg = render_widget_svg(t, view=view)
+                self.assertTrue(svg.startswith("<svg"))
+                self.assertTrue(svg.endswith("</svg>"))
+                self.assertIn("atlas", svg)
+                self.assertIn("CPU", svg)
+                if view == "containers":
+                    self.assertIn("RAM", svg)
 
-            # Check no Mocha-exclusive colors leaked into non-Mocha SVG
-            theme_own = {c.upper() for c in t.raw_colors.values()}
-            for mocha_hex in CATPPUCCIN_MOCHA_EXCLUSIVE_HEX:
-                if mocha_hex.upper() in theme_own:
-                    continue
-                self.assertNotIn(mocha_hex.upper(), svg.upper())
+                # ARGB converts to SVG RGBA; compare RGB prefixes.
+                theme_own = {c.upper() for c in t.raw_colors.values()}
+                for mocha_hex in CATPPUCCIN_MOCHA_EXCLUSIVE_HEX:
+                    if mocha_hex.upper() in theme_own:
+                        continue
+                    self.assertNotIn(mocha_hex.upper(), svg.upper())
 
     def test_html_gallery_generation(self):
         import tempfile
@@ -301,4 +304,3 @@ class TestSyntheticPreview(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

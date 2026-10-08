@@ -31,7 +31,9 @@ python3 scripts/test_widget_runtime.py --render
 git diff --check
 ```
 
-The theme preview generator creates `dist/theme-preview.html`, an offline self-contained specimen of all 32 curated themes showing palette swatches and simulated widget components.
+The theme preview generator creates `dist/theme-preview.html`, an offline
+gallery of all 32 curated themes, each with separate Overview, Docker and Info
+views. See the [preview contract and options](../docs/THEMES.md#visual-preview-gallery).
 Rendering with `--render` requires `rsvg-convert` and creates `dist/info-local-480.png` and `dist/info-local-640.png`. These previews evaluate emitted ASCII/text and row positions; they do not emulate native Kustom layout, typography or Flow timing.
 
 ## Handoff and limits
@@ -54,3 +56,93 @@ private Hub. GPU inventory is not fabricated when Beszel does not report it.
 - [Beszel types](https://github.com/henrygd/beszel/blob/v0.18.8/internal/site/src/types.d.ts)
 - [Fastfetch attribution and pinned assets](assets/fastfetch/README.md)
 - [Kustom text conversions](https://docs.kustom.rocks/tags/Function/page/3/)
+
+## Theme preview revision — 2026-10-07
+
+The earlier local Info checks above describe the September work. This revision
+used ADB captures of the installed Latte widget's three views as a visual
+reference. Captures contain real telemetry and remain outside the repository.
+The widget's known Network/Docker white-text defects were not changed.
+
+- `scripts/kustom_preview.py` now renders the canonical generated module tree;
+  `scripts/kustom_eval.py` shares the existing offline evaluator with runtime
+  tests. `scripts/theme_preview.py` builds the full offline gallery.
+- `examples/fixtures/theme-preview.json` supplies synthetic host, metrics,
+  containers and Info caches. Normal, stale, empty and missing-field states are
+  available; stale retains the normal cached measurements.
+- Nine preview regressions pass: all-theme geometry invariance, separate views,
+  clipping masks without painted badge boxes, serialized white defaults, native
+  text visibility, source-driven changes, fallback states at three frame sizes,
+  Docker pages, unsupported-feature failures and embedded gallery assets.
+- Chrome checks pass with network disabled: 32 themes, 96 view panels, 160
+  rendered pages; theme selection/arrows, light filtering, comparison mode,
+  widget tabs, Docker buttons and keyboard activation, bounded pages, backdrop
+  changes and local image/clear controls. Twelve screenshots across Mocha,
+  Latte, Nord and Ayu Light were captured; representative outputs were inspected.
+- Catalog validation passes for all 32 themes. Full unittest discovery runs
+  91 tests with one existing artifact mismatch in
+  `test_archive_and_dist_match_clip`: the widget archive differs from its copy
+  in `dist`. Preview generation does not modify either archive.
+
+The mock follows serialized geometry and the bundled font, with native captures
+informing ring stroke bounds and ignored TextModule layer visibility. It is
+still not a pixel-identical native renderer: typography, launcher scaling and
+wallpaper effects remain device checks. No live API or Flow behavior is newly
+validated by the gallery.
+
+
+## Theme colors revision — 2026-10-08
+
+This revision implements the approved palette/binding/uniqueness work. The
+October 7 white-text defects described above are fixed in the generated tree.
+No revised widget has been imported or exported through native KWGT yet.
+
+### Changed
+
+- All 32 catalog entries reproduce named colors from checksum-pinned upstream
+  snapshots with explicit variants. Atom One palettes now come from Atom;
+  Tokyo Night uses official generated exports; Kanagawa Lotus, Palenight,
+  Everforest and other imports have corrected colors/backgrounds. License
+  evidence and source checks are vendored for offline reproducibility.
+- Every TextModule and ProgressModule has an active native color binding.
+  Network details and Docker headings no longer use missing white defaults.
+- Readable accent text companions are separate from metric graphics. Minimal
+  contrast corrections leave the canonical upstream colors unchanged.
+- Header, refresh/pagination actions and active navigation use the main accent.
+  Family-specific metric mappings diversify unrelated palettes while sibling
+  variants retain intentional similarity.
+- `alert` adds synthetic offline/high-load data alongside normal, stale, empty
+  and missing-field preview states. This changes mock data only.
+- Default clips, inspectable preset definition and development archives were
+  regenerated. Archives are not native KWGT exports.
+
+### Verification
+
+- 102 tests pass, including exact upstream extraction/checksums, source mutation
+  rejection, active bindings, separate readable text, primary-accent states,
+  family mappings and cross-theme structural invariance.
+- All 32 themes pass `validate_themes.py`: three views, five data states, black
+  and white backdrops. Tests repeat the rendered contrast checks at 480 × 376
+  and 660 × 424 (1,920 view/state/backdrop/frame combinations).
+- Text-center samples meet 4.5:1; rings, status dots, active/action outlines and
+  decorative distro art meet 3:1 in the evaluated contexts. The renderer models
+  filled-shape compositing, not antialiasing or arbitrary wallpaper effects.
+- A comparison against the pre-change generated tree confirms identical
+  geometry, data expressions, visibility and touch actions; non-color globals
+  (excluding ordering indices and the theme-colored art catalog) and Flows are
+  unchanged. Cross-theme rendered positions remain identical.
+- Chrome offline checks pass: 32 themes, 96 view panels, 160 pages, theme/mode
+  controls, widget navigation, Docker keyboard/pagination, backdrops and local
+  image controls. Contact sheets of all 32 Overview views and detailed light
+  Docker/Info views were inspected; 48 comparison screenshots remain in `/tmp`
+  with synthetic data only. They are not README assets.
+- `theme_sources.py --fetch` verified exact public commit URLs and checksums;
+  normal source checks require no network. `git diff --check` passes.
+
+### Remaining native confirmation
+
+Import the regenerated clip on the device and inspect all three views over the
+actual wallpaper. Confirm text baselines, launcher scaling, touch behavior and
+native color formula evaluation. Final release presets must be exported by KWGT
+itself. Existing runtime tests cover cache/failure behavior; this revision makes
+no new claim of live Beszel or Android Flow execution.

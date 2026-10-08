@@ -35,8 +35,8 @@ The catalog includes 32 curated themes covering both dark and light modes across
 | `monokai` | Monokai | Dark | `tinted-theming/schemes` | MIT |
 | `nightfox` | Nightfox | Dark | `EdenEast/nightfox.nvim` | MIT |
 | `nord` | Nord | Dark | `nordtheme/nord` | MIT |
-| `one-dark` | One Dark | Dark | `tinted-theming/schemes` | MIT |
-| `one-light` | One Light | Light | `tinted-theming/schemes` | MIT |
+| `one-dark` | One Dark | Dark | `atom/one-dark-syntax` | MIT |
+| `one-light` | One Light | Light | `atom/one-light-syntax` | MIT |
 | `oxocarbon-dark` | Oxocarbon Dark | Dark | `nyoom-engineering/oxocarbon.nvim` | MIT |
 | `palenight` | Material Palenight | Dark | `tinted-theming/schemes` | MIT |
 | `rose-pine` | Rosé Pine | Dark | `rose-pine/palette` | MIT |
@@ -67,7 +67,10 @@ Every file in `themes/<theme-id>.json` must follow this structure:
     "repository": "owner/repo",
     "revision": "pinned-40-char-git-commit-sha",
     "path": "path/in/upstream/repo",
-    "license": "SPDX-License-Identifier"
+    "license": "SPDX-License-Identifier",
+    "snapshot": "local-upstream-file.txt",
+    "sha256": "sha256-of-source-bytes",
+    "variant": "explicit-upstream-variant"
   },
   "colors": {
     "color_name": "#RRGGBB"
@@ -137,7 +140,9 @@ BeszelFetch uses translucent card backgrounds. The opacity policy is separated f
 
 1. Research the canonical open-source upstream repository.
 2. Pin the exact git commit SHA and identify the license.
-3. Create `themes/<theme-id>.json`.
+3. Add the pinned raw source, checksum, extractor, license evidence and variant
+   to `themes/upstream/manifest.json`, then create `themes/<theme-id>.json`.
+   `python3 scripts/theme_sources.py` must reproduce its named colors exactly.
 4. Validate the theme using:
    ```bash
    python scripts/validate_themes.py --theme <theme-id>
@@ -150,3 +155,18 @@ BeszelFetch uses translucent card backgrounds. The opacity policy is separated f
    ```bash
    python scripts/theme_preview.py
    ```
+
+## Readable colors and provenance
+
+`colors` contains the pinned upstream extraction only. `semantic` chooses roles;
+`scripts/theme_catalog.py` derives readable text companions, metric graphics,
+selected surfaces and ring tracks at build time. Small text uses `c_*_text`
+companions; decorative rings retain separate `c_*` globals. Source colors remain
+unchanged. Oxocarbon's documented optional `derived_colors` contains app-only
+warning/high HSV recipes.
+
+See [source variants, contrast policy and family assignments](../docs/THEMES.md#accessibility-and-contrast).
+The manifest includes license texts; Ayu's pinned repository declares MIT in
+`package.json` without a root license text, so that declaration is retained as
+license evidence. Generated `.kwgt` files are development packages; release
+presets must still be exported from KWGT itself.
