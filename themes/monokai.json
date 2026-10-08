@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "monokai",
+  "name": "Monokai",
+  "mode": "dark",
+  "source": {
+    "project": "Monokai",
+    "repository": "tinted-theming/schemes",
+    "revision": "d70255b752ac8328ee3d549c72a1a55ce5fc794f",
+    "path": "base16/monokai.yaml",
+    "license": "MIT",
+    "snapshot": "monokai.txt",
+    "sha256": "fd949370aadb9d0847ee46091dec77122975021b59259222ba765b290cc71b85",
+    "variant": "base16"
+  },
+  "colors": {
+    "base00": "#272822",
+    "base01": "#383830",
+    "base02": "#49483E",
+    "base03": "#75715E",
+    "base04": "#A59F85",
+    "base05": "#F8F8F2",
+    "base06": "#F5F4F1",
+    "base07": "#F9F8F5",
+    "base08": "#F92672",
+    "base09": "#FD971F",
+    "base0A": "#F4BF75",
+    "base0B": "#A6E22E",
+    "base0C": "#A1EFE4",
+    "base0D": "#66D9EF",
+    "base0E": "#AE81FF",
+    "base0F": "#CC6633"
+  },
+  "semantic": {
+    "background": "base00",
+    "background_alt": "base00",
+    "surface": "base01",
+    "border": "base02",
+    "text_primary": "base05",
+    "text_secondary": "base04",
+    "text_muted": "base03",
+    "accent": "base0B",
+    "cpu": "base0B",
+    "memory": "base08",
+    "disk": "base0E",
+    "network": "base0D",
+    "success": "base0B",
+    "warning": "base0A",
+    "high": "base09",
+    "error": "base08"
+  }
+}

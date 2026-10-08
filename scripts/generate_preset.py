@@ -31,8 +31,8 @@ def project(node):
     return result
 
 
-def build_kustom_preset():
-    komponent = build_kustom_clip(write_outputs=False)
+def build_kustom_preset(theme=None, output_path=None):
+    komponent = build_kustom_clip(write_outputs=False, theme=theme)
     definition = {
         "kustom_version": 37000,
         "widget_spec": {"title": "Beszel Homelab Monitor",
@@ -44,10 +44,17 @@ def build_kustom_preset():
         "flows": [{"id": f["name"], "native_id": f["id"], "triggers": f["t"], "actions": f["a"]}
                   for f in komponent["internal_flows"]],
     }
-    PRESET_FILE.write_text(json.dumps(definition, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"✓ Preset definition successfully generated at: {PRESET_FILE}")
+    target_path = Path(output_path) if output_path else PRESET_FILE
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    target_path.write_text(json.dumps(definition, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"✓ Preset definition successfully generated at: {target_path}")
     return definition
 
 
 if __name__ == "__main__":
-    build_kustom_preset()
+    import argparse
+    parser = argparse.ArgumentParser(description="Generate Kustom preset JSON definition.")
+    parser.add_argument("--theme", help="Theme ID to use for colors (default: catppuccin-mocha)")
+    parser.add_argument("--output", help="Output path for preset JSON (default: widget/preset.json)")
+    args = parser.parse_args()
+    build_kustom_preset(theme=args.theme, output_path=args.output)

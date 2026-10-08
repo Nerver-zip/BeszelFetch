@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "id": "tomorrow-night",
+  "name": "Tomorrow Night",
+  "mode": "dark",
+  "source": {
+    "project": "Tomorrow Night",
+    "repository": "chriskempson/tomorrow-theme",
+    "revision": "ccf6666d888198d341b26b3a99d0bc96500ad503",
+    "path": "vim/colors/Tomorrow-Night.vim",
+    "license": "MIT",
+    "snapshot": "tomorrow-night.txt",
+    "sha256": "36b9ff2280560a9b2823f6d50556c9798f36571721ac4a95f21627ddcecb2206",
+    "variant": "gui"
+  },
+  "colors": {
+    "foreground": "#C5C8C6",
+    "background": "#1D1F21",
+    "selection": "#373B41",
+    "line": "#282A2E",
+    "comment": "#969896",
+    "red": "#CC6666",
+    "orange": "#DE935F",
+    "yellow": "#F0C674",
+    "green": "#B5BD68",
+    "aqua": "#8ABEB7",
+    "blue": "#81A2BE",
+    "purple": "#B294BB",
+    "window": "#4D5057"
+  },
+  "semantic": {
+    "background": "background",
+    "background_alt": "line",
+    "surface": "selection",
+    "border": "window",
+    "text_primary": "foreground",
+    "text_secondary": "foreground",
+    "text_muted": "comment",
+    "accent": "blue",
+    "cpu": "blue",
+    "memory": "orange",
+    "disk": "green",
+    "network": "aqua",
+    "success": "green",
+    "warning": "yellow",
+    "high": "orange",
+    "error": "red"
+  }
+}

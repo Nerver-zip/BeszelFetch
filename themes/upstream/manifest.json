@@ -1,0 +1,501 @@
+{
+  "version": 1,
+  "sources": {
+    "ayu-dark": {
+      "project": "Ayu",
+      "repository": "ayu-theme/ayu-colors",
+      "revision": "b0fd979a1ddf050101b43311fa598a1a9c5f1bbc",
+      "path": "themes/dark.yaml",
+      "license": "MIT",
+      "extractor": "ayu-seeds",
+      "file": "ayu-dark.txt",
+      "sha256": "e2d7c9f40875a59202462fd37fce0763644509e1081c8f91059447af3ac2372f"
+    },
+    "ayu-light": {
+      "project": "Ayu",
+      "repository": "ayu-theme/ayu-colors",
+      "revision": "b0fd979a1ddf050101b43311fa598a1a9c5f1bbc",
+      "path": "themes/light.yaml",
+      "license": "MIT",
+      "extractor": "ayu-seeds",
+      "file": "ayu-light.txt",
+      "sha256": "ebbd2bf2631b7a9b2d9ae3f64cdb8a086d41077fd11b31cd0a3d3ecb2c86af83"
+    },
+    "ayu-mirage": {
+      "project": "Ayu",
+      "repository": "ayu-theme/ayu-colors",
+      "revision": "b0fd979a1ddf050101b43311fa598a1a9c5f1bbc",
+      "path": "themes/mirage.yaml",
+      "license": "MIT",
+      "extractor": "ayu-seeds",
+      "file": "ayu-mirage.txt",
+      "sha256": "5eaa65b258bb9a2e4c3fc344648c7d9f62fc327802946e450a6af64b741e9d32"
+    },
+    "catppuccin": {
+      "project": "Catppuccin",
+      "repository": "catppuccin/palette",
+      "revision": "07d02aa110ef9eb7e7427afca5c73ba9cf7f8ebd",
+      "path": "palette.json",
+      "license": "MIT",
+      "extractor": "catppuccin",
+      "file": "catppuccin.txt",
+      "sha256": "4bc114bb6b3c9a9c9e156564aa84625aef32c5da514d9dd431cf1fcad433a05f"
+    },
+    "dracula": {
+      "project": "Dracula",
+      "repository": "dracula/dracula-theme",
+      "revision": "1e04a4b768302fa2de37d09cc7b8087eabcd3ed8",
+      "path": "README.md",
+      "license": "MIT",
+      "extractor": "dracula",
+      "file": "dracula.txt",
+      "sha256": "3f798014d8e25a4c15f6ad26bc767d99bfc367ec3f9883bd4b5ce0fe562647d0"
+    },
+    "everforest": {
+      "project": "Everforest",
+      "repository": "sainnhe/everforest",
+      "revision": "85a86eb62409e3ec88713bff3d1b9d7374e112e4",
+      "path": "autoload/everforest.vim",
+      "license": "MIT",
+      "extractor": "everforest",
+      "file": "everforest.txt",
+      "sha256": "4ddab3c8d96e29310a21441a797e69a2c520ec074db9c20a7eaea866d8b5a8c4"
+    },
+    "gruvbox": {
+      "project": "Gruvbox",
+      "repository": "morhetz/gruvbox",
+      "revision": "ef8864bb42bf244f0295d1c5a403b27e3d139695",
+      "path": "colors/gruvbox.vim",
+      "license": "MIT",
+      "extractor": "gruvbox",
+      "file": "gruvbox.txt",
+      "sha256": "55116926ba2b625837d9ae89349a5688d60d0b32acdbd8887e1c0d225f079c3d"
+    },
+    "kanagawa": {
+      "project": "Kanagawa",
+      "repository": "rebelot/kanagawa.nvim",
+      "revision": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3",
+      "path": "lua/kanagawa/colors.lua",
+      "license": "MIT",
+      "extractor": "lua",
+      "file": "kanagawa.txt",
+      "sha256": "bad6ccb01c34f16d38083c4df2ead9f03536de81d6ab5d95b1bdf4b0f8129240"
+    },
+    "monokai": {
+      "project": "Monokai",
+      "repository": "tinted-theming/schemes",
+      "revision": "d70255b752ac8328ee3d549c72a1a55ce5fc794f",
+      "path": "base16/monokai.yaml",
+      "license": "MIT",
+      "extractor": "base16",
+      "file": "monokai.txt",
+      "sha256": "fd949370aadb9d0847ee46091dec77122975021b59259222ba765b290cc71b85"
+    },
+    "nightfox": {
+      "project": "Nightfox",
+      "repository": "EdenEast/nightfox.nvim",
+      "revision": "4dacd3f0185a2227bdf3b6c0975a8f0bf87cac9a",
+      "path": "lua/nightfox/palette/nightfox.lua",
+      "license": "MIT",
+      "extractor": "lua",
+      "file": "nightfox.txt",
+      "sha256": "78b787bb79226de1b92b550dcb2942c9f56e3994363b591448bdbf1bc6bcaaf5"
+    },
+    "nord": {
+      "project": "Nord",
+      "repository": "nordtheme/nord",
+      "revision": "1cef71605416a222e57225b544540ce0fcec18d4",
+      "path": "src/nord.css",
+      "license": "MIT",
+      "extractor": "nord",
+      "file": "nord.txt",
+      "sha256": "b931ac3732582b2066b2d6cadec02d9820ba7081e6e3e404c31cb62d9315a962"
+    },
+    "one-dark": {
+      "project": "One Dark",
+      "repository": "atom/one-dark-syntax",
+      "revision": "9c96f4454362267ac45322063e193ccf9d2debb1",
+      "path": "styles/colors.less",
+      "license": "MIT",
+      "extractor": "atom-less",
+      "file": "one-dark.txt",
+      "sha256": "3f060ae1d0f2ebb27ccb60cf5088bd68ddaa8f38288569bf4ac47015b4595438"
+    },
+    "one-light": {
+      "project": "One Light",
+      "repository": "atom/one-light-syntax",
+      "revision": "d84579027410c576086dfca14d934c4bd74b0438",
+      "path": "styles/colors.less",
+      "license": "MIT",
+      "extractor": "atom-less",
+      "file": "one-light.txt",
+      "sha256": "f22d02919b3986ed73484eb6d6ae706a7d8781244ce71c3a85194d50118b9937"
+    },
+    "oxocarbon-dark": {
+      "project": "Oxocarbon",
+      "repository": "nyoom-engineering/oxocarbon.nvim",
+      "revision": "cd6523a0836d6e8ee823d343149fd06c7b71fdde",
+      "path": "lua/oxocarbon/init.lua",
+      "license": "MIT",
+      "extractor": "oxocarbon",
+      "file": "oxocarbon-dark.txt",
+      "sha256": "d6a79138b07db952dba6e24d81df64e04b568fd279330c9b11f021d51d9719a2"
+    },
+    "palenight": {
+      "project": "Material Palenight",
+      "repository": "tinted-theming/schemes",
+      "revision": "d70255b752ac8328ee3d549c72a1a55ce5fc794f",
+      "path": "base16/material-palenight.yaml",
+      "license": "MIT",
+      "extractor": "base16",
+      "file": "palenight.txt",
+      "sha256": "7b1d9fc87ab04888698cb0676e538126ce129a10dd1dd0974ae58965c680c95e"
+    },
+    "rose-pine": {
+      "project": "Ros\u00e9 Pine",
+      "repository": "rose-pine/palette",
+      "revision": "92af52b465ab6e47437aca223c9b8d3009a2023b",
+      "path": "palette.json",
+      "license": "MIT",
+      "extractor": "rose-pine",
+      "file": "rose-pine.txt",
+      "sha256": "8b71546357c65ee23715e77f144d914e5f415f44f3ef3b0179bbe1f17d69211d"
+    },
+    "solarized": {
+      "project": "Solarized",
+      "repository": "altercation/solarized",
+      "revision": "62f656a02f93c5190a8753159e34b385588d5ff3",
+      "path": "README.md",
+      "license": "MIT",
+      "extractor": "solarized",
+      "file": "solarized.txt",
+      "sha256": "f10571c994648365faab9c4f83bdd7699aa2cd056f111af5e29099c2673c5bc1"
+    },
+    "tokyo-night": {
+      "project": "Tokyo Night",
+      "repository": "folke/tokyonight.nvim",
+      "revision": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
+      "path": "extras/lua/tokyonight_night.lua",
+      "license": "Apache-2.0",
+      "extractor": "tokyo-export",
+      "file": "tokyo-night.txt",
+      "sha256": "30cc3cd607e69d8e951fca713016cef239e7e8b748af94363cfa737c5602cc86"
+    },
+    "tokyo-night-day": {
+      "project": "Tokyo Night",
+      "repository": "folke/tokyonight.nvim",
+      "revision": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
+      "path": "extras/lua/tokyonight_day.lua",
+      "license": "Apache-2.0",
+      "extractor": "tokyo-export",
+      "file": "tokyo-night-day.txt",
+      "sha256": "32e64b3fa2788d66a5fe87e16d5b0ce58520227f4eccc5dc89572de606f59a2e"
+    },
+    "tokyo-night-moon": {
+      "project": "Tokyo Night",
+      "repository": "folke/tokyonight.nvim",
+      "revision": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
+      "path": "extras/lua/tokyonight_moon.lua",
+      "license": "Apache-2.0",
+      "extractor": "tokyo-export",
+      "file": "tokyo-night-moon.txt",
+      "sha256": "89265393d37bb21199e509d7c3f91c9beb731b5aa839651113156a11f2dceacc"
+    },
+    "tokyo-night-storm": {
+      "project": "Tokyo Night",
+      "repository": "folke/tokyonight.nvim",
+      "revision": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
+      "path": "extras/lua/tokyonight_storm.lua",
+      "license": "Apache-2.0",
+      "extractor": "tokyo-export",
+      "file": "tokyo-night-storm.txt",
+      "sha256": "c66c06e6dd61dd67302e6af2c861c18e9576fc2f0ec5d9b25fd8305aa4411ed8"
+    },
+    "tomorrow-night": {
+      "project": "Tomorrow Night",
+      "repository": "chriskempson/tomorrow-theme",
+      "revision": "ccf6666d888198d341b26b3a99d0bc96500ad503",
+      "path": "vim/colors/Tomorrow-Night.vim",
+      "license": "MIT",
+      "extractor": "tomorrow",
+      "file": "tomorrow-night.txt",
+      "sha256": "36b9ff2280560a9b2823f6d50556c9798f36571721ac4a95f21627ddcecb2206"
+    }
+  },
+  "themes": {
+    "ayu-dark": {
+      "source": "ayu-dark",
+      "variant": "dark"
+    },
+    "ayu-light": {
+      "source": "ayu-light",
+      "variant": "light"
+    },
+    "ayu-mirage": {
+      "source": "ayu-mirage",
+      "variant": "mirage"
+    },
+    "catppuccin-frappe": {
+      "source": "catppuccin",
+      "variant": "frappe"
+    },
+    "catppuccin-latte": {
+      "source": "catppuccin",
+      "variant": "latte"
+    },
+    "catppuccin-macchiato": {
+      "source": "catppuccin",
+      "variant": "macchiato"
+    },
+    "catppuccin-mocha": {
+      "source": "catppuccin",
+      "variant": "mocha"
+    },
+    "dracula": {
+      "source": "dracula",
+      "variant": "dracula-oss"
+    },
+    "everforest-dark": {
+      "source": "everforest",
+      "variant": "dark-medium"
+    },
+    "everforest-light": {
+      "source": "everforest",
+      "variant": "light-medium"
+    },
+    "gruvbox-dark": {
+      "source": "gruvbox",
+      "variant": "dark-medium"
+    },
+    "gruvbox-light": {
+      "source": "gruvbox",
+      "variant": "light-medium"
+    },
+    "kanagawa-dragon": {
+      "source": "kanagawa",
+      "variant": "dragon"
+    },
+    "kanagawa-lotus": {
+      "source": "kanagawa",
+      "variant": "lotus"
+    },
+    "kanagawa-wave": {
+      "source": "kanagawa",
+      "variant": "wave"
+    },
+    "monokai": {
+      "source": "monokai",
+      "variant": "base16"
+    },
+    "nightfox": {
+      "source": "nightfox",
+      "variant": "nightfox"
+    },
+    "nord": {
+      "source": "nord",
+      "variant": "nord-16"
+    },
+    "one-dark": {
+      "source": "one-dark",
+      "variant": "default"
+    },
+    "one-light": {
+      "source": "one-light",
+      "variant": "default"
+    },
+    "oxocarbon-dark": {
+      "source": "oxocarbon-dark",
+      "variant": "dark"
+    },
+    "palenight": {
+      "source": "palenight",
+      "variant": "base16"
+    },
+    "rose-pine": {
+      "source": "rose-pine",
+      "variant": "main"
+    },
+    "rose-pine-dawn": {
+      "source": "rose-pine",
+      "variant": "dawn"
+    },
+    "rose-pine-moon": {
+      "source": "rose-pine",
+      "variant": "moon"
+    },
+    "solarized-dark": {
+      "source": "solarized",
+      "variant": "dark"
+    },
+    "solarized-light": {
+      "source": "solarized",
+      "variant": "light"
+    },
+    "tokyo-night": {
+      "source": "tokyo-night",
+      "variant": "night"
+    },
+    "tokyo-night-day": {
+      "source": "tokyo-night-day",
+      "variant": "day"
+    },
+    "tokyo-night-moon": {
+      "source": "tokyo-night-moon",
+      "variant": "moon"
+    },
+    "tokyo-night-storm": {
+      "source": "tokyo-night-storm",
+      "variant": "storm"
+    },
+    "tomorrow-night": {
+      "source": "tomorrow-night",
+      "variant": "gui"
+    }
+  },
+  "licenses": {
+    "ayu-theme/ayu-colors": {
+      "repository": "ayu-theme/ayu-colors",
+      "revision": "b0fd979a1ddf050101b43311fa598a1a9c5f1bbc",
+      "path": "package.json",
+      "file": "licenses/ayu-theme--ayu-colors.txt",
+      "sha256": "aaee1bd6088ba84a1a47316f4b92131d6aa87acb6553340c41762fa24dad9fb5",
+      "license": "MIT"
+    },
+    "catppuccin/palette": {
+      "repository": "catppuccin/palette",
+      "revision": "07d02aa110ef9eb7e7427afca5c73ba9cf7f8ebd",
+      "path": "LICENSE",
+      "file": "licenses/catppuccin--palette.txt",
+      "sha256": "814096d2c34cc216c624738a49356f32b7237733b4f7edb0685f4e50ef5074ba",
+      "license": "MIT"
+    },
+    "dracula/dracula-theme": {
+      "repository": "dracula/dracula-theme",
+      "revision": "1e04a4b768302fa2de37d09cc7b8087eabcd3ed8",
+      "path": "LICENSE",
+      "file": "licenses/dracula--dracula-theme.txt",
+      "sha256": "38b806a7e799cca4e9821e6f8d65cf0d8bfaaddbe454b41f12e5baad52d310f1",
+      "license": "MIT"
+    },
+    "sainnhe/everforest": {
+      "repository": "sainnhe/everforest",
+      "revision": "85a86eb62409e3ec88713bff3d1b9d7374e112e4",
+      "path": "LICENSE",
+      "file": "licenses/sainnhe--everforest.txt",
+      "sha256": "6504b9e62794cb58b61c90ea5fe598274086119f2126b8d8245708b2bfcc0e36",
+      "license": "MIT"
+    },
+    "morhetz/gruvbox": {
+      "repository": "morhetz/gruvbox",
+      "revision": "ef8864bb42bf244f0295d1c5a403b27e3d139695",
+      "path": "package.json",
+      "file": "licenses/morhetz--gruvbox.txt",
+      "sha256": "394c454f753fd4d1dbfe20248bdc56aeb1e9edd9866f6f5e7b786de4b1b2b958",
+      "license": "MIT"
+    },
+    "rebelot/kanagawa.nvim": {
+      "repository": "rebelot/kanagawa.nvim",
+      "revision": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3",
+      "path": "LICENSE",
+      "file": "licenses/rebelot--kanagawa.nvim.txt",
+      "sha256": "dfce81e2e5bf5b5b1b440269abc551ddf96a673be9fdf64f082d5802787a4b04",
+      "license": "MIT"
+    },
+    "tinted-theming/schemes": {
+      "repository": "tinted-theming/schemes",
+      "revision": "d70255b752ac8328ee3d549c72a1a55ce5fc794f",
+      "path": "LICENSE",
+      "file": "licenses/tinted-theming--schemes.txt",
+      "sha256": "7edf0999a3912df0383b383f1464e9e97c282051a4de95f651fdaa63dd224231",
+      "license": "MIT"
+    },
+    "EdenEast/nightfox.nvim": {
+      "repository": "EdenEast/nightfox.nvim",
+      "revision": "4dacd3f0185a2227bdf3b6c0975a8f0bf87cac9a",
+      "path": "LICENSE",
+      "file": "licenses/EdenEast--nightfox.nvim.txt",
+      "sha256": "280a27a527db4e93e03d525a1226ee66ca96a2cbaedb3517eccfba40ac0d7a9f",
+      "license": "MIT"
+    },
+    "nordtheme/nord": {
+      "repository": "nordtheme/nord",
+      "revision": "1cef71605416a222e57225b544540ce0fcec18d4",
+      "path": "package.json",
+      "file": "licenses/nordtheme--nord.txt",
+      "sha256": "09703562f19d8d8242eac813e39aacf46fb6ba93f87e89c7080c798e7dc56e34",
+      "license": "MIT"
+    },
+    "atom/one-dark-syntax": {
+      "repository": "atom/one-dark-syntax",
+      "revision": "9c96f4454362267ac45322063e193ccf9d2debb1",
+      "path": "LICENSE.md",
+      "file": "licenses/atom--one-dark-syntax.txt",
+      "sha256": "e1bd6bab503e4d7990504df1e646f6e7465a9096648304335e4c0b55c88f1f54",
+      "license": "MIT"
+    },
+    "atom/one-light-syntax": {
+      "repository": "atom/one-light-syntax",
+      "revision": "d84579027410c576086dfca14d934c4bd74b0438",
+      "path": "LICENSE.md",
+      "file": "licenses/atom--one-light-syntax.txt",
+      "sha256": "e1bd6bab503e4d7990504df1e646f6e7465a9096648304335e4c0b55c88f1f54",
+      "license": "MIT"
+    },
+    "nyoom-engineering/oxocarbon.nvim": {
+      "repository": "nyoom-engineering/oxocarbon.nvim",
+      "revision": "cd6523a0836d6e8ee823d343149fd06c7b71fdde",
+      "path": "LICENSE",
+      "file": "licenses/nyoom-engineering--oxocarbon.nvim.txt",
+      "sha256": "e22b998dba1ee4b843284b96352f9b43f30db68549f062d98331eb705ea03139",
+      "license": "MIT"
+    },
+    "rose-pine/palette": {
+      "repository": "rose-pine/palette",
+      "revision": "92af52b465ab6e47437aca223c9b8d3009a2023b",
+      "path": "LICENSE",
+      "file": "licenses/rose-pine--palette.txt",
+      "sha256": "0e691132d5d92a848a1688b90fd4c662f62f78f3bd550ba46826ec31ec98fc70",
+      "license": "MIT"
+    },
+    "altercation/solarized": {
+      "repository": "altercation/solarized",
+      "revision": "62f656a02f93c5190a8753159e34b385588d5ff3",
+      "path": "LICENSE",
+      "file": "licenses/altercation--solarized.txt",
+      "sha256": "494aefdabf86acce06bd63001ad8aedad4ee38da23509d3f917d95aa3368b9a6",
+      "license": "MIT"
+    },
+    "folke/tokyonight.nvim": {
+      "repository": "folke/tokyonight.nvim",
+      "revision": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
+      "path": "LICENSE",
+      "file": "licenses/folke--tokyonight.nvim.txt",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "license": "Apache-2.0"
+    },
+    "chriskempson/tomorrow-theme": {
+      "repository": "chriskempson/tomorrow-theme",
+      "revision": "ccf6666d888198d341b26b3a99d0bc96500ad503",
+      "path": "LICENSE.md",
+      "file": "licenses/chriskempson--tomorrow-theme.txt",
+      "sha256": "a9773fd575f48ea3648b54eeaf09d1512a9f0c7c20d284dc3f8295bd92123bf9",
+      "license": "MIT"
+    }
+  },
+  "support_sources": {
+    "oxocarbon-utils": {
+      "repository": "nyoom-engineering/oxocarbon.nvim",
+      "revision": "cd6523a0836d6e8ee823d343149fd06c7b71fdde",
+      "path": "lua/oxocarbon/colorutils.lua",
+      "file": "oxocarbon-utils.txt",
+      "sha256": "c4b4c8f949a29ab137ad499d9e4ceacefb5cfbd847fe3a04fef07ea24685e9ac"
+    },
+    "kanagawa-ui": {
+      "repository": "rebelot/kanagawa.nvim",
+      "revision": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3",
+      "path": "lua/kanagawa/themes.lua",
+      "file": "kanagawa-ui.txt",
+      "sha256": "da4cbc68ac2b25a1dcea325da3354396068bb007674c51fac5a9184f08a697cf"
+    }
+  }
+}

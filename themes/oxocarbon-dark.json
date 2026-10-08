@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "id": "oxocarbon-dark",
+  "name": "Oxocarbon Dark",
+  "mode": "dark",
+  "source": {
+    "project": "Oxocarbon",
+    "repository": "nyoom-engineering/oxocarbon.nvim",
+    "revision": "cd6523a0836d6e8ee823d343149fd06c7b71fdde",
+    "path": "lua/oxocarbon/init.lua",
+    "license": "MIT",
+    "snapshot": "oxocarbon-dark.txt",
+    "sha256": "d6a79138b07db952dba6e24d81df64e04b568fd279330c9b11f021d51d9719a2",
+    "variant": "dark"
+  },
+  "colors": {
+    "base00": "#161616",
+    "base06": "#FFFFFF",
+    "base09": "#78A9FF",
+    "base07": "#08BDBA",
+    "base08": "#3DDBD9",
+    "base10": "#EE5396",
+    "base11": "#33B1FF",
+    "base12": "#FF7EB6",
+    "base13": "#42BE65",
+    "base14": "#BE95FF",
+    "base15": "#82CFFF",
+    "blend": "#131313",
+    "base01": "#262626",
+    "base02": "#393939",
+    "base03": "#525252",
+    "base04": "#D0D0D0",
+    "base05": "#F2F2F2"
+  },
+  "semantic": {
+    "background": "base00",
+    "background_alt": "blend",
+    "surface": "base01",
+    "border": "base02",
+    "text_primary": "base05",
+    "text_secondary": "base04",
+    "text_muted": "base03",
+    "accent": "base08",
+    "cpu": "base08",
+    "memory": "base12",
+    "disk": "base13",
+    "network": "base11",
+    "success": "base13",
+    "warning": "warning",
+    "high": "high",
+    "error": "base10"
+  },
+  "derived_colors": {
+    "warning": {
+      "from": "base10",
+      "hue": 42
+    },
+    "high": {
+      "from": "base10",
+      "hue": 25
+    }
+  }
+}

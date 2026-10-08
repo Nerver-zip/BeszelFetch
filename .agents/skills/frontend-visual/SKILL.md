@@ -12,21 +12,25 @@ Apply rigorous frontend engineering design systems to KWGT without assuming HTML
 ## Design Tokens
 
 Never pick arbitrary ad-hoc hex values.
-Reference `examples/palette.json`.
+Reference `themes/<theme-id>.json` through `scripts/theme_catalog.py` (with `examples/palette.json` as the reference Catppuccin Mocha specification).
 
-Semantic Tokens:
-- `bg`
-- `bg_alt`
-- `border`
-- `text`
-- `muted`
-- `cpu`
-- `memory`
-- `disk`
-- `network`
-- `success`
-- `warning`
-- `danger`
+Required Semantic Roles:
+- `background` (`c_base`)
+- `background_alt` (`c_mantle`)
+- `surface` (`c_surface0`)
+- `border` (`c_surface1`)
+- `text_primary` (`c_text`)
+- `text_secondary` (`c_subtext`)
+- `text_muted` (`c_muted`)
+- `accent` (`c_accent`)
+- `cpu` (`c_cpu`)
+- `memory` (`c_ram`)
+- `disk` (`c_disk`)
+- `network` (`c_net`)
+- `success` (`c_ok`)
+- `warning` (`c_warn`)
+- `high` (`c_peach`)
+- `error` (`c_err`)
 
 ## Visual Hierarchy
 
@@ -71,7 +75,7 @@ Emphasize:
 - Minimalist status dots;
 - Terse uppercase labels;
 - Low-density borders with subtle opacity;
-- Distinct Catppuccin Mocha accents.
+- Distinct palette accents (Catppuccin Mocha by default, or selected ricing theme).
 
 Avoid:
 - Neon glows or heavy drop-shadows;

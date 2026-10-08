@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "nord",
+  "name": "Nord",
+  "mode": "dark",
+  "source": {
+    "project": "Nord",
+    "repository": "nordtheme/nord",
+    "revision": "1cef71605416a222e57225b544540ce0fcec18d4",
+    "path": "src/nord.css",
+    "license": "MIT",
+    "snapshot": "nord.txt",
+    "sha256": "b931ac3732582b2066b2d6cadec02d9820ba7081e6e3e404c31cb62d9315a962",
+    "variant": "nord-16"
+  },
+  "colors": {
+    "nord0": "#2E3440",
+    "nord1": "#3B4252",
+    "nord2": "#434C5E",
+    "nord3": "#4C566A",
+    "nord4": "#D8DEE9",
+    "nord5": "#E5E9F0",
+    "nord6": "#ECEFF4",
+    "nord7": "#8FBCBB",
+    "nord8": "#88C0D0",
+    "nord9": "#81A1C1",
+    "nord10": "#5E81AC",
+    "nord11": "#BF616A",
+    "nord12": "#D08770",
+    "nord13": "#EBCB8B",
+    "nord14": "#A3BE8C",
+    "nord15": "#B48EAD"
+  },
+  "semantic": {
+    "background": "nord0",
+    "background_alt": "nord1",
+    "surface": "nord2",
+    "border": "nord3",
+    "text_primary": "nord4",
+    "text_secondary": "nord5",
+    "text_muted": "nord3",
+    "accent": "nord8",
+    "cpu": "nord8",
+    "memory": "nord9",
+    "disk": "nord7",
+    "network": "nord10",
+    "success": "nord14",
+    "warning": "nord13",
+    "high": "nord12",
+    "error": "nord11"
+  }
+}

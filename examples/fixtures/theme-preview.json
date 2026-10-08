@@ -1,0 +1,38 @@
+{
+  "description": "Synthetic cached data for offline theme previews; no live Hub or credentials.",
+  "globals": {
+    "server_name": "atlas",
+    "sys_idx": 0,
+    "stale": 0,
+    "container_page": 0,
+    "net_24h_rx": 109366476.8,
+    "net_24h_tx": 33973862.4,
+    "info_host": "preview_host",
+    "info_error": "Updated",
+    "sys_json": {
+      "items": [{"id": "preview_host", "name": "atlas", "status": "up", "info": {"u": 1328400, "cpu": 8, "mp": 22.7, "dp": 8.4, "dt": 48, "la": [0.42, 0.39, 0.31]}}]
+    },
+    "latest": {
+      "items": [{"created": "2026-09-07 20:59:00.000Z", "stats": {"cpu": 8, "mp": 22.7, "dp": 8.4, "mu": 3.5, "m": 15.5, "du": 18.7, "d": 222.6, "b": [410, 1126]}}]
+    },
+    "cnt_json": {
+      "stats": [
+        {"n": "example-window-manager-1", "c": 2.9, "m": 351.5},
+        {"n": "example-couchdb", "c": 0.7, "m": 95.8},
+        {"n": "example-worker-service-1", "c": 0.2, "m": 159.5},
+        {"n": "example-visualizer", "c": 0.5, "m": 389},
+        {"n": "example-api-backend", "c": 0, "m": 389.4},
+        {"n": "example-postgres", "c": 1.1, "m": 256},
+        {"n": "example-redis", "c": 0.2, "m": 18},
+        {"n": "example-proxy", "c": 0.3, "m": 38},
+        {"n": "example-agent", "c": 0.1, "m": 32},
+        {"n": "example-scheduler", "c": 0.8, "m": 64},
+        {"n": "example-stopped-service", "c": 0, "m": 0, "s": "exited"},
+        {"n": "example-extra-long-container-name-to-exercise-truncation", "c": 1.4, "m": 142}
+      ]
+    },
+    "info_sys": {"id": "preview_host", "name": "atlas", "info": {"u": 1328400, "dt": 48}},
+    "info_meta": {"id": "preview_host", "hostname": "atlas", "os_name": "Arch Linux", "os": 0, "arch": "x86_64", "kernel": "6.12.0-example", "cpu": "Example x86_64 CPU @ 2.70GHz", "cores": 4, "threads": 4},
+    "info_stats": {"items": [{"stats": {"mu": 3.5, "m": 15.5}}]}
+  }
+}

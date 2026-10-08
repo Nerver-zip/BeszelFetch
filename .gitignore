@@ -16,6 +16,7 @@ chat_*.json
 *.png
 !docs/screenshots/*.png
 !docs/screenshots/*.jpg
+!docs/screenshots/theme-previews/*.png
 
 # -----------------------------------------------------------------------------
 # 2. Security, Credentials & Secrets (CRITICAL)

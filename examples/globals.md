@@ -51,16 +51,22 @@ Note: If text global size limits become restrictive on older Kustom versions, st
 | `points` | Number | `24` | Datapoints in historical chart |
 | `net_max` | Number | `0` | Dynamic network ceiling (`0` = auto-scale) |
 
-## Color Palette Tokens (Optional Globals)
+## Color Palette Tokens (Themed Globals)
 
-Recommended color globals for theme flexibility:
-- `c_base`: `#1E1E2E` (Card background)
-- `c_text`: `#CDD6F4` (Primary text)
-- `c_muted`: `#6C7086` (Muted labels)
-- `c_cpu`: `#89B4FA` (CPU accent)
-- `c_ram`: `#CBA6F7` (RAM accent)
-- `c_disk`: `#94E2D5` (Disk accent)
-- `c_net`: `#74C7EC` (Network accent)
-- `c_ok`: `#A6E3A1` (Online / OK)
-- `c_warn`: `#F9E2AF` (Warning / Stale)
-- `c_err`: `#F38BA8` (Error / Offline)
+Color globals compiled into the widget according to the selected theme (see [docs/THEMES.md](../docs/THEMES.md)):
+- `c_base`: Main card background (translucent, e.g. `#D91E1E2E`)
+- `c_mantle`: Header & sub-container background (translucent, e.g. `#B3181825`)
+- `c_surface0`: Progress tracks, button fills, active tab (`#FF313244`)
+- `c_surface1`: Card borders, dividers (`#FF45475A`)
+- `c_text`: Primary text, hostnames, headings (`#FFCDD6F4`)
+- `c_subtext`: Secondary labels, sensors, units (`#FFBAC2DE`)
+- `c_muted`: Muted labels, inactive tabs (`#FF6C7086`)
+- `c_accent`: General accent, headings, ASCII distro art (`#FFCBA6F7`)
+- `c_cpu`: CPU accent (`#FF89B4FA`)
+- `c_ram`: RAM accent (`#FFCBA6F7`)
+- `c_disk`: Storage accent (`#FF94E2D5`)
+- `c_net`: Network accent (`#FF74C7EC`)
+- `c_ok`: Online / Normal status (`#FFA6E3A1`)
+- `c_warn`: Elevated load / Warning threshold (`#FFF9E2AF`)
+- `c_peach`: High load threshold (`#FFFAB387`)
+- `c_err`: Offline / Critical threshold (`#FFF38BA8`)

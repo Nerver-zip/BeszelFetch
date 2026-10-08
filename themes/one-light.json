@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "id": "one-light",
+  "name": "One Light",
+  "mode": "light",
+  "source": {
+    "project": "One Light",
+    "repository": "atom/one-light-syntax",
+    "revision": "d84579027410c576086dfca14d934c4bd74b0438",
+    "path": "styles/colors.less",
+    "license": "MIT",
+    "snapshot": "one-light.txt",
+    "sha256": "f22d02919b3986ed73484eb6d6ae706a7d8781244ce71c3a85194d50118b9937",
+    "variant": "default"
+  },
+  "colors": {
+    "mono-1": "#383A42",
+    "mono-2": "#696C77",
+    "mono-3": "#A0A1A7",
+    "hue-1": "#0184BC",
+    "hue-2": "#4078F2",
+    "hue-3": "#A626A4",
+    "hue-4": "#50A14F",
+    "hue-5": "#E45649",
+    "hue-5-2": "#CA1243",
+    "hue-6": "#986801",
+    "hue-6-2": "#C18401",
+    "syntax-fg": "#383A42",
+    "syntax-bg": "#FAFAFA",
+    "syntax-gutter": "#9D9D9F",
+    "syntax-accent": "#526FFF"
+  },
+  "semantic": {
+    "background": "syntax-bg",
+    "background_alt": "syntax-bg",
+    "surface": "syntax-bg",
+    "border": "mono-3",
+    "text_primary": "syntax-fg",
+    "text_secondary": "mono-2",
+    "text_muted": "mono-3",
+    "accent": "syntax-accent",
+    "cpu": "hue-2",
+    "memory": "hue-3",
+    "disk": "hue-4",
+    "network": "hue-1",
+    "success": "hue-4",
+    "warning": "hue-6-2",
+    "high": "hue-6",
+    "error": "hue-5"
+  }
+}

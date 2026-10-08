@@ -133,6 +133,7 @@ def fix_layout(root):
     nodes["RefreshGlyph"].update(text_size=30.0, text_expression="󰑐")
     border = deepcopy(nodes["RefreshArea"])
     border.update(internal_title="RefreshBorder", paint_style="STROKE", stroke_width=1.0)
+    border["paint_color"] = root["globals_list"]["c_surface1"]["value"]
     border["internal_globals"] = {"paint_color": "c_surface1"}
     refresh["viewgroup_items"].insert(1, border)
 
@@ -280,7 +281,7 @@ def fix_layout(root):
             "text_expression": "",
             "text_family": font,
             "text_size": 15.5,
-            "paint_color": "#FF89B4FA",
+            "paint_color": root["globals_list"]["c_cpu"]["value"],
             "internal_globals": {"paint_color": "c_cpu"}
         }
         anchor(glyph, "CENTERLEFT", 14)
@@ -313,7 +314,12 @@ def fix_layout(root):
         badges = []
         for text, width, side in ((cpu, 70, "CENTERLEFT"), (mem, 86, "CENTERRIGHT")):
             box = frame(f'BadgeBounds_{i}_{side}', f'${width}$', 28)
-            box.update(paint_color="#FF313244", shape_corners=6.0, fx_mask="CLIP_ALL")
+            box.update(
+                paint_color=root["globals_list"]["c_surface0"]["value"],
+                shape_corners=6.0,
+                fx_mask="CLIP_ALL",
+                internal_globals={"paint_color": "c_surface0"}
+            )
             anchor(text, "CENTER")
             badge = {"internal_type": "OverlapLayerModule", "internal_title": f'Badge_{i}_{side}',
                      "viewgroup_items": [box, text]}
