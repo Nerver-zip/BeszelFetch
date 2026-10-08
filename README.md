@@ -67,8 +67,6 @@
 
 ## 🎨 Theme Previews
 
-The Mocha views above are real device screenshots. These three themes use the offline widget mock with synthetic data. Each row shows all three widget views; the PNGs keep the widget's rounded corners transparent. [Browse the remaining themes](docs/THEMES.md#static-theme-previews).
-
 <table align="center">
   <thead>
     <tr><th align="left">Theme</th><th align="center">Overview</th><th align="center">Docker</th><th align="center">Host info</th></tr>
@@ -91,6 +89,8 @@ The Mocha views above are real device screenshots. These three themes use the of
     </tr>
   </tbody>
 </table>
+
+[Browse the remaining themes](docs/THEMES.md#static-theme-previews)
 
 ---
 
