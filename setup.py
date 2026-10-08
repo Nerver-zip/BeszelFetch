@@ -17,6 +17,7 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Any, Dict, List
 
 REPO_ROOT = Path(__file__).resolve().parent
 DIST_DIR = REPO_ROOT / "dist"
