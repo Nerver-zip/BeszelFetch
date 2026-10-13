@@ -562,6 +562,9 @@ def main():
             meta = resolve_system_metadata(sys_item)
             os_display = f" ({meta['os_name']})" if meta.get("os_name") and meta["os_name"] != "Unknown OS" else ""
             print(f"  • \033[1m{name}\033[0m{os_display} — Status: {stat_color}{status}\033[0m | CPU: {cpu}% | RAM: {mem}% | Temp: {temp_str}")
+        if any(not extract_system_details(s).get("os_name") for s in items):
+            print("  \033[90m💡 Tip: If running beszel-agent in Docker, mount /etc/os-release:/etc/os-release:ro\033[0m")
+            print("  \033[90m        in compose.yaml so Beszel can report your exact host distribution.\033[0m")
 
     # 4. Fetch Live Containers & Telemetry History for Active System
     active_sys_id = items[0].get("id", "") if items else ""

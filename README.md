@@ -151,6 +151,10 @@ Run the interactive setup wizard on your machine. It connects to your Beszel Hub
 python3 setup.py
 ```
 
+> [!TIP]
+> **Docker Note for Fastfetch Distro Detection (`/etc/os-release`)**:
+> `beszel-agent` runs in a minimal distroless/scratch container. If your agent is running in Docker, mount the host's `/etc/os-release` file as read-only (`- /etc/os-release:/etc/os-release:ro`) into the `beszel-agent` container. This allows Beszel to detect your exact Linux distribution name (e.g., Arch Linux, Debian, Ubuntu, Fedora) and display the proper Fastfetch logo.
+
 ### Direct Theme Selection
 
 You can specify a theme directly via `--theme`, list all 32 curated themes, or specify a custom output directory:
