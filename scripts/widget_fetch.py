@@ -31,16 +31,44 @@ def build_fetch(root):
         return expr
 
     for name, paths in (
-        ("fetch_host", [value("info_meta", ".hostname"), value("info_sys", ".name")]),
-        ("fetch_kernel", [value("info_meta", ".kernel"), value("info_sys", ".info.k")]),
-        ("fetch_cpu", [value("info_meta", ".cpu"), value("info_sys", ".info.m")]),
-        ("fetch_os_name", [value("info_meta", ".os_name"), value("info_sys", ".info.o")]),
-        ("fetch_os_id", [value("info_meta", ".os"), value("info_sys", ".info.os")]),
-        ("fetch_arch", [value("info_meta", ".arch")]),
+        ("fetch_host", [value("info_meta", ".hostname"),
+                        value("info_sys", ".expand.system_details_via_system[0].hostname"),
+                        value("info_sys", ".expand.system_details_via_system.hostname"),
+                        value("info_sys", ".info.h"),
+                        value("info_sys", ".info.hostname"),
+                        value("info_sys", ".name")]),
+        ("fetch_kernel", [value("info_meta", ".kernel"),
+                          value("info_sys", ".expand.system_details_via_system[0].kernel"),
+                          value("info_sys", ".expand.system_details_via_system.kernel"),
+                          value("info_sys", ".info.k"),
+                          value("info_sys", ".info.kernel")]),
+        ("fetch_cpu", [value("info_meta", ".cpu"),
+                       value("info_meta", ".cpu_model"),
+                       value("info_sys", ".expand.system_details_via_system[0].cpu"),
+                       value("info_sys", ".expand.system_details_via_system[0].cpu_model"),
+                       value("info_sys", ".expand.system_details_via_system.cpu"),
+                       value("info_sys", ".expand.system_details_via_system.cpu_model"),
+                       value("info_sys", ".info.m"),
+                       value("info_sys", ".info.cpu_model")]),
+        ("fetch_os_name", [value("info_meta", ".os_name"),
+                           value("info_sys", ".expand.system_details_via_system[0].os_name"),
+                           value("info_sys", ".expand.system_details_via_system.os_name"),
+                           value("info_sys", ".info.os_name"),
+                           value("info_sys", ".info.o")]),
+        ("fetch_os_id", [value("info_meta", ".os"),
+                         value("info_sys", ".expand.system_details_via_system[0].os"),
+                         value("info_sys", ".expand.system_details_via_system.os"),
+                         value("info_sys", ".info.os")]),
+        ("fetch_arch", [value("info_meta", ".arch"),
+                        value("info_sys", ".expand.system_details_via_system[0].arch"),
+                        value("info_sys", ".expand.system_details_via_system.arch"),
+                        value("info_sys", ".info.a"),
+                        value("info_sys", ".info.arch")]),
     ):
         derived(name, f'if(gv(info_ready) = 1, {fallback(*paths)}, "N/A")')
-    enum = 'if(gv(fetch_os_id) = 0, "Linux", if(gv(fetch_os_id) = 1, "macOS", if(gv(fetch_os_id) = 2, "Windows", if(gv(fetch_os_id) = 3, "FreeBSD", "Unknown OS"))))'
-    derived("fetch_os", f'if(gv(fetch_os_name) != "N/A", gv(fetch_os_name), {enum})')
+    enum = 'if(gv(fetch_os_id) = 0, "Linux", if(gv(fetch_os_id) = 1, "FreeBSD", if(gv(fetch_os_id) = 2, "Windows", if(gv(fetch_os_id) = 3, "macOS", if(gv(fetch_os_id) != "N/A" & gv(fetch_os_id) != "", gv(fetch_os_id), "Unknown OS")))))'
+    k_distro = 'if(tc(count, tc(low, gv(fetch_kernel)), "arch") > 0, "Arch Linux", if(tc(count, tc(low, gv(fetch_kernel)), ".fc") > 0 | tc(count, tc(low, gv(fetch_kernel)), "fedora") > 0, "Fedora", if(tc(count, tc(low, gv(fetch_kernel)), "debian") > 0 | tc(count, tc(low, gv(fetch_kernel)), "rpt") > 0, "Debian", if(tc(count, tc(low, gv(fetch_kernel)), "ubuntu") > 0, "Ubuntu", if(tc(count, tc(low, gv(fetch_kernel)), "alpine") > 0, "Alpine Linux", "")))))'
+    derived("fetch_os", f'if(gv(fetch_os_name) != "N/A" & gv(fetch_os_name) != "" & gv(fetch_os_name) != "Linux", gv(fetch_os_name), if({k_distro} != "", {k_distro}, {enum}))')
     derived("fetch_os_lower", 'tc(low, gv(fetch_os))')
     derived("fetch_os_line", 'gv(fetch_os) + if(gv(fetch_arch) != "N/A", " · " + gv(fetch_arch), "")')
     for name, path in (("fetch_u", ".info.u"), ("fetch_temp", ".info.dt")):
@@ -49,8 +77,22 @@ def build_fetch(root):
     derived("fetch_temperature", 'if(gv(fetch_temp) != "", mu(round, gv(fetch_temp), 1) + "°C", "N/A")')
     used, total = value("info_stats", ".items[0].stats.mu"), value("info_stats", ".items[0].stats.m")
     derived("fetch_memory", f'if(gv(info_ready) = 1 & {used} != "" & {total} != "", mu(round, {used}, 1) + " / " + mu(round, {total}, 1) + " GiB", "N/A")')
-    cores = fallback(value("info_meta", ".cores"), value("info_sys", ".info.c"), default='0')
-    threads = fallback(value("info_meta", ".threads"), value("info_sys", ".info.t"), default='0')
+    cores = fallback(
+        value("info_meta", ".cores"),
+        value("info_sys", ".expand.system_details_via_system[0].cores"),
+        value("info_sys", ".expand.system_details_via_system.cores"),
+        value("info_sys", ".info.c"),
+        value("info_sys", ".info.cores"),
+        default='0'
+    )
+    threads = fallback(
+        value("info_meta", ".threads"),
+        value("info_sys", ".expand.system_details_via_system[0].threads"),
+        value("info_sys", ".expand.system_details_via_system.threads"),
+        value("info_sys", ".info.t"),
+        value("info_sys", ".info.threads"),
+        default='0'
+    )
     derived("fetch_cores", f'if(gv(info_ready) = 1 & ({cores}) > 0, ({cores}) + " cores / " + ({threads}) + " threads", "N/A")')
     # GPU IDs are dynamic map keys; a JSONPath wildcard gets their names.
     derived("fetch_gpus", f'if(gv(info_ready) = 1, {value("info_stats", ".items[0].stats.g.*.n")}, "")')
@@ -64,8 +106,9 @@ def build_fetch(root):
                ("red hat", "rhel"), ("rocky", "rocky"), ("centos", "centos"),
                ("suse", "opensuse"), ("gentoo", "gentoo"), ("void", "void"),
                ("freebsd", "freebsd"), ("openbsd", "openbsd"), ("netbsd", "netbsd"),
-               ("android", "android")]
-    expr = 'if(gv(fetch_os_id) = 0, "linux", if(gv(fetch_os_id) = 1, "macos", if(gv(fetch_os_id) = 2, "windows_11", if(gv(fetch_os_id) = 3, "freebsd", "unknown"))))'
+               ("android", "android"), ("windows", "windows_11"), ("macos", "macos"),
+               ("darwin", "macos"), ("mac os", "macos"), ("linux", "linux")]
+    expr = 'if(gv(fetch_os_id) = 0, if(tc(count, tc(low, gv(fetch_kernel)), "arch") > 0, "arch", "linux"), if(gv(fetch_os_id) = 1, "freebsd", if(gv(fetch_os_id) = 2, "windows_11", if(gv(fetch_os_id) = 3, "macos", "unknown"))))'
     for needle, logo in reversed(aliases):
         expr = f'if(tc(count, gv(fetch_os_lower), "{needle}") > 0, "{logo}", {expr})'
     derived("fetch_logo", expr)

@@ -18,6 +18,9 @@ import unittest
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+SCRIPTS_DIR = Path(__file__).resolve().parent
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
 FIXTURES_DIR = REPO_ROOT / "examples" / "fixtures"
 PALETTE_FILE = REPO_ROOT / "examples" / "palette.json"
 
@@ -68,6 +71,124 @@ class DataAdapter:
                 "temp_c": float(info.get("dt")) if info.get("dt") is not None else None,
             })
         return parsed
+
+    @staticmethod
+    def extract_system_details(record):
+        """Extract system_details record from PocketBase expand structure."""
+        if not record or not isinstance(record, dict):
+            return {}
+        expand_obj = record.get("expand") or {}
+        details = expand_obj.get("system_details_via_system")
+        if isinstance(details, list) and len(details) > 0:
+            return details[0] if isinstance(details[0], dict) else {}
+        if isinstance(details, dict):
+            return details
+        return {}
+
+    @staticmethod
+    def resolve_system_metadata(record):
+        """Resolve static system metadata cascading from system_details to legacy info."""
+        if not record or not isinstance(record, dict):
+            return {
+                "os_name": "Unknown OS",
+                "kernel": "N/A",
+                "hostname": "localhost",
+                "cpu_model": "N/A",
+                "cores": 0,
+                "threads": 0,
+                "arch": "N/A",
+                "memory": None,
+            }
+        details = DataAdapter.extract_system_details(record)
+        info = record.get("info", {}) or {}
+
+        os_enum_map = {0: "Linux", 1: "FreeBSD", 2: "Windows", 3: "macOS"}
+        os_name = None
+        if details.get("os_name"):
+            os_name = details["os_name"]
+        elif info.get("os_name"):
+            os_name = info["os_name"]
+        elif info.get("o"):
+            os_name = info["o"]
+        elif isinstance(info.get("os"), str) and info["os"].strip() and not info["os"].strip().isdigit():
+            os_name = info["os"].strip()
+        else:
+            os_val = details.get("os") if details.get("os") is not None else info.get("os")
+            if os_val is not None:
+                try:
+                    os_idx = int(os_val)
+                    os_name = os_enum_map.get(os_idx, str(os_val))
+                except (ValueError, TypeError):
+                    os_name = str(os_val)
+            else:
+                os_name = "Unknown OS"
+
+        kernel = details.get("kernel") or info.get("k") or info.get("kernel") or "N/A"
+
+        # Distro inference from kernel release when os_name is empty or generic
+        if not os_name or os_name in ("Linux", "Unknown OS"):
+            k_lower = kernel.lower()
+            if "arch" in k_lower:
+                os_name = "Arch Linux"
+            elif ".fc" in k_lower or "fedora" in k_lower:
+                os_name = "Fedora"
+            elif "debian" in k_lower or "rpt" in k_lower:
+                os_name = "Debian GNU/Linux"
+            elif "ubuntu" in k_lower:
+                os_name = "Ubuntu"
+            elif "alpine" in k_lower:
+                os_name = "Alpine Linux"
+            elif "gentoo" in k_lower:
+                os_name = "Gentoo"
+            elif "void" in k_lower:
+                os_name = "Void Linux"
+            elif "manjaro" in k_lower:
+                os_name = "Manjaro"
+            elif ".el" in k_lower or "rhel" in k_lower or "rocky" in k_lower or "centos" in k_lower:
+                os_name = "Rocky / RHEL"
+
+        hostname = details.get("hostname") or info.get("h") or info.get("hostname") or record.get("name", "localhost")
+        cpu_model = details.get("cpu_model") or details.get("cpu") or info.get("m") or info.get("cpu_model") or "N/A"
+        cores = details.get("cores") if details.get("cores") is not None else info.get("c", info.get("cores", 0))
+        threads = details.get("threads") if details.get("threads") is not None else info.get("t", info.get("threads", 0))
+        arch = details.get("arch") or info.get("a") or info.get("arch") or "N/A"
+        memory = details.get("memory")
+
+        return {
+            "os_name": os_name,
+            "kernel": kernel,
+            "hostname": hostname,
+            "cpu_model": cpu_model,
+            "cores": int(cores or 0),
+            "threads": int(threads or 0),
+            "arch": arch,
+            "memory": int(memory) if memory is not None else None,
+        }
+
+    @staticmethod
+    def resolve_fastfetch_logo(os_name="", os_id=None):
+        """Mirror Fastfetch logo selection cascading from distro substring to OS enum."""
+        name_lower = (os_name or "").lower()
+        aliases = [
+            ("debian", "debian"), ("ubuntu", "ubuntu"), ("arch", "arch"),
+            ("fedora", "fedora"), ("alpine", "alpine"), ("nixos", "nixos"),
+            ("mint", "linuxmint"), ("manjaro", "manjaro"), ("rasp", "raspbian"),
+            ("red hat", "rhel"), ("rocky", "rocky"), ("centos", "centos"),
+            ("suse", "opensuse"), ("gentoo", "gentoo"), ("void", "void"),
+            ("freebsd", "freebsd"), ("openbsd", "openbsd"), ("netbsd", "netbsd"),
+            ("android", "android"), ("windows", "windows_11"), ("macos", "macos"),
+            ("darwin", "macos"), ("mac os", "macos"), ("linux", "linux")
+        ]
+        for needle, logo in aliases:
+            if needle in name_lower:
+                return logo
+        enum_map = {0: "linux", 1: "freebsd", 2: "windows_11", 3: "macos"}
+        if os_id is not None:
+            try:
+                return enum_map.get(int(os_id), "unknown")
+            except (ValueError, TypeError):
+                pass
+        return "unknown"
 
     @staticmethod
     def parse_containers(payload):
@@ -470,6 +591,172 @@ class TestSystemsContract(unittest.TestCase):
         self.assertEqual(sys_rec["temp_c"], 44.0)
         self.assertEqual(sys_rec["load1"], 0.43)
         self.assertEqual(sys_rec["net_sent_bps"], 7464)
+
+    def test_extract_system_details(self):
+        # List expand format (atlas)
+        atlas_rec = self.fixture["items"][0]
+        details_atlas = DataAdapter.extract_system_details(atlas_rec)
+        self.assertEqual(details_atlas.get("id"), "det_atlas")
+        self.assertEqual(details_atlas.get("hostname"), "atlas")
+        self.assertEqual(details_atlas.get("kernel"), "6.12.0-arch1-1")
+
+        # Dict expand format (nova)
+        nova_rec = self.fixture["items"][1]
+        details_nova = DataAdapter.extract_system_details(nova_rec)
+        self.assertEqual(details_nova.get("id"), "det_nova")
+        self.assertEqual(details_nova.get("hostname"), "nova")
+        self.assertEqual(details_nova.get("kernel"), "6.6.137+rpt-rpi-2712")
+
+        # Empty/corrupt variations
+        self.assertEqual(DataAdapter.extract_system_details({}), {})
+        self.assertEqual(DataAdapter.extract_system_details(None), {})
+        self.assertEqual(DataAdapter.extract_system_details({"expand": {}}), {})
+        self.assertEqual(DataAdapter.extract_system_details({"expand": {"system_details_via_system": []}}), {})
+        self.assertEqual(DataAdapter.extract_system_details({"expand": {"system_details_via_system": None}}), {})
+        self.assertEqual(DataAdapter.extract_system_details({"expand": {"system_details_via_system": "not-a-dict"}}), {})
+
+    def test_resolve_system_metadata_v0_19_expand(self):
+        # atlas (list expand)
+        atlas_meta = DataAdapter.resolve_system_metadata(self.fixture["items"][0])
+        self.assertEqual(atlas_meta["hostname"], "atlas")
+        self.assertEqual(atlas_meta["os_name"], "Arch Linux")
+        self.assertEqual(atlas_meta["kernel"], "6.12.0-arch1-1")
+        self.assertEqual(atlas_meta["cpu_model"], "AMD Ryzen 7 7840HS")
+        self.assertEqual(atlas_meta["cores"], 8)
+        self.assertEqual(atlas_meta["threads"], 16)
+        self.assertEqual(atlas_meta["arch"], "x86_64")
+        self.assertEqual(atlas_meta["memory"], 17179869184)
+
+        # nova (dict expand)
+        nova_meta = DataAdapter.resolve_system_metadata(self.fixture["items"][1])
+        self.assertEqual(nova_meta["hostname"], "nova")
+        self.assertEqual(nova_meta["os_name"], "Debian GNU/Linux")
+        self.assertEqual(nova_meta["kernel"], "6.6.137+rpt-rpi-2712")
+        self.assertEqual(nova_meta["cpu_model"], "Cortex-A76")
+        self.assertEqual(nova_meta["cores"], 4)
+        self.assertEqual(nova_meta["threads"], 4)
+        self.assertEqual(nova_meta["arch"], "aarch64")
+        self.assertEqual(nova_meta["memory"], 8589934592)
+
+    def test_resolve_system_metadata_legacy_fallback(self):
+        legacy_rec = {
+            "id": "legacy_sys",
+            "name": "legacynode",
+            "info": {
+                "h": "myhost",
+                "k": "5.15.0-generic",
+                "m": "Intel Core i7-11800H",
+                "c": 8,
+                "t": 16,
+                "a": "x86_64",
+                "os_name": "Ubuntu 22.04 LTS"
+            }
+        }
+        meta = DataAdapter.resolve_system_metadata(legacy_rec)
+        self.assertEqual(meta["hostname"], "myhost")
+        self.assertEqual(meta["os_name"], "Ubuntu 22.04 LTS")
+        self.assertEqual(meta["kernel"], "5.15.0-generic")
+        self.assertEqual(meta["cpu_model"], "Intel Core i7-11800H")
+        self.assertEqual(meta["cores"], 8)
+        self.assertEqual(meta["threads"], 16)
+        self.assertEqual(meta["arch"], "x86_64")
+
+        # Fallback to info.o
+        legacy_rec_o = {
+            "name": "node-o",
+            "info": {"k": "6.1.0", "m": "Ryzen 5", "o": "Fedora 40", "c": 6, "t": 12}
+        }
+        meta_o = DataAdapter.resolve_system_metadata(legacy_rec_o)
+        self.assertEqual(meta_o["os_name"], "Fedora 40")
+
+    def test_resolve_system_metadata_os_string_and_enum(self):
+        # String info.os fallback
+        rec_str = {
+            "name": "alpine-node",
+            "info": {"k": "6.6.0-virt", "os": "Alpine Linux v3.20"}
+        }
+        meta_str = DataAdapter.resolve_system_metadata(rec_str)
+        self.assertEqual(meta_str["os_name"], "Alpine Linux v3.20")
+
+        # Numeric enum mappings
+        for enum_val, expected_os in [(0, "Linux"), (1, "FreeBSD"), (2, "Windows"), (3, "macOS")]:
+            rec_enum = {
+                "name": f"node-{enum_val}",
+                "info": {"os": enum_val}
+            }
+            meta_enum = DataAdapter.resolve_system_metadata(rec_enum)
+            self.assertEqual(meta_enum["os_name"], expected_os)
+
+        # Unrecognized enum value
+        rec_unknown = {
+            "name": "node-unknown",
+            "info": {"os": 99}
+        }
+        meta_unknown = DataAdapter.resolve_system_metadata(rec_unknown)
+        self.assertEqual(meta_unknown["os_name"], "99")
+
+    def test_resolve_system_metadata_empty_and_corrupt(self):
+        empty_meta = DataAdapter.resolve_system_metadata({})
+        self.assertEqual(empty_meta["os_name"], "Unknown OS")
+        self.assertEqual(empty_meta["kernel"], "N/A")
+        self.assertEqual(empty_meta["hostname"], "localhost")
+        self.assertEqual(empty_meta["cores"], 0)
+
+        none_meta = DataAdapter.resolve_system_metadata(None)
+        self.assertEqual(none_meta["os_name"], "Unknown OS")
+
+    def test_resolve_system_metadata_kernel_distro_inference(self):
+        # When os_name is empty or generic Linux, infer from kernel release string
+        rec_arch = {
+            "name": "m910q",
+            "info": {"os": 0},
+            "expand": {
+                "system_details_via_system": {
+                    "hostname": "m910q",
+                    "kernel": "7.2.9-arch1-1",
+                    "os": 0,
+                    "os_name": "",
+                    "cpu": "Intel Core i5"
+                }
+            }
+        }
+        meta_arch = DataAdapter.resolve_system_metadata(rec_arch)
+        self.assertEqual(meta_arch["os_name"], "Arch Linux")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo(meta_arch["os_name"]), "arch")
+
+        # Fedora kernel
+        rec_fedora = {
+            "name": "fedora-node",
+            "info": {"os": 0},
+            "expand": {"system_details_via_system": {"kernel": "6.9.12-200.fc40.x86_64", "os_name": ""}}
+        }
+        self.assertEqual(DataAdapter.resolve_system_metadata(rec_fedora)["os_name"], "Fedora")
+
+    def test_resolve_fastfetch_logo(self):
+        # Distribution names matching aliases
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("Arch Linux"), "arch")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("Debian GNU/Linux 12"), "debian")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("Ubuntu 24.04 LTS"), "ubuntu")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("Alpine Linux v3.20"), "alpine")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("Fedora Linux 40"), "fedora")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("NixOS 24.05"), "nixos")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("Red Hat Enterprise Linux 9"), "rhel")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("Gentoo Base System"), "gentoo")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("FreeBSD 14.1-RELEASE"), "freebsd")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("Microsoft Windows 11 Pro"), "windows_11")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("macOS Sonoma 14.5"), "macos")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("Darwin Kernel Version 23.5"), "macos")
+
+        # Generic Linux matching
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("Generic Linux 6.1"), "linux")
+
+        # Enum fallbacks when OS name is empty / generic
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("", os_id=0), "linux")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("", os_id=1), "freebsd")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("", os_id=2), "windows_11")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("", os_id=3), "macos")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("Unknown OS", os_id=0), "linux")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo("Solaris", os_id=99), "unknown")
 
 
 class TestContainersContract(unittest.TestCase):

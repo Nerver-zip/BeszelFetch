@@ -8,12 +8,17 @@ import json
 import math
 from pathlib import Path
 import re
+import sys
 import unittest
 from urllib.parse import parse_qs, urlsplit
 
+ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS_DIR = Path(__file__).resolve().parent
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
+
 from widget_layout import walk
 
-ROOT = Path(__file__).resolve().parents[1]
 try:
     from .kustom_eval import Kode, NOW, number, string
 except ImportError:
@@ -144,6 +149,44 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(k.gv("fetch_cpu"), "legacy-cpu")
         self.assertEqual(k.gv("fetch_logo"), "linux")
         self.assertEqual(k.gv("info_error"), "Metadata unavailable")
+
+        # Standalone metadata 404, but host record contains expand.system_details_via_system (list format)
+        host_expanded_list = {
+            "id": "synthetic", "name": "atlas", "info": {"u": 3600, "dt": 42},
+            "expand": {
+                "system_details_via_system": [
+                    {
+                        "id": "det_syn", "system": "synthetic",
+                        "hostname": "expanded-host", "kernel": "6.13-arch",
+                        "cpu_model": "AMD Ryzen 9 7950X", "os": 0, "os_name": "Arch Linux",
+                    }
+                ]
+            }
+        }
+        k = self.run_flow("fetch_info", self.context(), ['{"code":404}', json.dumps(host_expanded_list), json.dumps(stats)])
+        self.assertEqual(k.gv("fetch_host"), "expanded-host")
+        self.assertEqual(k.gv("fetch_kernel"), "6.13-arch")
+        self.assertEqual(k.gv("fetch_cpu"), "AMD Ryzen 9 7950X")
+        self.assertEqual(k.gv("fetch_logo"), "arch")
+        self.assertEqual(k.gv("info_error"), "Updated")
+
+        # Standalone metadata 404, but host record contains expand.system_details_via_system (dict format)
+        host_expanded_dict = {
+            "id": "synthetic", "name": "nova", "info": {"u": 3600, "dt": 42},
+            "expand": {
+                "system_details_via_system": {
+                    "id": "det_dict", "system": "synthetic",
+                    "hostname": "dict-host", "kernel": "6.6.137-rpt",
+                    "cpu_model": "Cortex-A76", "os": 0, "os_name": "Debian GNU/Linux",
+                }
+            }
+        }
+        k = self.run_flow("fetch_info", self.context(), ['{"code":404}', json.dumps(host_expanded_dict), json.dumps(stats)])
+        self.assertEqual(k.gv("fetch_host"), "dict-host")
+        self.assertEqual(k.gv("fetch_kernel"), "6.6.137-rpt")
+        self.assertEqual(k.gv("fetch_cpu"), "Cortex-A76")
+        self.assertEqual(k.gv("fetch_logo"), "debian")
+        self.assertEqual(k.gv("info_error"), "Updated")
 
     def test_optional_missing_and_malformed(self):
         for payload in ('{"items":[]}', '{}', 'not-json'):

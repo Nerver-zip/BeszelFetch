@@ -23,6 +23,23 @@
           0.31
         ],
         "dt": 43.0
+      },
+      "expand": {
+        "system_details_via_system": [
+          {
+            "id": "det_atlas",
+            "system": "sys_atlas",
+            "hostname": "atlas",
+            "kernel": "6.12.0-arch1-1",
+            "cores": 8,
+            "threads": 16,
+            "cpu_model": "AMD Ryzen 7 7840HS",
+            "os": 0,
+            "os_name": "Arch Linux",
+            "arch": "x86_64",
+            "memory": 17179869184
+          }
+        ]
       }
     },
     {
@@ -44,6 +61,21 @@
           0.25
         ],
         "dt": 39.5
+      },
+      "expand": {
+        "system_details_via_system": {
+          "id": "det_nova",
+          "system": "sys_nova",
+          "hostname": "nova",
+          "kernel": "6.6.137+rpt-rpi-2712",
+          "cores": 4,
+          "threads": 4,
+          "cpu_model": "Cortex-A76",
+          "os": 0,
+          "os_name": "Debian GNU/Linux",
+          "arch": "aarch64",
+          "memory": 8589934592
+        }
       }
     }
   ]

@@ -112,15 +112,126 @@ def authenticate(hub_url, identity, password):
     return None, None, res
 
 
+def extract_system_details(record: dict) -> dict:
+    """Extract system_details record from PocketBase expand structure."""
+    if not record or not isinstance(record, dict):
+        return {}
+    expand_obj = record.get("expand") or {}
+    details = expand_obj.get("system_details_via_system")
+    if isinstance(details, list) and len(details) > 0:
+        return details[0] if isinstance(details[0], dict) else {}
+    if isinstance(details, dict):
+        return details
+    return {}
+
+
+def resolve_system_metadata(record: dict) -> dict:
+    """Resolve static system metadata cascading from system_details to legacy info."""
+    if not record or not isinstance(record, dict):
+        return {
+            "os_name": "Unknown OS",
+            "kernel": "N/A",
+            "hostname": "localhost",
+            "cpu_model": "N/A",
+            "cores": 0,
+            "threads": 0,
+            "arch": "N/A",
+            "memory": None,
+        }
+    details = extract_system_details(record)
+    info = record.get("info", {}) or {}
+
+    # 1. OS / Distro Name
+    os_enum_map = {0: "Linux", 1: "FreeBSD", 2: "Windows", 3: "macOS"}
+    os_name = None
+    if details.get("os_name"):
+        os_name = details["os_name"]
+    elif info.get("os_name"):
+        os_name = info["os_name"]
+    elif info.get("o"):
+        os_name = info["o"]
+    elif isinstance(info.get("os"), str) and info["os"].strip() and not info["os"].strip().isdigit():
+        os_name = info["os"].strip()
+    else:
+        os_val = details.get("os") if details.get("os") is not None else info.get("os")
+        if os_val is not None:
+            try:
+                os_idx = int(os_val)
+                os_name = os_enum_map.get(os_idx, str(os_val))
+            except (ValueError, TypeError):
+                os_name = str(os_val)
+        else:
+            os_name = "Unknown OS"
+
+    # 2. Kernel
+    kernel = details.get("kernel") or info.get("k") or info.get("kernel") or "N/A"
+
+    # Distro inference from kernel release when os_name is empty or generic
+    if not os_name or os_name in ("Linux", "Unknown OS"):
+        k_lower = kernel.lower()
+        if "arch" in k_lower:
+            os_name = "Arch Linux"
+        elif ".fc" in k_lower or "fedora" in k_lower:
+            os_name = "Fedora"
+        elif "debian" in k_lower or "rpt" in k_lower:
+            os_name = "Debian GNU/Linux"
+        elif "ubuntu" in k_lower:
+            os_name = "Ubuntu"
+        elif "alpine" in k_lower:
+            os_name = "Alpine Linux"
+        elif "gentoo" in k_lower:
+            os_name = "Gentoo"
+        elif "void" in k_lower:
+            os_name = "Void Linux"
+        elif "manjaro" in k_lower:
+            os_name = "Manjaro"
+        elif ".el" in k_lower or "rhel" in k_lower or "rocky" in k_lower or "centos" in k_lower:
+            os_name = "Rocky / RHEL"
+
+    # 3. Hostname
+    hostname = details.get("hostname") or info.get("h") or info.get("hostname") or record.get("name", "localhost")
+
+    # 4. CPU & Hardware
+    cpu_model = details.get("cpu_model") or details.get("cpu") or info.get("m") or info.get("cpu_model") or "N/A"
+    cores = details.get("cores") if details.get("cores") is not None else info.get("c", info.get("cores", 0))
+    threads = details.get("threads") if details.get("threads") is not None else info.get("t", info.get("threads", 0))
+    arch = details.get("arch") or info.get("a") or info.get("arch") or "N/A"
+    memory = details.get("memory")
+
+    return {
+        "os_name": os_name,
+        "kernel": kernel,
+        "hostname": hostname,
+        "cpu_model": cpu_model,
+        "cores": int(cores or 0),
+        "threads": int(threads or 0),
+        "arch": arch,
+        "memory": int(memory) if memory is not None else None,
+    }
+
+
 def fetch_systems(hub_url, token=None):
     hub_url = hub_url.rstrip("/")
-    url = f"{hub_url}/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name"
+    url = f"{hub_url}/api/collections/systems/records?perPage=100&sort=name&expand=system_details_via_system"
     headers = {}
     if token:
         headers["Authorization"] = token
     status, res = http_get(url, headers=headers)
     if status == 200:
         return res
+    return None
+
+
+def fetch_system_details(hub_url, system_id=None, token=None):
+    """Fallback query for system_details if not expanded in systems query."""
+    if not system_id:
+        return None
+    hub_url = hub_url.rstrip("/")
+    headers = {"Authorization": token} if token else {}
+    query = urllib.parse.urlencode({"filter": f'system="{system_id}"', "perPage": 1})
+    status, res = http_get(f"{hub_url}/api/collections/system_details/records?{query}", headers=headers)
+    if status == 200 and isinstance(res.get("items"), list) and len(res["items"]) > 0:
+        return res["items"][0]
     return None
 
 
@@ -169,7 +280,7 @@ def fetch_latest_stats(hub_url, system_id=None, token=None):
 
 
 def copy_to_clipboard(text):
-    for cmd in ["wl-copy", "xclip -selection clipboard", "xsel --clipboard --input", "pbcopy"]:
+    for cmd in ["termux-clipboard-set", "wl-copy", "xclip -selection clipboard", "xsel --clipboard --input", "pbcopy"]:
         prog = cmd.split()[0]
         if shutil.which(prog):
             try:
@@ -435,6 +546,11 @@ def main():
     if items:
         print(f"\033[1;32m✓ Found {len(items)} system(s):\033[0m")
         for sys_item in items:
+            if not extract_system_details(sys_item) and "k" not in (sys_item.get("info") or {}) and "os_name" not in (sys_item.get("info") or {}):
+                details = fetch_system_details(hub_url, sys_item.get("id"), token)
+                if details:
+                    sys_item.setdefault("expand", {})["system_details_via_system"] = details
+
             name = sys_item.get("name", "unknown")
             status = sys_item.get("status", "unknown")
             info = sys_item.get("info", {}) or {}
@@ -443,7 +559,12 @@ def main():
             temp = info.get("dt")
             temp_str = f"{temp}°C" if temp is not None else "—"
             stat_color = "\033[32m" if status == "up" else "\033[31m"
-            print(f"  • \033[1m{name}\033[0m — Status: {stat_color}{status}\033[0m | CPU: {cpu}% | RAM: {mem}% | Temp: {temp_str}")
+            meta = resolve_system_metadata(sys_item)
+            os_display = f" ({meta['os_name']})" if meta.get("os_name") and meta["os_name"] != "Unknown OS" else ""
+            print(f"  • \033[1m{name}\033[0m{os_display} — Status: {stat_color}{status}\033[0m | CPU: {cpu}% | RAM: {mem}% | Temp: {temp_str}")
+        if any(not extract_system_details(s).get("os_name") for s in items):
+            print("  \033[90m💡 Tip: If running beszel-agent in Docker, mount /etc/os-release:/etc/os-release:ro\033[0m")
+            print("  \033[90m        in compose.yaml so Beszel can report your exact host distribution.\033[0m")
 
     # 4. Fetch Live Containers & Telemetry History for Active System
     active_sys_id = items[0].get("id", "") if items else ""

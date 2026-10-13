@@ -151,6 +151,10 @@ Run the interactive setup wizard on your machine. It connects to your Beszel Hub
 python3 setup.py
 ```
 
+> [!TIP]
+> **Docker Note for Fastfetch Distro Detection (`/etc/os-release`)**:
+> `beszel-agent` runs in a minimal distroless/scratch container. If your agent is running in Docker, mount the host's `/etc/os-release` file as read-only (`- /etc/os-release:/etc/os-release:ro`) into the `beszel-agent` container. This allows Beszel to detect your exact Linux distribution name (e.g., Arch Linux, Debian, Ubuntu, Fedora) and display the proper Fastfetch logo.
+
 ### Direct Theme Selection
 
 You can specify a theme directly via `--theme`, list all 32 curated themes, or specify a custom output directory:
@@ -323,6 +327,27 @@ If you need to customize connections, colors, or refresh frequencies manually, g
 - **Zero Cloud Leakage**: No telemetry, analytics, or credentials ever leave your local network or VPN tunnel.
 - **Decoupled Architecture**: Raw PocketBase JSON payloads are parsed and normalized into standard Kustom structures.
 - **Graceful Degradation**: If Wi-Fi drops or the server reboots, the widget retains its previous state and updates the status indicator rather than blanking out.
+
+---
+
+## 🔧 Troubleshooting
+
+### Containerized Agent OS Detection (Docker)
+
+If `beszel-agent` runs inside a Docker container and reports a generic OS or `Alpine Linux` instead of your host distribution (preventing Fastfetch from displaying the proper distribution logo and name):
+- Mount your host system's `/etc/os-release` into the `beszel-agent` container as read-only:
+
+```yaml
+services:
+  beszel-agent:
+    image: henrygd/beszel-agent:latest
+    container_name: beszel-agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/os-release:/etc/os-release:ro
+```
+
+- Once mounted, restart `beszel-agent`. The agent will detect the host distribution (e.g., `Arch Linux`, `Debian GNU/Linux`, `Ubuntu`) and populate `os_name` in Beszel's `system_details` collection.
 
 ---
 
