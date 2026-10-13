@@ -258,7 +258,7 @@ def fetch_latest_stats(hub_url, system_id=None, token=None):
 
 
 def copy_to_clipboard(text):
-    for cmd in ["wl-copy", "xclip -selection clipboard", "xsel --clipboard --input", "pbcopy"]:
+    for cmd in ["termux-clipboard-set", "wl-copy", "xclip -selection clipboard", "xsel --clipboard --input", "pbcopy"]:
         prog = cmd.split()[0]
         if shutil.which(prog):
             try:
