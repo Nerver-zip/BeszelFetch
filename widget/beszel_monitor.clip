@@ -80,7 +80,7 @@
           "index": 10,
           "type": "TEXT",
           "title": "Systems Cache",
-          "value": "{\"page\": 1, \"perPage\": 100, \"totalItems\": 2, \"totalPages\": 1, \"items\": [{\"id\": \"sys_atlas\", \"name\": \"atlas\", \"status\": \"up\", \"info\": {\"u\": 1051200, \"cpu\": 18.4, \"mp\": 62.1, \"dp\": 47.8, \"bb\": [420000, 2210000], \"la\": [0.42, 0.38, 0.31], \"dt\": 43.0}}, {\"id\": \"sys_nova\", \"name\": \"nova\", \"status\": \"up\", \"info\": {\"u\": 221500, \"cpu\": 7.3, \"mp\": 39.0, \"dp\": 68.2, \"bb\": [155000, 540000], \"la\": [0.18, 0.22, 0.25], \"dt\": 39.5}}]}"
+          "value": "{\"page\": 1, \"perPage\": 100, \"totalItems\": 2, \"totalPages\": 1, \"items\": [{\"id\": \"sys_atlas\", \"name\": \"atlas\", \"status\": \"up\", \"info\": {\"u\": 1051200, \"cpu\": 18.4, \"mp\": 62.1, \"dp\": 47.8, \"bb\": [420000, 2210000], \"la\": [0.42, 0.38, 0.31], \"dt\": 43.0}, \"expand\": {\"system_details_via_system\": [{\"id\": \"det_atlas\", \"system\": \"sys_atlas\", \"hostname\": \"atlas\", \"kernel\": \"6.12.0-arch1-1\", \"cores\": 8, \"threads\": 16, \"cpu_model\": \"AMD Ryzen 7 7840HS\", \"os\": 0, \"os_name\": \"Arch Linux\", \"arch\": \"x86_64\", \"memory\": 17179869184}]}}, {\"id\": \"sys_nova\", \"name\": \"nova\", \"status\": \"up\", \"info\": {\"u\": 221500, \"cpu\": 7.3, \"mp\": 39.0, \"dp\": 68.2, \"bb\": [155000, 540000], \"la\": [0.18, 0.22, 0.25], \"dt\": 39.5}, \"expand\": {\"system_details_via_system\": {\"id\": \"det_nova\", \"system\": \"sys_nova\", \"hostname\": \"nova\", \"kernel\": \"6.6.137+rpt-rpi-2712\", \"cores\": 4, \"threads\": 4, \"cpu_model\": \"Cortex-A76\", \"os\": 0, \"os_name\": \"Debian GNU/Linux\", \"arch\": \"aarch64\", \"memory\": 8589934592}}}]}"
         },
         "latest": {
           "index": 127,
@@ -769,7 +769,7 @@
           "title": "fetch_host",
           "value": "",
           "toggles": 10,
-          "global_formula": "$if(gv(info_ready) = 1, if(tc(json, gv(info_meta), \".hostname\") != \"\", tc(json, gv(info_meta), \".hostname\"), if(tc(json, gv(info_sys), \".name\") != \"\", tc(json, gv(info_sys), \".name\"), \"N/A\")), \"N/A\")$"
+          "global_formula": "$if(gv(info_ready) = 1, if(tc(json, gv(info_meta), \".hostname\") != \"\", tc(json, gv(info_meta), \".hostname\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system[0].hostname\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system[0].hostname\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system.hostname\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system.hostname\"), if(tc(json, gv(info_sys), \".info.h\") != \"\", tc(json, gv(info_sys), \".info.h\"), if(tc(json, gv(info_sys), \".info.hostname\") != \"\", tc(json, gv(info_sys), \".info.hostname\"), if(tc(json, gv(info_sys), \".name\") != \"\", tc(json, gv(info_sys), \".name\"), \"N/A\")))))), \"N/A\")$"
         },
         "fetch_kernel": {
           "index": 106,
@@ -777,7 +777,7 @@
           "title": "fetch_kernel",
           "value": "",
           "toggles": 10,
-          "global_formula": "$if(gv(info_ready) = 1, if(tc(json, gv(info_meta), \".kernel\") != \"\", tc(json, gv(info_meta), \".kernel\"), if(tc(json, gv(info_sys), \".info.k\") != \"\", tc(json, gv(info_sys), \".info.k\"), \"N/A\")), \"N/A\")$"
+          "global_formula": "$if(gv(info_ready) = 1, if(tc(json, gv(info_meta), \".kernel\") != \"\", tc(json, gv(info_meta), \".kernel\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system[0].kernel\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system[0].kernel\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system.kernel\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system.kernel\"), if(tc(json, gv(info_sys), \".info.k\") != \"\", tc(json, gv(info_sys), \".info.k\"), if(tc(json, gv(info_sys), \".info.kernel\") != \"\", tc(json, gv(info_sys), \".info.kernel\"), \"N/A\"))))), \"N/A\")$"
         },
         "fetch_cpu": {
           "index": 107,
@@ -785,7 +785,7 @@
           "title": "fetch_cpu",
           "value": "",
           "toggles": 10,
-          "global_formula": "$if(gv(info_ready) = 1, if(tc(json, gv(info_meta), \".cpu\") != \"\", tc(json, gv(info_meta), \".cpu\"), if(tc(json, gv(info_sys), \".info.m\") != \"\", tc(json, gv(info_sys), \".info.m\"), \"N/A\")), \"N/A\")$"
+          "global_formula": "$if(gv(info_ready) = 1, if(tc(json, gv(info_meta), \".cpu_model\") != \"\", tc(json, gv(info_meta), \".cpu_model\"), if(tc(json, gv(info_meta), \".cpu\") != \"\", tc(json, gv(info_meta), \".cpu\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system[0].cpu_model\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system[0].cpu_model\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system.cpu_model\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system.cpu_model\"), if(tc(json, gv(info_sys), \".info.m\") != \"\", tc(json, gv(info_sys), \".info.m\"), if(tc(json, gv(info_sys), \".info.cpu_model\") != \"\", tc(json, gv(info_sys), \".info.cpu_model\"), \"N/A\")))))), \"N/A\")$"
         },
         "fetch_os_name": {
           "index": 108,
@@ -793,7 +793,7 @@
           "title": "fetch_os_name",
           "value": "",
           "toggles": 10,
-          "global_formula": "$if(gv(info_ready) = 1, if(tc(json, gv(info_meta), \".os_name\") != \"\", tc(json, gv(info_meta), \".os_name\"), if(tc(json, gv(info_sys), \".info.o\") != \"\", tc(json, gv(info_sys), \".info.o\"), \"N/A\")), \"N/A\")$"
+          "global_formula": "$if(gv(info_ready) = 1, if(tc(json, gv(info_meta), \".os_name\") != \"\", tc(json, gv(info_meta), \".os_name\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system[0].os_name\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system[0].os_name\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system.os_name\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system.os_name\"), if(tc(json, gv(info_sys), \".info.os_name\") != \"\", tc(json, gv(info_sys), \".info.os_name\"), if(tc(json, gv(info_sys), \".info.o\") != \"\", tc(json, gv(info_sys), \".info.o\"), \"N/A\"))))), \"N/A\")$"
         },
         "fetch_os_id": {
           "index": 109,
@@ -801,7 +801,7 @@
           "title": "fetch_os_id",
           "value": "",
           "toggles": 10,
-          "global_formula": "$if(gv(info_ready) = 1, if(tc(json, gv(info_meta), \".os\") != \"\", tc(json, gv(info_meta), \".os\"), if(tc(json, gv(info_sys), \".info.os\") != \"\", tc(json, gv(info_sys), \".info.os\"), \"N/A\")), \"N/A\")$"
+          "global_formula": "$if(gv(info_ready) = 1, if(tc(json, gv(info_meta), \".os\") != \"\", tc(json, gv(info_meta), \".os\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system[0].os\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system[0].os\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system.os\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system.os\"), if(tc(json, gv(info_sys), \".info.os\") != \"\", tc(json, gv(info_sys), \".info.os\"), \"N/A\")))), \"N/A\")$"
         },
         "fetch_arch": {
           "index": 110,
@@ -809,7 +809,7 @@
           "title": "fetch_arch",
           "value": "",
           "toggles": 10,
-          "global_formula": "$if(gv(info_ready) = 1, if(tc(json, gv(info_meta), \".arch\") != \"\", tc(json, gv(info_meta), \".arch\"), \"N/A\"), \"N/A\")$"
+          "global_formula": "$if(gv(info_ready) = 1, if(tc(json, gv(info_meta), \".arch\") != \"\", tc(json, gv(info_meta), \".arch\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system[0].arch\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system[0].arch\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system.arch\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system.arch\"), if(tc(json, gv(info_sys), \".info.a\") != \"\", tc(json, gv(info_sys), \".info.a\"), if(tc(json, gv(info_sys), \".info.arch\") != \"\", tc(json, gv(info_sys), \".info.arch\"), \"N/A\"))))), \"N/A\")$"
         },
         "fetch_os": {
           "index": 111,
@@ -817,7 +817,7 @@
           "title": "fetch_os",
           "value": "",
           "toggles": 10,
-          "global_formula": "$if(gv(fetch_os_name) != \"N/A\", gv(fetch_os_name), if(gv(fetch_os_id) = 0, \"Linux\", if(gv(fetch_os_id) = 1, \"macOS\", if(gv(fetch_os_id) = 2, \"Windows\", if(gv(fetch_os_id) = 3, \"FreeBSD\", \"Unknown OS\")))))$"
+          "global_formula": "$if(gv(fetch_os_name) != \"N/A\", gv(fetch_os_name), if(gv(fetch_os_id) = 0, \"Linux\", if(gv(fetch_os_id) = 1, \"FreeBSD\", if(gv(fetch_os_id) = 2, \"Windows\", if(gv(fetch_os_id) = 3, \"macOS\", if(gv(fetch_os_id) != \"N/A\" & gv(fetch_os_id) != \"\", gv(fetch_os_id), \"Unknown OS\"))))))$"
         },
         "fetch_os_lower": {
           "index": 112,
@@ -881,7 +881,7 @@
           "title": "fetch_cores",
           "value": "",
           "toggles": 10,
-          "global_formula": "$if(gv(info_ready) = 1 & (if(tc(json, gv(info_meta), \".cores\") != \"\", tc(json, gv(info_meta), \".cores\"), if(tc(json, gv(info_sys), \".info.c\") != \"\", tc(json, gv(info_sys), \".info.c\"), 0))) > 0, (if(tc(json, gv(info_meta), \".cores\") != \"\", tc(json, gv(info_meta), \".cores\"), if(tc(json, gv(info_sys), \".info.c\") != \"\", tc(json, gv(info_sys), \".info.c\"), 0))) + \" cores / \" + (if(tc(json, gv(info_meta), \".threads\") != \"\", tc(json, gv(info_meta), \".threads\"), if(tc(json, gv(info_sys), \".info.t\") != \"\", tc(json, gv(info_sys), \".info.t\"), 0))) + \" threads\", \"N/A\")$"
+          "global_formula": "$if(gv(info_ready) = 1 & (if(tc(json, gv(info_meta), \".cores\") != \"\", tc(json, gv(info_meta), \".cores\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system[0].cores\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system[0].cores\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system.cores\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system.cores\"), if(tc(json, gv(info_sys), \".info.c\") != \"\", tc(json, gv(info_sys), \".info.c\"), if(tc(json, gv(info_sys), \".info.cores\") != \"\", tc(json, gv(info_sys), \".info.cores\"), 0)))))) > 0, (if(tc(json, gv(info_meta), \".cores\") != \"\", tc(json, gv(info_meta), \".cores\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system[0].cores\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system[0].cores\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system.cores\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system.cores\"), if(tc(json, gv(info_sys), \".info.c\") != \"\", tc(json, gv(info_sys), \".info.c\"), if(tc(json, gv(info_sys), \".info.cores\") != \"\", tc(json, gv(info_sys), \".info.cores\"), 0)))))) + \" cores / \" + (if(tc(json, gv(info_meta), \".threads\") != \"\", tc(json, gv(info_meta), \".threads\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system[0].threads\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system[0].threads\"), if(tc(json, gv(info_sys), \".expand.system_details_via_system.threads\") != \"\", tc(json, gv(info_sys), \".expand.system_details_via_system.threads\"), if(tc(json, gv(info_sys), \".info.t\") != \"\", tc(json, gv(info_sys), \".info.t\"), if(tc(json, gv(info_sys), \".info.threads\") != \"\", tc(json, gv(info_sys), \".info.threads\"), 0)))))) + \" threads\", \"N/A\")$"
         },
         "fetch_gpus": {
           "index": 120,
@@ -905,7 +905,7 @@
           "title": "fetch_logo",
           "value": "",
           "toggles": 10,
-          "global_formula": "$if(tc(count, gv(fetch_os_lower), \"debian\") > 0, \"debian\", if(tc(count, gv(fetch_os_lower), \"ubuntu\") > 0, \"ubuntu\", if(tc(count, gv(fetch_os_lower), \"arch\") > 0, \"arch\", if(tc(count, gv(fetch_os_lower), \"fedora\") > 0, \"fedora\", if(tc(count, gv(fetch_os_lower), \"alpine\") > 0, \"alpine\", if(tc(count, gv(fetch_os_lower), \"nixos\") > 0, \"nixos\", if(tc(count, gv(fetch_os_lower), \"mint\") > 0, \"linuxmint\", if(tc(count, gv(fetch_os_lower), \"manjaro\") > 0, \"manjaro\", if(tc(count, gv(fetch_os_lower), \"rasp\") > 0, \"raspbian\", if(tc(count, gv(fetch_os_lower), \"red hat\") > 0, \"rhel\", if(tc(count, gv(fetch_os_lower), \"rocky\") > 0, \"rocky\", if(tc(count, gv(fetch_os_lower), \"centos\") > 0, \"centos\", if(tc(count, gv(fetch_os_lower), \"suse\") > 0, \"opensuse\", if(tc(count, gv(fetch_os_lower), \"gentoo\") > 0, \"gentoo\", if(tc(count, gv(fetch_os_lower), \"void\") > 0, \"void\", if(tc(count, gv(fetch_os_lower), \"freebsd\") > 0, \"freebsd\", if(tc(count, gv(fetch_os_lower), \"openbsd\") > 0, \"openbsd\", if(tc(count, gv(fetch_os_lower), \"netbsd\") > 0, \"netbsd\", if(tc(count, gv(fetch_os_lower), \"android\") > 0, \"android\", if(gv(fetch_os_id) = 0, \"linux\", if(gv(fetch_os_id) = 1, \"macos\", if(gv(fetch_os_id) = 2, \"windows_11\", if(gv(fetch_os_id) = 3, \"freebsd\", \"unknown\")))))))))))))))))))))))$"
+          "global_formula": "$if(tc(count, gv(fetch_os_lower), \"debian\") > 0, \"debian\", if(tc(count, gv(fetch_os_lower), \"ubuntu\") > 0, \"ubuntu\", if(tc(count, gv(fetch_os_lower), \"arch\") > 0, \"arch\", if(tc(count, gv(fetch_os_lower), \"fedora\") > 0, \"fedora\", if(tc(count, gv(fetch_os_lower), \"alpine\") > 0, \"alpine\", if(tc(count, gv(fetch_os_lower), \"nixos\") > 0, \"nixos\", if(tc(count, gv(fetch_os_lower), \"mint\") > 0, \"linuxmint\", if(tc(count, gv(fetch_os_lower), \"manjaro\") > 0, \"manjaro\", if(tc(count, gv(fetch_os_lower), \"rasp\") > 0, \"raspbian\", if(tc(count, gv(fetch_os_lower), \"red hat\") > 0, \"rhel\", if(tc(count, gv(fetch_os_lower), \"rocky\") > 0, \"rocky\", if(tc(count, gv(fetch_os_lower), \"centos\") > 0, \"centos\", if(tc(count, gv(fetch_os_lower), \"suse\") > 0, \"opensuse\", if(tc(count, gv(fetch_os_lower), \"gentoo\") > 0, \"gentoo\", if(tc(count, gv(fetch_os_lower), \"void\") > 0, \"void\", if(tc(count, gv(fetch_os_lower), \"freebsd\") > 0, \"freebsd\", if(tc(count, gv(fetch_os_lower), \"openbsd\") > 0, \"openbsd\", if(tc(count, gv(fetch_os_lower), \"netbsd\") > 0, \"netbsd\", if(tc(count, gv(fetch_os_lower), \"android\") > 0, \"android\", if(tc(count, gv(fetch_os_lower), \"windows\") > 0, \"windows_11\", if(tc(count, gv(fetch_os_lower), \"macos\") > 0, \"macos\", if(tc(count, gv(fetch_os_lower), \"darwin\") > 0, \"macos\", if(tc(count, gv(fetch_os_lower), \"mac os\") > 0, \"macos\", if(tc(count, gv(fetch_os_lower), \"linux\") > 0, \"linux\", if(gv(fetch_os_id) = 0, \"linux\", if(gv(fetch_os_id) = 1, \"freebsd\", if(gv(fetch_os_id) = 2, \"windows_11\", if(gv(fetch_os_id) = 3, \"macos\", \"unknown\"))))))))))))))))))))))))))))$"
         },
         "ascii_data": {
           "index": 123,
@@ -5892,7 +5892,7 @@
               "id": "bzsys_2",
               "type": "A_WGET",
               "params": {
-                "uri": "$gv(bz_url) + \"/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name\"$",
+                "uri": "$gv(bz_url) + \"/api/collections/systems/records?perPage=100&sort=name&expand=system_details_via_system\"$",
                 "headers": "$\"Authorization: \" + gv(bz_token)$"
               }
             },
@@ -6136,7 +6136,7 @@
               "id": "bzsys_2",
               "type": "A_WGET",
               "params": {
-                "uri": "$gv(bz_url) + \"/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name\"$",
+                "uri": "$gv(bz_url) + \"/api/collections/systems/records?perPage=100&sort=name&expand=system_details_via_system\"$",
                 "headers": "$\"Authorization: \" + gv(bz_token)$"
               }
             },
@@ -6402,7 +6402,7 @@
               "id": "bzinfo_2",
               "type": "A_WGET",
               "params": {
-                "uri": "$gv(bz_url) + \"/api/collections/system_details/records/\" + gv(info_req) + \"?fields=id,system,hostname,kernel,cores,threads,cpu,os,os_name,arch,memory\"$",
+                "uri": "$gv(bz_url) + \"/api/collections/system_details/records?filter=system%3D%22\" + gv(info_req) + \"%22&perPage=1\"$",
                 "headers": "$\"Authorization: \" + gv(bz_token)$"
               }
             },
@@ -6418,7 +6418,7 @@
               "id": "bzinfo_4",
               "type": "A_WGET",
               "params": {
-                "uri": "$gv(bz_url) + \"/api/collections/systems/records/\" + gv(info_req) + \"?fields=id,name,status,info\"$",
+                "uri": "$gv(bz_url) + \"/api/collections/systems/records/\" + gv(info_req) + \"?expand=system_details_via_system\"$",
                 "headers": "$\"Authorization: \" + gv(bz_token)$"
               }
             },
@@ -6495,7 +6495,7 @@
               "id": "bzinfo_14",
               "type": "A_FORMULA",
               "params": {
-                "formula": "$if(tc(json, gv(tmp_meta), \".id\") = gv(info_req) & gv(info_req) != \"\", 1, 0)$"
+                "formula": "$if((tc(json, gv(tmp_meta), \".items[0].system\") = gv(info_req) | tc(json, gv(tmp_meta), \".system\") = gv(info_req) | tc(json, gv(tmp_meta), \".id\") = gv(info_req) | tc(json, gv(tmp_isys), \".expand.system_details_via_system[0].id\") != \"\" | tc(json, gv(tmp_isys), \".expand.system_details_via_system.id\") != \"\") & gv(info_req) != \"\", 1, 0)$"
               }
             },
             {
@@ -6510,7 +6510,7 @@
               "id": "bzinfo_16",
               "type": "A_FORMULA",
               "params": {
-                "formula": "$if(gv(info_ok) = 1, if(gv(meta_ok) = 1, gv(tmp_meta), if(gv(info_host) = gv(info_req), gv(info_meta), \"{}\")), gv(info_meta))$"
+                "formula": "$if(gv(info_ok) = 1, if(gv(meta_ok) = 1, if(tc(json, gv(tmp_meta), \".items[0].id\") != \"\", tc(json, gv(tmp_meta), \".items[0]\"), if(tc(json, gv(tmp_meta), \".id\") != \"\", gv(tmp_meta), if(tc(json, gv(tmp_isys), \".expand.system_details_via_system[0].id\") != \"\", tc(json, gv(tmp_isys), \".expand.system_details_via_system[0]\"), tc(json, gv(tmp_isys), \".expand.system_details_via_system\")))), if(gv(info_host) = gv(info_req), gv(info_meta), \"{}\")), gv(info_meta))$"
               }
             },
             {

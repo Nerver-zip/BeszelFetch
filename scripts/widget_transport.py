@@ -38,7 +38,7 @@ def build_flows(globals_, latest_data=None):
             evaluate(f'if(gv({ok}) = 1, gv({temporary}), gv({cache}))'), store(cache),
         ]
 
-    sys_uri = '$gv(bz_url) + "/api/collections/systems/records?perPage=100&fields=id,name,status,info&sort=name"$'
+    sys_uri = '$gv(bz_url) + "/api/collections/systems/records?perPage=100&sort=name&expand=system_details_via_system"$'
     system_actions = [evaluate('1'), store("stale")]
     system_actions += request("sys_json", "tmp_sys",
                               'tc(json, gv(tmp_sys), ".items[0].id") != ""', sys_uri, "sys_ok")
@@ -70,8 +70,9 @@ def build_flows(globals_, latest_data=None):
                         ("tmp_isys", "{}"), ("tmp_istat", "{}"), ("meta_ok", "0")):
         globals_[name] = {"index": len(globals_), "type": "TEXT", "title": name, "value": value}
     info_actions = [evaluate(selected), store("info_req")]
-    meta_uri = '$gv(bz_url) + "/api/collections/system_details/records/" + gv(info_req) + "?fields=id,system,hostname,kernel,cores,threads,cpu,os,os_name,arch,memory"$'
-    isys_uri = '$gv(bz_url) + "/api/collections/systems/records/" + gv(info_req) + "?fields=id,name,status,info"$'
+    meta_uri = ('$gv(bz_url) + "/api/collections/system_details/records?filter=system%3D%22" + '
+                + 'gv(info_req) + "%22&perPage=1"$')
+    isys_uri = '$gv(bz_url) + "/api/collections/systems/records/" + gv(info_req) + "?expand=system_details_via_system"$'
     istat_uri = latest_uri.replace(selected, "gv(info_req)")
     for temporary, uri in (("tmp_meta", meta_uri), ("tmp_isys", isys_uri), ("tmp_istat", istat_uri)):
         info_actions += [action("A_WGET", uri=uri, headers='$"Authorization: " + gv(bz_token)$'), store(temporary)]
@@ -82,8 +83,17 @@ def build_flows(globals_, latest_data=None):
     info_actions += [evaluate(f'if({core_ok}, 1, 0)'), store("info_ok")]
     for cache, temporary in (("info_sys", "tmp_isys"), ("info_stats", "tmp_istat")):
         info_actions += [evaluate(f'if(gv(info_ok) = 1, gv({temporary}), gv({cache}))'), store(cache)]
-    info_actions += [evaluate('if(tc(json, gv(tmp_meta), ".id") = gv(info_req) & gv(info_req) != "", 1, 0)'), store("meta_ok"),
-                     evaluate('if(gv(info_ok) = 1, if(gv(meta_ok) = 1, gv(tmp_meta), if(gv(info_host) = gv(info_req), gv(info_meta), "{}")), gv(info_meta))'), store("info_meta"),
+    meta_found = ('tc(json, gv(tmp_meta), ".items[0].system") = gv(info_req) | '
+                  'tc(json, gv(tmp_meta), ".system") = gv(info_req) | '
+                  'tc(json, gv(tmp_meta), ".id") = gv(info_req) | '
+                  'tc(json, gv(tmp_isys), ".expand.system_details_via_system[0].id") != "" | '
+                  'tc(json, gv(tmp_isys), ".expand.system_details_via_system.id") != ""')
+    resolved_meta = ('if(tc(json, gv(tmp_meta), ".items[0].id") != "", tc(json, gv(tmp_meta), ".items[0]"), '
+                     'if(tc(json, gv(tmp_meta), ".id") != "", gv(tmp_meta), '
+                     'if(tc(json, gv(tmp_isys), ".expand.system_details_via_system[0].id") != "", tc(json, gv(tmp_isys), ".expand.system_details_via_system[0]"), '
+                     'tc(json, gv(tmp_isys), ".expand.system_details_via_system"))))')
+    info_actions += [evaluate(f'if(({meta_found}) & gv(info_req) != "", 1, 0)'), store("meta_ok"),
+                     evaluate(f'if(gv(info_ok) = 1, if(gv(meta_ok) = 1, {resolved_meta}, if(gv(info_host) = gv(info_req), gv(info_meta), "{{}}")), gv(info_meta))'), store("info_meta"),
                      evaluate('if(gv(info_ok) = 1, gv(info_req), gv(info_host))'), store("info_host"),
                      evaluate('if(gv(info_ok) = 1, df(S), gv(info_at))'), store("info_at"),
                      evaluate('if(gv(info_ok) = 1, if(gv(meta_ok) = 1, "Updated", "Metadata unavailable"), "Refresh failed · cache kept")'), store("info_error")]

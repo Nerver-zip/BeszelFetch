@@ -20,7 +20,7 @@ Authorization: {bz_token}
 Recommended query string:
 
 ```text
-?perPage=100&fields=id,name,status,info&sort=name
+?perPage=100&fields=id,name,status,info,expand&sort=name&expand=system_details_via_system
 ```
 
 Minimum expected response payload:
@@ -40,11 +40,38 @@ Minimum expected response payload:
         "bb": [420000, 2210000],
         "la": [0.42, 0.38, 0.31],
         "dt": 43.0
+      },
+      "expand": {
+        "system_details_via_system": [
+          {
+            "id": "DETAIL_ID",
+            "system": "SYSTEM_ID",
+            "hostname": "atlas",
+            "kernel": "6.12.0-arch1-1",
+            "cores": 8,
+            "threads": 16,
+            "cpu_model": "AMD Ryzen 7 7840HS",
+            "os": 0,
+            "os_name": "Arch Linux",
+            "arch": "x86_64",
+            "memory": 17179869184
+          }
+        ]
       }
     }
   ]
 }
 ```
+
+> [!NOTE]
+> **Beszel v0.19+ `system_details` Collection**:
+> In Beszel v0.19+, static hardware and OS metadata migrated from `systems.info` to a dedicated `system_details` PocketBase collection. PocketBase exposes the back-relation as `system_details_via_system`. Depending on the PocketBase version, `expand.system_details_via_system` may be serialized as either a single object `{...}` or an array `[{...}]`.
+>
+> OS Enum mapping (`os`):
+> - `0` = Linux
+> - `1` = FreeBSD
+> - `2` = Windows
+> - `3` = macOS (Darwin)
 
 ### Field Mapping
 
@@ -215,10 +242,11 @@ decodes the separate manual Info snapshots. UI labels read adapter globals.
 
 Info's `fetch_info` Flow requests, only on Info/refresh button taps:
 
-- `system_details/records/<system-id>`: hostname, os_name, os, arch, kernel,
-  cpu, cores and threads. A 404/403 keeps same-host metadata if cached.
-- `systems/records/<system-id>`: matching host identity, uptime and temperature;
-  legacy info.k/m/os/c/t provide optional metadata fallbacks.
+- `system_details/records?filter=system="<system-id>"`: fallback query for
+  metadata (hostname, os_name, os, arch, kernel, cpu_model, cores, threads).
+- `systems/records/<system-id>?expand=system_details_via_system`: matching host
+  identity, uptime, temperature, and expanded `system_details_via_system`;
+  legacy `info.k/m/os/c/t` provide backward-compatible metadata fallbacks.
 - Latest `system_stats` record for that host: RAM and GPU map `stats.g.*.n`.
   Up to two GPU names are displayed, otherwise `Not reported`.
 

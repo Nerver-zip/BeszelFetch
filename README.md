@@ -326,6 +326,27 @@ If you need to customize connections, colors, or refresh frequencies manually, g
 
 ---
 
+## 🔧 Troubleshooting
+
+### Containerized Agent OS Detection (Docker)
+
+If `beszel-agent` runs inside a Docker container and reports a generic OS or `Alpine Linux` instead of your host distribution (preventing Fastfetch from displaying the proper distribution logo and name):
+- Mount your host system's `/etc/os-release` into the `beszel-agent` container as read-only:
+
+```yaml
+services:
+  beszel-agent:
+    image: henrygd/beszel-agent:latest
+    container_name: beszel-agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/os-release:/etc/os-release:ro
+```
+
+- Once mounted, restart `beszel-agent`. The agent will detect the host distribution (e.g., `Arch Linux`, `Debian GNU/Linux`, `Ubuntu`) and populate `os_name` in Beszel's `system_details` collection.
+
+---
+
 ## 🧪 Development & Testing
 
 The repository includes a comprehensive unit test suite validating formulas, data contracts, pagination, and layout trees:
