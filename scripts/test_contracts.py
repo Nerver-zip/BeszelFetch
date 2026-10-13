@@ -124,6 +124,29 @@ class DataAdapter:
                 os_name = "Unknown OS"
 
         kernel = details.get("kernel") or info.get("k") or info.get("kernel") or "N/A"
+
+        # Distro inference from kernel release when os_name is empty or generic
+        if not os_name or os_name in ("Linux", "Unknown OS"):
+            k_lower = kernel.lower()
+            if "arch" in k_lower:
+                os_name = "Arch Linux"
+            elif ".fc" in k_lower or "fedora" in k_lower:
+                os_name = "Fedora"
+            elif "debian" in k_lower or "rpt" in k_lower:
+                os_name = "Debian GNU/Linux"
+            elif "ubuntu" in k_lower:
+                os_name = "Ubuntu"
+            elif "alpine" in k_lower:
+                os_name = "Alpine Linux"
+            elif "gentoo" in k_lower:
+                os_name = "Gentoo"
+            elif "void" in k_lower:
+                os_name = "Void Linux"
+            elif "manjaro" in k_lower:
+                os_name = "Manjaro"
+            elif ".el" in k_lower or "rhel" in k_lower or "rocky" in k_lower or "centos" in k_lower:
+                os_name = "Rocky / RHEL"
+
         hostname = details.get("hostname") or info.get("h") or info.get("hostname") or record.get("name", "localhost")
         cpu_model = details.get("cpu_model") or details.get("cpu") or info.get("m") or info.get("cpu_model") or "N/A"
         cores = details.get("cores") if details.get("cores") is not None else info.get("c", info.get("cores", 0))
@@ -681,6 +704,33 @@ class TestSystemsContract(unittest.TestCase):
 
         none_meta = DataAdapter.resolve_system_metadata(None)
         self.assertEqual(none_meta["os_name"], "Unknown OS")
+
+    def test_resolve_system_metadata_kernel_distro_inference(self):
+        # When os_name is empty or generic Linux, infer from kernel release string
+        rec_arch = {
+            "name": "m910q",
+            "info": {"os": 0},
+            "expand": {
+                "system_details_via_system": {
+                    "hostname": "m910q",
+                    "kernel": "7.2.9-arch1-1",
+                    "os": 0,
+                    "os_name": "",
+                    "cpu": "Intel Core i5"
+                }
+            }
+        }
+        meta_arch = DataAdapter.resolve_system_metadata(rec_arch)
+        self.assertEqual(meta_arch["os_name"], "Arch Linux")
+        self.assertEqual(DataAdapter.resolve_fastfetch_logo(meta_arch["os_name"]), "arch")
+
+        # Fedora kernel
+        rec_fedora = {
+            "name": "fedora-node",
+            "info": {"os": 0},
+            "expand": {"system_details_via_system": {"kernel": "6.9.12-200.fc40.x86_64", "os_name": ""}}
+        }
+        self.assertEqual(DataAdapter.resolve_system_metadata(rec_fedora)["os_name"], "Fedora")
 
     def test_resolve_fastfetch_logo(self):
         # Distribution names matching aliases

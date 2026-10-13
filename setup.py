@@ -166,6 +166,28 @@ def resolve_system_metadata(record: dict) -> dict:
     # 2. Kernel
     kernel = details.get("kernel") or info.get("k") or info.get("kernel") or "N/A"
 
+    # Distro inference from kernel release when os_name is empty or generic
+    if not os_name or os_name in ("Linux", "Unknown OS"):
+        k_lower = kernel.lower()
+        if "arch" in k_lower:
+            os_name = "Arch Linux"
+        elif ".fc" in k_lower or "fedora" in k_lower:
+            os_name = "Fedora"
+        elif "debian" in k_lower or "rpt" in k_lower:
+            os_name = "Debian GNU/Linux"
+        elif "ubuntu" in k_lower:
+            os_name = "Ubuntu"
+        elif "alpine" in k_lower:
+            os_name = "Alpine Linux"
+        elif "gentoo" in k_lower:
+            os_name = "Gentoo"
+        elif "void" in k_lower:
+            os_name = "Void Linux"
+        elif "manjaro" in k_lower:
+            os_name = "Manjaro"
+        elif ".el" in k_lower or "rhel" in k_lower or "rocky" in k_lower or "centos" in k_lower:
+            os_name = "Rocky / RHEL"
+
     # 3. Hostname
     hostname = details.get("hostname") or info.get("h") or info.get("hostname") or record.get("name", "localhost")
 

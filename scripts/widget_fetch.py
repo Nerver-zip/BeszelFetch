@@ -65,7 +65,8 @@ def build_fetch(root):
     ):
         derived(name, f'if(gv(info_ready) = 1, {fallback(*paths)}, "N/A")')
     enum = 'if(gv(fetch_os_id) = 0, "Linux", if(gv(fetch_os_id) = 1, "FreeBSD", if(gv(fetch_os_id) = 2, "Windows", if(gv(fetch_os_id) = 3, "macOS", if(gv(fetch_os_id) != "N/A" & gv(fetch_os_id) != "", gv(fetch_os_id), "Unknown OS")))))'
-    derived("fetch_os", f'if(gv(fetch_os_name) != "N/A", gv(fetch_os_name), {enum})')
+    k_distro = 'if(tc(count, tc(low, gv(fetch_kernel)), "arch") > 0, "Arch Linux", if(tc(count, tc(low, gv(fetch_kernel)), ".fc") > 0 | tc(count, tc(low, gv(fetch_kernel)), "fedora") > 0, "Fedora", if(tc(count, tc(low, gv(fetch_kernel)), "debian") > 0 | tc(count, tc(low, gv(fetch_kernel)), "rpt") > 0, "Debian", if(tc(count, tc(low, gv(fetch_kernel)), "ubuntu") > 0, "Ubuntu", if(tc(count, tc(low, gv(fetch_kernel)), "alpine") > 0, "Alpine Linux", "")))))'
+    derived("fetch_os", f'if(gv(fetch_os_name) != "N/A" & gv(fetch_os_name) != "" & gv(fetch_os_name) != "Linux", gv(fetch_os_name), if({k_distro} != "", {k_distro}, {enum}))')
     derived("fetch_os_lower", 'tc(low, gv(fetch_os))')
     derived("fetch_os_line", 'gv(fetch_os) + if(gv(fetch_arch) != "N/A", " · " + gv(fetch_arch), "")')
     for name, path in (("fetch_u", ".info.u"), ("fetch_temp", ".info.dt")):
@@ -105,7 +106,7 @@ def build_fetch(root):
                ("freebsd", "freebsd"), ("openbsd", "openbsd"), ("netbsd", "netbsd"),
                ("android", "android"), ("windows", "windows_11"), ("macos", "macos"),
                ("darwin", "macos"), ("mac os", "macos"), ("linux", "linux")]
-    expr = 'if(gv(fetch_os_id) = 0, "linux", if(gv(fetch_os_id) = 1, "freebsd", if(gv(fetch_os_id) = 2, "windows_11", if(gv(fetch_os_id) = 3, "macos", "unknown"))))'
+    expr = 'if(gv(fetch_os_id) = 0, if(tc(count, tc(low, gv(fetch_kernel)), "arch") > 0, "arch", "linux"), if(gv(fetch_os_id) = 1, "freebsd", if(gv(fetch_os_id) = 2, "windows_11", if(gv(fetch_os_id) = 3, "macos", "unknown"))))'
     for needle, logo in reversed(aliases):
         expr = f'if(tc(count, gv(fetch_os_lower), "{needle}") > 0, "{logo}", {expr})'
     derived("fetch_logo", expr)
