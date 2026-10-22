@@ -3,7 +3,7 @@ import json
 
 
 def seed_totals(payload, now=None):
-    """Integrate 24h byte totals directly across available 20m interval records."""
+    """Integrate 24h byte totals directly across available 20m interval records, returned in MiB."""
     result = [0.0, 0.0]
     items = payload.get("items", [])[:72]
     for item in items:
@@ -16,17 +16,17 @@ def seed_totals(payload, now=None):
             else:
                 tx_rate = float(stats.get("ns", 0)) * 1048576
                 rx_rate = float(stats.get("nr", 0)) * 1048576
-            result[0] += max(0.0, tx_rate) * 1200
-            result[1] += max(0.0, rx_rate) * 1200
+            result[0] += max(0.0, tx_rate) * 1200 / 1048576
+            result[1] += max(0.0, rx_rate) * 1200 / 1048576
         except (KeyError, ValueError, TypeError, IndexError):
             continue
     return result
 
 
 def make_chunk_expr(start, count, direction_idx, legacy_field):
-    b_parts = "+".join(f'(tc(json, gv(day_json), ".items[{i}].stats.b[{direction_idx}]") + 0)' for i in range(start, start + count))
+    b_parts = "+".join(f'((tc(json, gv(day_json), ".items[{i}].stats.b[{direction_idx}]") + 0) / 1048576)' for i in range(start, start + count))
     legacy_parts = "+".join(f'(tc(json, gv(day_json), ".items[{i}].stats.{legacy_field}") + 0)' for i in range(start, start + count))
-    return f'if(tc(json, gv(day_json), ".items[0].stats.b[0]") != "", {b_parts}, ({legacy_parts}) * 1048576)'
+    return f'if(tc(json, gv(day_json), ".items[0].stats.b[0]") != "", {b_parts}, {legacy_parts})'
 
 
 def add_daily_actions(globals_, evaluate=None, store=None):
@@ -55,12 +55,12 @@ def add_daily_actions(globals_, evaluate=None, store=None):
 
     globals_["net_24h_rx"] = {
         "index": len(globals_), "type": "TEXT", "title": "net_24h_rx",
-        "value": str(round(rx)), "toggles": 10,
-        "global_formula": f"$mu(round, ({rx_sum}) * 1200, 0)$"
+        "value": str(round(rx, 2)) if rx > 0 else "0", "toggles": 10,
+        "global_formula": f"$mu(round, ({rx_sum}) * 1200, 2)$"
     }
     globals_["net_24h_tx"] = {
         "index": len(globals_), "type": "TEXT", "title": "net_24h_tx",
-        "value": str(round(tx)), "toggles": 10,
-        "global_formula": f"$mu(round, ({tx_sum}) * 1200, 0)$"
+        "value": str(round(tx, 2)) if tx > 0 else "0", "toggles": 10,
+        "global_formula": f"$mu(round, ({tx_sum}) * 1200, 2)$"
     }
     return []

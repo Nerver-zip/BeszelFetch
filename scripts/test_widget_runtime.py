@@ -90,8 +90,8 @@ class RuntimeTests(unittest.TestCase):
             data["totalItems"] = count
             k = self.run_flow("fetch_history", self.context(), [json.dumps(data)])
             tx, rx = seed_totals(data)
-            self.assertAlmostEqual(number(k.gv("net_24h_rx")), round(rx), delta=1)
-            self.assertAlmostEqual(number(k.gv("net_24h_tx")), round(tx), delta=1)
+            self.assertAlmostEqual(number(k.gv("net_24h_rx")), rx, delta=0.05)
+            self.assertAlmostEqual(number(k.gv("net_24h_tx")), tx, delta=0.05)
             for name in ("net_24h_rx", "net_24h_tx"):
                 self.assertIn("global_formula", self.root["globals_list"][name])
         for response in ("", "not-json", '{"code":401}', '{"code":503}'):
@@ -214,8 +214,8 @@ class RuntimeTests(unittest.TestCase):
                 items.append({"created": dt.datetime.fromtimestamp(stamp, dt.timezone.utc).isoformat(),
                               "stats": {"b": [1024, 2048]}})
             k = self.context(day_json=json.dumps({"items": items}))
-            self.assertEqual(k.gv("net_24h_rx"), count*1200*2048)
-            self.assertEqual(k.gv("net_24h_tx"), count*1200*1024)
+            self.assertAlmostEqual(number(k.gv("net_24h_rx")), (count*1200*2048)/1048576, delta=0.05)
+            self.assertAlmostEqual(number(k.gv("net_24h_tx")), (count*1200*1024)/1048576, delta=0.05)
             self.assertNotIn("—", k.gv("day_rx"))
             self.assertNotIn("partial", k.gv("day_rx"))
 
@@ -224,8 +224,79 @@ class RuntimeTests(unittest.TestCase):
         for record in data["items"]:
             record["stats"]["b"] = [100, 200]
         k = self.context(day_json=json.dumps(data))
-        self.assertLessEqual(k.gv("net_24h_rx"), 3*1200*200)
+        self.assertLessEqual(number(k.gv("net_24h_rx")), round((3*1200*200)/1048576, 2))
         self.assertNotIn("ds1", self.root["globals_list"])
+
+    def test_simulated_32bit_overflow_failure_mode(self):
+        """Simulate the previous bug where raw byte accumulation caused 32-bit overflow.
+
+        In the previous architecture, daily traffic was accumulated in raw bytes
+        via `(sum_rates) * 1200`. In Android/Java, 32-bit signed integer math overflows
+        at 2^31 - 1 = 2,147,483,647 bytes (~2.0 GiB). Java's Math.round(float) clamps
+        any value >= Integer.MAX_VALUE to 2147483647.
+        As a result, any traffic >= 2 GiB clamped to 2147483647, producing:
+            2147483647 / 1073741824 = 1.9999999... GiB -> "≈ 2.0 GiB".
+        Even when 24h traffic rose to 10 GiB or dropped from 10 GiB to 3 GiB,
+        the clamped value remained stuck at 2 GiB indefinitely, never decreasing.
+        """
+        int_max = 2147483647  # 2^31 - 1
+        gib_bytes = 1073741824
+
+        def legacy_eval(raw_bytes):
+            # Clamping behavior of Math.round(float) in Java runtime
+            clamped = min(int_max, raw_bytes) if raw_bytes >= 0 else 0
+            if clamped >= gib_bytes:
+                return f"≈ {round(clamped / gib_bytes, 1)} GiB"
+            return "other"
+
+        traffic_10gib = int(10 * gib_bytes)
+        traffic_5gib = int(5 * gib_bytes)
+        traffic_2_5gib = int(2.5 * gib_bytes)
+        self.assertEqual(legacy_eval(traffic_10gib), "≈ 2.0 GiB")
+        self.assertEqual(legacy_eval(traffic_5gib), "≈ 2.0 GiB")
+        self.assertEqual(legacy_eval(traffic_2_5gib), "≈ 2.0 GiB")
+        # When traffic dropped from 10 GiB to 5 GiB, the legacy display did NOT change:
+        self.assertEqual(legacy_eval(traffic_10gib), legacy_eval(traffic_5gib))
+
+    def test_daily_traffic_above_2gib_scales_and_decreases(self):
+        """Verify new MiB-scaled accumulator handles > 2 GiB, > 1 TiB, and sliding window reduction."""
+        # 1. Realistic 24h traffic from m910q (85592 B/s rx -> ~6.9 GiB in 24h)
+        m910q_items = [{"stats": {"b": [20780, 85592]}}] * 72
+        k = self.context(day_json=json.dumps({"items": m910q_items}))
+        # Total Rx: 85592 * 1200 * 72 / 1048576 = 7052.56 MiB (~6.89 GiB)
+        self.assertGreater(number(k.gv("net_24h_rx")), 2048)  # Well above 2 GiB in MiB
+        self.assertEqual(k.gv("day_rx"), "≈ 6.9 GiB")  # Displays actual GiB, not 2 GiB!
+
+        # 2. Heavy 15 GiB transfer
+        rate_15gib = (15 * 1024 * 1048576) / (72 * 1200)  # 15 GiB across 24h in B/s
+        items_15g = [{"stats": {"b": [1000, rate_15gib]}}] * 72
+        k_15g = self.context(day_json=json.dumps({"items": items_15g}))
+        self.assertEqual(k_15g.gv("day_rx"), "≈ 15 GiB")
+
+        # 3. Terabyte scale: 1.5 TiB and 2.5 TiB display correctly with TiB unit
+        k_tib = self.context()
+        k_tib.overrides["net_24h_rx"] = "1572864"  # 1.5 TiB in MiB
+        self.assertEqual(k_tib.gv("day_rx"), "≈ 1.5 TiB")
+
+        k_2tib = self.context()
+        k_2tib.overrides["net_24h_rx"] = "2621440"  # 2.5 TiB in MiB
+        self.assertEqual(k_2tib.gv("day_rx"), "≈ 2.5 TiB")
+
+        # 4. Sliding window decreases when older traffic rolls out
+        # T0: Burst of 50 MB/s for first 24 samples (8 hours), then 100 KB/s for 48 samples
+        burst_items = [{"stats": {"b": [1000, 50000000]}}] * 24 + [{"stats": {"b": [1000, 100000]}}] * 48
+        k_burst = self.context(day_json=json.dumps({"items": burst_items}))
+        rx_burst = number(k_burst.gv("net_24h_rx"))
+        self.assertGreater(rx_burst, 100000)  # > 100 GiB
+
+        # T1: 8 hours later, burst has completely rolled out of the 72-sample 24h window
+        idle_items = [{"stats": {"b": [1000, 100000]}}] * 72
+        k_idle = self.context(day_json=json.dumps({"items": idle_items}))
+        rx_idle = number(k_idle.gv("net_24h_rx"))
+        self.assertLess(rx_idle, rx_burst)
+        self.assertLess(rx_idle, 10000)  # ~8 GiB
+        # Total decreased responsively
+        self.assertNotEqual(k_burst.gv("day_rx"), k_idle.gv("day_rx"))
 
     def test_no_chart_or_runtime_loops_and_all_globals_resolve(self):
         serialized = json.dumps(self.root)
