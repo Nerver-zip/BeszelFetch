@@ -271,19 +271,20 @@ fifteen minutes. Manual refresh requests all four. Date filters compensate
 the phone timezone with `df(Z)`. Setup preserves all daily records and fetches
 a separate latest sample; failed setup requests do not seed another host.
 
-Daily totals integrate available B/s rates over observed time intervals capped
-at 1200 seconds per aggregate and clipped to the current 24h window. The fixed
-74-slot accumulator covers the standard 72-record daily window plus boundary
-records; it contains no runtime `fl()` loops. Each bucket covers its preceding
-1200 seconds, clipped at both edges of the day. Gaps are not extrapolated.
-Flow actions calculate the sums procedurally and publish `net_24h_rx/tx` as
-plain TEXT numeric values. UI formatting no longer follows a recursive chain
-of date, duration, subtotal and grand-total global formulas. Legacy
-`stats.nr/ns` is converted from MiB/s when `stats.b` is absent.
+Daily totals integrate available rates over observed time intervals capped at
+1200 seconds per aggregate and clipped to the current 24h window. The chunked
+accumulator covers the standard 72-record daily window across 6 chunks of 12
+intervals without runtime `fl()` loops. Rates are normalized to MiB/s and
+published in `net_24h_rx/tx` as plain TEXT numeric values in MiB, preventing
+32-bit integer overflow (which occurs at 2 GiB when accumulating raw bytes,
+now extending headroom up to 2 PiB). UI formatting auto-scales smoothly across
+KiB, MiB, GiB, and TiB (`day_rx/tx`). Legacy `stats.nr/ns` (already in MiB/s)
+is integrated directly when `stats.b` is absent.
 There is no `day_n >= 70` gate. Even one usable sample contributes; empty
 history displays `0 KiB`. Positive estimates carry `≈`; these are rate
 integrals, not exact interface counter deltas, and sparse data undercounts
-the full day. Invalid responses retain the last valid cache.
+the full day. When bursts exit the 24h window, sliding totals decrease
+responsively. Invalid responses retain the last valid cache.
 
 `container_count` counts quoted name keys in the latest Docker record,
 supporting both `.stats` (setup) and `.items[0].stats` (PocketBase).

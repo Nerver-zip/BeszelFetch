@@ -223,6 +223,7 @@ class DataAdapter:
         kib = 1024
         mib = kib * 1024
         gib = mib * 1024
+        tib = gib * 1024
 
         if bytes_val < mib:
             val = bytes_val / kib
@@ -230,9 +231,12 @@ class DataAdapter:
         elif bytes_val < gib:
             val = bytes_val / mib
             return f"{val:.1f} MiB" if val >= 100 else f"{val:.1f} MiB"
-        else:
+        elif bytes_val < tib:
             val = bytes_val / gib
             return f"{val:.2f} GiB"
+        else:
+            val = bytes_val / tib
+            return f"{val:.2f} TiB"
 
     @staticmethod
     def format_bandwidth(bytes_per_sec):
@@ -871,6 +875,8 @@ class TestUnitConversions(unittest.TestCase):
         self.assertEqual(DataAdapter.format_bytes(50331648), "48.0 MiB")
         self.assertEqual(DataAdapter.format_bytes(641728512), "612.0 MiB")
         self.assertEqual(DataAdapter.format_bytes(2147483648), "2.00 GiB")
+        self.assertEqual(DataAdapter.format_bytes(1099511627776), "1.00 TiB")
+        self.assertEqual(DataAdapter.format_bytes(2748779069440), "2.50 TiB")
         self.assertEqual(DataAdapter.format_bytes(None), "—")
 
     def test_bandwidth_formatting(self):

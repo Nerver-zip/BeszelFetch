@@ -54,7 +54,7 @@ def build_info(root):
     # Totals are materialized by the refresh Flow, never recursively summed by UI.
     for direction in ("rx", "tx"):
         v = f"gv(net_24h_{direction})"
-        derived(f"day_{direction}", f'if({v} >= 1073741824, "≈ " + mu(round, {v} / 1073741824, 1) + " GiB", if({v} >= 1048576, "≈ " + mu(round, {v} / 1048576, 1) + " MiB", if({v} > 0, "≈ " + mu(round, {v} / 1024, 1) + " KiB", "0 KiB")))')
+        derived(f"day_{direction}", f'if({v} >= 1048576, "≈ " + mu(round, {v} / 1048576, 1) + " TiB", if({v} >= 1024, "≈ " + mu(round, {v} / 1024, 1) + " GiB", if({v} >= 1, "≈ " + mu(round, {v}, 1) + " MiB", if({v} > 0, "≈ " + mu(round, {v} * 1024, 1) + " KiB", "0 KiB"))))')
 
     nodes = {n.get("internal_title"): n for n in walk(root)}
     font = nodes["HostnameText"]["text_family"]
